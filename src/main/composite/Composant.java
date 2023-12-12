@@ -8,7 +8,7 @@ public abstract class Composant {
     protected boolean estArchive;
     protected List<Tag> tags;
 
-    public abstract void operation();
+    public abstract String afficher();
 
     public String getNom() {
         return nom;

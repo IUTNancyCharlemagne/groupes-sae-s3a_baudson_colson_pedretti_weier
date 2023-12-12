@@ -15,7 +15,7 @@ public class VueBureau implements Observateur {
             Modele modele = (Modele) s;
             System.out.println("Listes de tâches :");
             for (Liste liste : modele.getListesTaches()) {
-                System.out.println(liste.getNom());
+                System.out.println(liste.afficher());
             }
 
         }

@@ -11,7 +11,8 @@ public class SousTache extends Composant{
     }
 
     @Override
-    public void operation() {
-        System.out.println("Tache " + this.nom + " : " + this.description);
+    public String afficher() {
+        String s = "Sous-tâche " + this.nom + "\n";
+        return s;
     }
 }

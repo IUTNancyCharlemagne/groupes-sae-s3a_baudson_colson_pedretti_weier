@@ -15,8 +15,13 @@ public class Tache extends Composant{
     }
 
     @Override
-    public void operation() {
-        System.out.println("Tache " + this.nom + " : " + this.description);
+    public String afficher() {
+        StringBuilder s = new StringBuilder();
+        s.append("Tache ").append(this.nom).append(" :\n");
+        for (Composant c : enfants) {
+            s.append(c.afficher()).append("\n");
+        }
+        return s.toString();
     }
     public void ajouter(Composant c) {
         this.enfants.add(c);

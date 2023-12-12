@@ -38,7 +38,7 @@ public class Liste {
         StringBuilder s = new StringBuilder();
         s.append("Liste ").append(this.nom).append(" :\n");
         for (Composant c : composants) {
-            s.append(c.getNom()).append("\n");
+            s.append(c.afficher());
         }
         return s.toString();
     }
