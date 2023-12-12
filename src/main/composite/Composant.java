@@ -1,12 +1,12 @@
-package main;
+package main.composite;
 
 import java.util.List;
 
 public abstract class Composant {
-    private String nom;
-    private String description;
-    private boolean estArchive;
-    private List<Tag> tags;
+    protected String nom;
+    protected String description;
+    protected boolean estArchive;
+    protected List<Tag> tags;
 
     public abstract void operation();
 

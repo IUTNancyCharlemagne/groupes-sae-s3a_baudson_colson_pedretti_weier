@@ -1,4 +1,4 @@
-package main;
+package main.composite;
 
 import javafx.scene.paint.Color;
 
