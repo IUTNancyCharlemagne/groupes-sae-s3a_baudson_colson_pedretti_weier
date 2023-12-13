@@ -4,32 +4,29 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import main.controleurs.ControlAjouterListe;
+import main.controleurs.ControlAjouterTache;
+import main.observateur.VueBureau;
 
 public class TestJavaFX extends Application {
 
     @Override
     public void start(Stage primaryStage) {
 
-        VBox pane = new VBox();
-        pane.setAlignment(Pos.CENTER);
-        pane.setStyle(
-                "-fx-background-color: #333333;");
-        pane.setPadding(new Insets(20, 40, 20, 40));
+        Modele modele = new Modele();
 
-        Text text = new Text(20, 20, "Pedretti au tableau".toUpperCase());
-        text.setStyle(
-                "-fx-font-size: 25px;" +
-                "-fx-font-family: Arial;" +
-                "-fx-font-weight: bold;");
-        text.setFill(Color.WHITE);
+        VueBureau vueBureau = new VueBureau();
+        modele.enregistrerObservateur(vueBureau);
 
-        pane.getChildren().add(text);
+        modele.notifierObservateur();
 
-        primaryStage.setScene(new Scene(pane));
+        primaryStage.setScene(new Scene(modele.paneBureau, 500, 300));
         primaryStage.setTitle("Test JavaFX");
         primaryStage.show();
     }

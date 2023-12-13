@@ -1,5 +1,7 @@
 package main;
 
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import main.composite.Composant;
 
 import java.util.ArrayList;
@@ -34,12 +36,18 @@ public class Liste {
         this.composants.remove(c);
     }
 
-    public String afficher() {
-        StringBuilder s = new StringBuilder();
-        s.append("Liste ").append(this.nom).append(" :\n");
+    public VBox afficher() {
+
+        VBox paneListe = new VBox();
+        paneListe.setSpacing(10);
+
+        Text textNom = new Text(this.nom);
+        paneListe.getChildren().add(textNom);
+
         for (Composant c : composants) {
-            s.append(c.afficher());
+            paneListe.getChildren().add(c.afficher());
         }
-        return s.toString();
+
+        return paneListe;
     }
 }

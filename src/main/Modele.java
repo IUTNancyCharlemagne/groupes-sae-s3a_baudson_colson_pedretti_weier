@@ -1,5 +1,6 @@
 package main;
 
+import javafx.scene.layout.HBox;
 import main.observateur.Observateur;
 
 import java.util.ArrayList;
@@ -14,9 +15,11 @@ public class Modele implements Sujet{
     public static final String ARCHIVES = "Archives";
     private ArrayList<Liste> listesTaches;
 
+    public HBox paneBureau = new HBox();
+
     public Modele() {
-        this.observateurs = new ArrayList<>();
-        this.listesTaches = new ArrayList<>();
+        this.observateurs = new ArrayList<Observateur>();
+        this.listesTaches = new ArrayList<Liste>();
         this.vueCourante = Modele.BUREAU;
     }
 
@@ -39,21 +42,27 @@ public class Modele implements Sujet{
 
     public void setVueCourante(String vueCourante) {
         this.vueCourante = vueCourante;
-        this.notifierObservateur();
     }
 
     public void ajouterListeTaches(Liste liste) {
         this.listesTaches.add(liste);
-        this.notifierObservateur();
     }
 
     public void supprimerListeTaches(Liste liste) {
         this.listesTaches.remove(liste);
-        this.notifierObservateur();
     }
 
     public ArrayList<Liste> getListesTaches() {
         return this.listesTaches;
+    }
+
+    public Liste getListeTaches(String nom) {
+        for (Liste liste : this.listesTaches) {
+            if (liste.getNom().equals(nom)) {
+                return liste;
+            }
+        }
+        return null;
     }
 
 }
