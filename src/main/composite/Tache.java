@@ -1,6 +1,7 @@
 package main.composite;
 
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
@@ -18,9 +19,10 @@ public class Tache extends Composant {
     }
 
     @Override
-    public Pane afficher() {
+    public VBox afficher() {
 
-        Pane paneTache = new Pane();
+        VBox paneTache = new VBox();
+        paneTache.getStyleClass().add("paneTache");
 
         Text textNom = new Text(this.nom);
         paneTache.getChildren().add(textNom);

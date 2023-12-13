@@ -39,7 +39,6 @@ public class Liste {
     public VBox afficher() {
 
         VBox paneListe = new VBox();
-        paneListe.setSpacing(10);
 
         Text textNom = new Text(this.nom);
         paneListe.getChildren().add(textNom);
