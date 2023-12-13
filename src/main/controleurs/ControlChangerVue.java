@@ -5,19 +5,17 @@ import javafx.event.EventHandler;
 import javafx.scene.control.ComboBox;
 import main.Modele;
 
-public class ControlChangerVu implements EventHandler<ActionEvent> {
+public class ControlChangerVue implements EventHandler<ActionEvent> {
 
     private Modele modele;
 
-    public ControlChangerVu() {
+    public ControlChangerVue() {
         this.modele = modele;
     }
 
     @Override
     public void handle(ActionEvent e) {
         ComboBox<String> c = (ComboBox<String>)e.getSource();
-        System.out.println("c.getValue()");
-
         switch (c.getValue()) {
             case "Bureau":
                 modele.setVueCourante(Modele.BUREAU);
