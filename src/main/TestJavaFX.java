@@ -26,7 +26,7 @@ public class TestJavaFX extends Application {
 
         modele.notifierObservateur();
 
-        Scene scene = new Scene(modele.paneBureau, 500, 300);
+        Scene scene = new Scene(modele.paneBureau, 720, 576);
         scene.getStylesheets().add(getClass().getResource("css/style.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.setTitle("Test JavaFX");
