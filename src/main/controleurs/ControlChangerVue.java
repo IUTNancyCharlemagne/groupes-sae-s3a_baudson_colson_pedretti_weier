@@ -5,11 +5,11 @@ import javafx.event.EventHandler;
 import javafx.scene.control.ComboBox;
 import main.Modele;
 
-public class ControlChangerVu implements EventHandler<ActionEvent> {
+public class ControlChangerVue implements EventHandler<ActionEvent> {
 
     private Modele modele;
 
-    public ControlChangerVu() {
+    public ControlChangerVue() {
         this.modele = modele;
     }
 
