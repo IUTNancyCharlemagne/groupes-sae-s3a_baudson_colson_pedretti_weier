@@ -12,7 +12,6 @@ public class SousTache extends Composant{
 
     @Override
     public String afficher() {
-        String s = "Sous-tâche " + this.nom + "\n";
-        return s;
+         return "Sous-tâche " + this.nom + "\n";
     }
 }
