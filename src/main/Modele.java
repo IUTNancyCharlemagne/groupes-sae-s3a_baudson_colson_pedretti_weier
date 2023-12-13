@@ -1,19 +1,27 @@
 package main;
 
 import javafx.scene.layout.HBox;
+import main.composite.Composant;
+import main.exceptions.ProjectNotFoundException;
 import main.observateur.Observateur;
 
+import java.io.*;
 import java.util.ArrayList;
 
 public class Modele implements Sujet{
 
     private ArrayList<Observateur> observateurs;
     private String vueCourante;
+    private String nomProjet;
     public static final String BUREAU = "Bureau";
     public static final String LISTE = "Liste";
     public static final String GANTT = "Gantt";
     public static final String ARCHIVES = "Archives";
-    private ArrayList<Liste> listeTaches;
+
+    /**
+     * Liste des listes de tâches
+     */
+    private final ArrayList<Liste> listeTaches;
     public HBox paneBureau = new HBox();
 
     public Modele() {
@@ -64,6 +72,55 @@ public class Modele implements Sujet{
             if (liste.getNom().equals(nom)) {
                 return liste;
             }
+        }
+        return null;
+    }
+
+    public Modele chargerProjet(String nomProjet) throws FileNotFoundException, ProjectNotFoundException {
+        String cheminProjet = "/" + nomProjet + "/";
+        File repertoire = new File(cheminProjet);
+        Modele m = new Modele();
+        if(repertoire.isDirectory()){
+            String[] nomsListes = repertoire.list();
+            if (nomsListes == null) return m;
+            for(String s : nomsListes){
+                m.ajouterListeTaches(chargerListe(s));
+            }
+            return m;
+        }
+        else throw new ProjectNotFoundException();
+    }
+
+    public void sauvegarderProjet() throws FileNotFoundException {
+        String chemin = "/" + this.nomProjet + "/";
+        for(Liste l : this.getListeTaches()){
+            String fichier = chemin + l.getNom() + ".trebo";
+            sauvegarderListe(fichier, l);
+        }
+    }
+
+    public void sauvegarderListe(String fichierSortie, Liste liste) throws FileNotFoundException {
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fichierSortie))){
+            oos.writeObject(this);
+            for(Composant c : liste.getComposants()){
+                oos.writeObject(c);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Liste chargerListe(String fichierEntree) throws FileNotFoundException {
+        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fichierEntree))) {
+            Liste liste = (Liste)ois.readObject();
+            Composant c = (Composant)ois.readObject();
+            while(c != null){
+                liste.ajouterComposant(c);
+                c = (Composant)ois.readObject();
+            }
+            return liste;
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
         return null;
     }

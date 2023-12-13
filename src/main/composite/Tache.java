@@ -3,10 +3,11 @@ package main.composite;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tache extends Composant {
+public class Tache extends Composant implements Serializable {
     protected List<Composant> enfants;
     protected List<Tache> dependances;
     protected boolean estTerminee;

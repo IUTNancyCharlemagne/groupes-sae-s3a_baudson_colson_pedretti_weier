@@ -4,12 +4,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import main.composite.Composant;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Liste {
+public class Liste implements Serializable {
     private String nom;
-    private ArrayList<Composant> composants;
+    private final ArrayList<Composant> composants;
 
     public Liste(String nom) {
         this.nom = nom;
