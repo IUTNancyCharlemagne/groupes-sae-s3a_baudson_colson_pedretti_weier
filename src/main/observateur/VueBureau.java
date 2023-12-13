@@ -15,7 +15,7 @@ public class VueBureau implements Observateur {
     @Override
     public void actualiser(Sujet s) {
         if (!(s instanceof Modele)) return;
-        
+
         Modele modele = (Modele) s;
         modele.paneBureau.getChildren().clear();
 
