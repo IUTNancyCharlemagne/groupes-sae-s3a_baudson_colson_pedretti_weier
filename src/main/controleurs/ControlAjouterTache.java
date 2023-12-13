@@ -19,7 +19,7 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
         Button btn = (Button) actionEvent.getSource();
         String nomListe = btn.getId();
 
-        if (modele.getListesTaches().isEmpty()) {
+        if (modele.getListeTaches().isEmpty()) {
             System.out.println("Aucune liste de tâches n'a été créée.");
         } else {
             modele.getListeTaches(nomListe).ajouterComposant(new Tache("Nouvelle tâche"));

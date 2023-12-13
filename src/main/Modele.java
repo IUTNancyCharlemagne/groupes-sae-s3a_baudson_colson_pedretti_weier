@@ -13,13 +13,12 @@ public class Modele implements Sujet{
     public static final String LISTE = "Liste";
     public static final String GANTT = "Gantt";
     public static final String ARCHIVES = "Archives";
-    private ArrayList<Liste> listesTaches;
-
+    private ArrayList<Liste> listeTaches;
     public HBox paneBureau = new HBox();
 
     public Modele() {
         this.observateurs = new ArrayList<Observateur>();
-        this.listesTaches = new ArrayList<Liste>();
+        this.listeTaches = new ArrayList<Liste>();
         this.vueCourante = Modele.BUREAU;
     }
 
@@ -40,24 +39,28 @@ public class Modele implements Sujet{
         }
     }
 
+    public String getVueCourante() {
+        return this.vueCourante;
+    }
+
     public void setVueCourante(String vueCourante) {
         this.vueCourante = vueCourante;
     }
 
     public void ajouterListeTaches(Liste liste) {
-        this.listesTaches.add(liste);
+        this.listeTaches.add(liste);
     }
 
     public void supprimerListeTaches(Liste liste) {
-        this.listesTaches.remove(liste);
+        this.listeTaches.remove(liste);
     }
 
-    public ArrayList<Liste> getListesTaches() {
-        return this.listesTaches;
+    public ArrayList<Liste> getListeTaches() {
+        return this.listeTaches;
     }
 
     public Liste getListeTaches(String nom) {
-        for (Liste liste : this.listesTaches) {
+        for (Liste liste : this.listeTaches) {
             if (liste.getNom().equals(nom)) {
                 return liste;
             }

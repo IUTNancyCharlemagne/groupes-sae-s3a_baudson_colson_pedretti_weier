@@ -8,29 +8,31 @@ import main.Sujet;
 import main.controleurs.ControlAjouterListe;
 import main.controleurs.ControlAjouterTache;
 
+import java.util.Objects;
+
 public class VueBureau implements Observateur {
 
     @Override
     public void actualiser(Sujet s) {
-        if (s instanceof Modele) {
-            Modele modele = (Modele) s;
-            modele.paneBureau.getChildren().clear();
+        if (!(s instanceof Modele)) return;
+        
+        Modele modele = (Modele) s;
+        modele.paneBureau.getChildren().clear();
+        for (Liste liste : modele.getListeTaches()) {
+            VBox pane = liste.afficher();
 
-            for (Liste liste : modele.getListesTaches()) {
-                VBox pane = liste.afficher();
+            Button btnAddTache = new Button("Ajouter tâche");
+            btnAddTache.setOnAction(new ControlAjouterTache(modele));
+            btnAddTache.setId(liste.getNom());
+            pane.getChildren().add(btnAddTache);
 
-                Button btnAddTache = new Button("Ajouter tâche");
-                btnAddTache.setOnAction(new ControlAjouterTache(modele));
-                btnAddTache.setId(liste.getNom());
-                pane.getChildren().add(btnAddTache);
-
-                modele.paneBureau.getChildren().add(pane);
-            }
-
-            Button btnAddListe = new Button("Ajouter liste");
-            btnAddListe.setOnAction(new ControlAjouterListe(modele));
-
-            modele.paneBureau.getChildren().add(btnAddListe);
+            modele.paneBureau.getChildren().add(pane);
         }
+
+        Button btnAddListe = new Button("Ajouter liste");
+        btnAddListe.setOnAction(new ControlAjouterListe(modele));
+
+        modele.paneBureau.getChildren().add(btnAddListe);
+
     }
 }
