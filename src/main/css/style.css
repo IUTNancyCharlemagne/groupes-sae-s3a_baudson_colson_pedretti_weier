@@ -1,0 +1,48 @@
+/* ### Composants JavaFX ### */
+
+Button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 10;
+    -fx-padding: 5;
+    -fx-text-fill: deepskyblue;
+    -fx-font-size: 15;
+    -fx-font-family: "Segoe UI";
+    -fx-font-weight: bold;
+    -fx-border-radius: 10;
+    -fx-border-color: deepskyblue;
+}
+
+Button:hover {
+    -fx-background-color: deepskyblue;
+    -fx-text-fill: #232626;
+}
+
+Text{
+    -fx-fill: white;
+    -fx-font-size: 15;
+}
+
+/* ### Classes JavaFX ### */
+
+.paneBureau{
+    -fx-background-color: #232626;
+    -fx-padding: 10;
+    -fx-spacing: 10;
+}
+
+.paneListe {
+    -fx-background-color: #323636;
+    -fx-padding: 10;
+    -fx-spacing: 10;
+    -fx-background-radius: 10;
+}
+
+.paneTache {
+    -fx-background-color: #424848;
+    -fx-background-radius: 10;
+    -fx-padding: 10;
+}
+
+.paneTache:hover {
+    -fx-background-color: #323636;
+}

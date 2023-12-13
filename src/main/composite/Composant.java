@@ -1,6 +1,7 @@
 package main.composite;
 
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public abstract class Composant {
     protected boolean estArchive;
     protected List<Tag> tags;
 
-    public abstract Pane afficher();
+    public abstract VBox afficher();
 
     public String getNom() {
         return nom;
