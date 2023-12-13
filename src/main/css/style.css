@@ -27,7 +27,7 @@ Text{
 /* ### Classes JavaFX ### */
 
 .paneBureau{
-    -fx-background-color: #232626;
+    /*-fx-background-color: #232626;*/
     -fx-padding: 10;
     -fx-spacing: 10;
 }

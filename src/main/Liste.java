@@ -1,5 +1,6 @@
 package main;
 
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import main.composite.Composant;
@@ -39,7 +40,6 @@ public class Liste {
     public VBox afficher() {
 
         VBox paneListe = new VBox();
-
         Text textNom = new Text(this.nom);
         paneListe.getChildren().add(textNom);
 
