@@ -8,6 +8,7 @@ import java.util.List;
 
 public class Tache extends Composant {
     protected List<Composant> enfants;
+    protected boolean estTerminee;
 
     public Tache(String nom) {
         this.nom = nom;
@@ -15,6 +16,7 @@ public class Tache extends Composant {
         this.estArchive = false;
         this.tags = new ArrayList<Tag>();
         this.enfants = new ArrayList<Composant>();
+        this.estTerminee = false;
     }
 
     @Override
@@ -41,5 +43,10 @@ public class Tache extends Composant {
 
     public List<Composant> getEnfants() {
         return this.enfants;
+    }
+
+    public boolean estTerminee(){return this.estTerminee;}
+    public void setTerminee(boolean b){
+        this.estTerminee = b;
     }
 }
