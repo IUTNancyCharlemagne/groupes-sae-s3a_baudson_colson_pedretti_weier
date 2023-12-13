@@ -6,10 +6,10 @@ import javafx.scene.text.Text;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tache extends Composant{
+public class Tache extends Composant {
     protected List<Composant> enfants;
 
-    public Tache(String nom){
+    public Tache(String nom) {
         this.nom = nom;
         this.description = "";
         this.estArchive = false;
@@ -30,12 +30,15 @@ public class Tache extends Composant{
         }
         return paneTache;
     }
+
     public void ajouter(Composant c) {
         this.enfants.add(c);
     }
+
     public void retirer(Composant c) {
         this.enfants.remove(c);
     }
+
     public List<Composant> getEnfants() {
         return this.enfants;
     }
