@@ -22,7 +22,7 @@ public class VueBureau implements Observateur {
         modele.paneBureau.getStyleClass().add("paneBureau");
 
         for (Liste liste : modele.getListeTaches()) {
-            VBox pane = liste.afficher();
+            VBox pane = liste.afficher(modele);
             pane.getStyleClass().add("paneListe");
 
             Button btnAddTache = new Button("Ajouter tâche");

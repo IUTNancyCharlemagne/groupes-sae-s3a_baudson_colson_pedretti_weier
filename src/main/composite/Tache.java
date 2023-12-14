@@ -3,6 +3,8 @@ package main.composite;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import main.Modele;
+import main.controleurs.ControlAfficherTache;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +29,7 @@ public class Tache extends Composant {
      * @return un objet Pane correspondant
      */
     @Override
-    public VBox afficher() {
+    public VBox afficher(Modele modele) {
 
         VBox paneTache = new VBox();
         paneTache.getStyleClass().add("paneTache");
@@ -36,8 +38,10 @@ public class Tache extends Composant {
         paneTache.getChildren().add(textNom);
 
         for (Composant c : enfants) {
-            paneTache.getChildren().add(c.afficher());
+            paneTache.getChildren().add(c.afficher(modele));
         }
+
+        paneTache.setOnMouseClicked(new ControlAfficherTache(modele));
         return paneTache;
     }
 

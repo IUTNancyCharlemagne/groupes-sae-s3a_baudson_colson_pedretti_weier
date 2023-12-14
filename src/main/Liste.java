@@ -36,7 +36,7 @@ public class Liste {
         this.composants.remove(c);
     }
 
-    public VBox afficher() {
+    public VBox afficher(Modele modele) {
 
         VBox paneListe = new VBox();
 
@@ -44,7 +44,7 @@ public class Liste {
         paneListe.getChildren().add(textNom);
 
         for (Composant c : composants) {
-            paneListe.getChildren().add(c.afficher());
+            paneListe.getChildren().add(c.afficher(modele));
         }
 
         return paneListe;
