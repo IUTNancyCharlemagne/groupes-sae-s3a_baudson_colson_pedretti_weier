@@ -10,11 +10,13 @@ Button {
     -fx-font-weight: bold;
     -fx-border-radius: 10;
     -fx-border-color: deepskyblue;
+
 }
 
 Button:hover {
     -fx-background-color: deepskyblue;
     -fx-text-fill: #232626;
+    -fx-cursor: hand;
 }
 
 Text{
@@ -25,7 +27,7 @@ Text{
 /* ### Classes JavaFX ### */
 
 .paneBureau{
-    -fx-background-color: #232626;
+    /*-fx-background-color: #232626;*/
     -fx-padding: 10;
     -fx-spacing: 10;
 }
@@ -41,8 +43,11 @@ Text{
     -fx-background-color: #424848;
     -fx-background-radius: 10;
     -fx-padding: 10;
+    -fx-border-color: #424848;
+    -fx-border-radius: 10;
 }
 
 .paneTache:hover {
     -fx-background-color: #323636;
+    -fx-cursor: hand;
 }
