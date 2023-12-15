@@ -9,8 +9,8 @@ public class Modele implements Sujet{
 
     private ArrayList<Observateur> observateurs;
     private String vueCourante;
-    public static final String BUREAU = "Bureau";
-    public static final String LISTE = "Liste";
+    public static final String COLONNE = "Colonne";
+    public static final String LIGNE = "Ligne";
     public static final String GANTT = "Gantt";
     public static final String ARCHIVES = "Archives";
     private ArrayList<Liste> listeTaches;
@@ -19,7 +19,7 @@ public class Modele implements Sujet{
     public Modele() {
         this.observateurs = new ArrayList<Observateur>();
         this.listeTaches = new ArrayList<Liste>();
-        this.vueCourante = Modele.BUREAU;
+        this.vueCourante = Modele.COLONNE;
     }
 
     @Override

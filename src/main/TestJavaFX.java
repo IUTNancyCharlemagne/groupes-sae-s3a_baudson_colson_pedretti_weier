@@ -16,6 +16,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import main.controleurs.ControlAjouterListe;
 import main.controleurs.ControlAjouterTache;
+import main.controleurs.ControlChangerVue;
 import main.observateur.VueBureau;
 
 import java.io.File;
@@ -27,6 +28,8 @@ public class TestJavaFX extends Application {
         Modele modele = new Modele();
         BorderPane layout = new BorderPane();
         MenuBar menuBar = new MenuBar();
+
+        ControlChangerVue controlChangerVue = new ControlChangerVue(modele);
 
         ImageView background = new ImageView();
 
@@ -85,40 +88,28 @@ public class TestJavaFX extends Application {
         displayColumnImage.setFitHeight(16);
         displayColumnImage.setFitWidth(16);
         displayColumn.setGraphic(displayColumnImage);
-
-        displayColumn.setOnAction(e -> {
-            System.out.println("Affichage en colonne");
-        });
+        displayColumn.setOnAction(controlChangerVue);
 
         RadioMenuItem displayRow = new RadioMenuItem("Affichage en lignes");
         ImageView displayRowImage = new ImageView("file:icons/row.png");
         displayRowImage.setFitHeight(16);
         displayRowImage.setFitWidth(16);
         displayRow.setGraphic(displayRowImage);
-
-        displayRow.setOnAction(e -> {
-            System.out.println("Affichage en ligne");
-        });
+        displayRow.setOnAction(controlChangerVue);
 
         RadioMenuItem displayGantt = new RadioMenuItem("Afficher le Gantt");
         ImageView displayGanttImage = new ImageView("file:icons/gantt.png");
         displayGanttImage.setFitHeight(16);
         displayGanttImage.setFitWidth(16);
         displayGantt.setGraphic(displayGanttImage);
-
-        displayGantt.setOnAction(e -> {
-            System.out.println("Affichage Gantt");
-        });
+        displayGantt.setOnAction(controlChangerVue);
 
         RadioMenuItem displayArchives = new RadioMenuItem("Afficher les archives");
         ImageView displayArchivesImage = new ImageView("file:icons/archive.png");
         displayArchivesImage.setFitHeight(16);
         displayArchivesImage.setFitWidth(16);
         displayArchives.setGraphic(displayArchivesImage);
-
-        displayArchives.setOnAction(e -> {
-            System.out.println("Affichage des archives");
-        });
+        displayArchives.setOnAction(controlChangerVue);
 
         EventHandler<ActionEvent> setFullScreen = e -> {
             primaryStage.setFullScreen(!primaryStage.isFullScreen());
