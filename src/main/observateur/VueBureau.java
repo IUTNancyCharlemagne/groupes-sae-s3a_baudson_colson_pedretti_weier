@@ -8,8 +8,6 @@ import main.Sujet;
 import main.controleurs.ControlAjouterListe;
 import main.controleurs.ControlAjouterTache;
 
-import java.util.Objects;
-
 public class VueBureau implements Observateur {
 
     @Override
