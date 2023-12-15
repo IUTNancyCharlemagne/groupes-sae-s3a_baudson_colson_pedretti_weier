@@ -80,7 +80,7 @@ public class TestJavaFX extends Application {
         displayImage.setFitWidth(16);
         displayMenu.setGraphic(displayImage);
 
-        RadioMenuItem displayColumn = new RadioMenuItem("Column Display");
+        RadioMenuItem displayColumn = new RadioMenuItem("Affichage en colonnes");
         ImageView displayColumnImage = new ImageView("file:icons/collumn.png");
         displayColumnImage.setFitHeight(16);
         displayColumnImage.setFitWidth(16);
@@ -90,7 +90,7 @@ public class TestJavaFX extends Application {
             System.out.println("Affichage en colonne");
         });
 
-        RadioMenuItem displayRow = new RadioMenuItem("Row Display");
+        RadioMenuItem displayRow = new RadioMenuItem("Affichage en lignes");
         ImageView displayRowImage = new ImageView("file:icons/row.png");
         displayRowImage.setFitHeight(16);
         displayRowImage.setFitWidth(16);
@@ -100,7 +100,7 @@ public class TestJavaFX extends Application {
             System.out.println("Affichage en ligne");
         });
 
-        RadioMenuItem displayGantt = new RadioMenuItem("Gantt Display");
+        RadioMenuItem displayGantt = new RadioMenuItem("Afficher le Gantt");
         ImageView displayGanttImage = new ImageView("file:icons/gantt.png");
         displayGanttImage.setFitHeight(16);
         displayGanttImage.setFitWidth(16);
@@ -110,7 +110,7 @@ public class TestJavaFX extends Application {
             System.out.println("Affichage Gantt");
         });
 
-        RadioMenuItem displayArchives = new RadioMenuItem("Archives Display");
+        RadioMenuItem displayArchives = new RadioMenuItem("Afficher les archives");
         ImageView displayArchivesImage = new ImageView("file:icons/archive.png");
         displayArchivesImage.setFitHeight(16);
         displayArchivesImage.setFitWidth(16);
@@ -120,7 +120,18 @@ public class TestJavaFX extends Application {
             System.out.println("Affichage des archives");
         });
 
-        MenuItem changeBackground = new MenuItem("Change Background");
+        EventHandler<ActionEvent> setFullScreen = e -> {
+            primaryStage.setFullScreen(!primaryStage.isFullScreen());
+        };
+
+        CheckMenuItem fullScreen = new CheckMenuItem("Plein écran (F5)");
+        ImageView fullScreenImage = new ImageView("file:icons/fullscreen.png");
+        fullScreenImage.setFitHeight(16);
+        fullScreenImage.setFitWidth(16);
+        fullScreen.setGraphic(fullScreenImage);
+        fullScreen.setOnAction(setFullScreen);
+
+        MenuItem changeBackground = new MenuItem("Changer le fond (Ctrl + B)");
         ImageView changeBackgroundImage = new ImageView("file:icons/background.png");
         changeBackgroundImage.setFitHeight(16);
         changeBackgroundImage.setFitWidth(16);
@@ -147,7 +158,7 @@ public class TestJavaFX extends Application {
         displayGantt.setToggleGroup(group);
         displayArchives.setToggleGroup(group);
 
-        displayMenu.getItems().addAll(displayColumn, displayRow, displayGantt, displayArchives, new SeparatorMenuItem(), changeBackground);
+        displayMenu.getItems().addAll(displayColumn, displayRow, displayGantt, displayArchives, new SeparatorMenuItem(), fullScreen, changeBackground);
         menuBar.getMenus().add(displayMenu);
 
         ContextMenu contextMenu = new ContextMenu();
@@ -157,7 +168,7 @@ public class TestJavaFX extends Application {
         contextImage.setFitWidth(16);
         contextMenuItem.setGraphic(contextImage);
 
-        MenuItem contextMenuItem2 = new MenuItem("Changer le fond");
+        MenuItem contextMenuItem2 = new MenuItem("Changer le fond (Ctrl + B)");
         contextMenuItem2.setGraphic(changeBackgroundImage);
         contextMenuItem2.setOnAction(changeBackgroundEvent);
 
@@ -168,10 +179,37 @@ public class TestJavaFX extends Application {
         });
         contextMenuItem.setOnAction(new ControlAjouterListe(modele));
 
+
+        // Raccourcis Clavier
+            // Mode Plein Ecran (F5)
+            layout.setOnKeyPressed(e -> {
+                if(e.getCode().toString().equals("F5")) {
+                    if(fullScreen.isSelected()) {
+                        fullScreen.setSelected(false);
+                    } else {
+                        fullScreen.setSelected(true);
+                    }
+                    primaryStage.setFullScreen(!primaryStage.isFullScreen());
+                }
+            });
+
+            // Changer de fon d'écran (Ctrl + B)
+            layout.setOnKeyPressed(e -> {
+                if(e.getCode().toString().equals("B") && e.isControlDown()) {
+                    FileChooser fileChooser = new FileChooser();
+                    fileChooser.setTitle("Open Image File");
+                    fileChooser.setInitialDirectory(new File("C:\\"));
+                    fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+                    File selectedFile = fileChooser.showOpenDialog(primaryStage);
+                    if(selectedFile != null) {
+                        Image image = new Image(selectedFile.getPath());
+                        layout.setBackground(new Background(new BackgroundImage(image, null, null, null, null)));
+                    }
+                }
+            });
+
+            
         layout.setTop(menuBar);
-
-
-
         VueBureau vueBureau = new VueBureau();
         modele.enregistrerObservateur(vueBureau);
 
