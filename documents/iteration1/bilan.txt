@@ -1,0 +1,15 @@
+Pour notre version 1.0, nous avons les fonctionnalités suivantes :
+
+    - ajouter une nouvelle liste
+    - ajouter une nouvelle tâche à la liste
+    - afficher une tâche en détail
+    - un affichage graphique avec du style en css
+    - un menu qui permet :
+        - de changer de fond d'écran
+        - de se mettre en plein écran
+    - un click droit qui permet :
+        - d'ajouter une nouvelle liste
+        - de changer de fond d'écran
+
+Pour l'instant, il n'y a pas de bugs connus.
+L'affichage n'est pas encore dans sa version définitive, mais il est fonctionnel.

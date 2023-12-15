@@ -1,5 +1,6 @@
 package main;
 
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import main.composite.Composant;
@@ -37,16 +38,14 @@ public class Liste implements Serializable {
         this.composants.remove(c);
     }
 
-    public VBox afficher() {
+    public VBox afficher(Modele modele) {
 
         VBox paneListe = new VBox();
-        paneListe.setSpacing(10);
-
         Text textNom = new Text(this.nom);
         paneListe.getChildren().add(textNom);
 
         for (Composant c : composants) {
-            paneListe.getChildren().add(c.afficher());
+            paneListe.getChildren().add(c.afficher(modele));
         }
 
         return paneListe;

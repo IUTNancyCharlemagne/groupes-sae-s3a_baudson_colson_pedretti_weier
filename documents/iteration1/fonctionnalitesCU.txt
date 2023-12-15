@@ -1,0 +1,17 @@
+Dans cette itération, nous avons ajouté comme fonctionnalité :
+    - ajouter une nouvelle liste (Loris)
+    - ajouter une nouvelle tâche à la liste (Loris)
+    - afficher une tâche en détail (Dylan/Loris)
+    - un affichage graphique avec du style en css (Loris)
+    - un menu qui permet : (Lenny)
+        - de changer de fond d'écran
+        - de se mettre en plein écran
+    - un click droit qui permet : (Lenny)
+        - d'ajouter une nouvelle liste
+        - de changer de fond d'écran
+
+Zack avance sur le système de sauvegarde.
+Dylan avance sur le controller pour changer la vue du projet.
+
+Au début Loris, Dylan et Zack ont créé le squelette du projet avec l'arborescence des fichiers et les classes.
+Ensuite chacun a travaillé sur une fonctionnalité.

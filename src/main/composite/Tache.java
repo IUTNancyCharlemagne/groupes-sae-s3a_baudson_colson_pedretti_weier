@@ -1,7 +1,10 @@
 package main.composite;
 
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import main.Modele;
+import main.controleurs.ControlAfficherTache;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -27,16 +30,19 @@ public class Tache extends Composant implements Serializable {
      * @return un objet Pane correspondant
      */
     @Override
-    public Pane afficher() {
+    public VBox afficher(Modele modele) {
 
-        Pane paneTache = new Pane();
+        VBox paneTache = new VBox();
+        paneTache.getStyleClass().add("paneTache");
 
         Text textNom = new Text(this.nom);
         paneTache.getChildren().add(textNom);
 
         for (Composant c : enfants) {
-            paneTache.getChildren().add(c.afficher());
+            paneTache.getChildren().add(c.afficher(modele));
         }
+
+        paneTache.setOnMouseClicked(new ControlAfficherTache(modele));
         return paneTache;
     }
 
