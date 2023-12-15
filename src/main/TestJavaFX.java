@@ -199,7 +199,6 @@ public class TestJavaFX extends Application {
                 }
             });
 
-            
         layout.setTop(menuBar);
 
         VueBureau vueBureau = new VueBureau();
