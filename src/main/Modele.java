@@ -1,6 +1,7 @@
 package main;
 
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import main.observateur.Observateur;
 
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ public class Modele implements Sujet{
     public static final String ARCHIVES = "Archives";
     private ArrayList<Liste> listeTaches;
     public HBox paneBureau = new HBox();
+
+    public StackPane stackPane = new StackPane();
 
     public Modele() {
         this.observateurs = new ArrayList<Observateur>();

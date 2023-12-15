@@ -201,6 +201,7 @@ public class TestJavaFX extends Application {
 
             
         layout.setTop(menuBar);
+
         VueBureau vueBureau = new VueBureau();
         modele.enregistrerObservateur(vueBureau);
 
@@ -209,7 +210,9 @@ public class TestJavaFX extends Application {
         layout.setBackground(new Background(new BackgroundFill(new Color((double) 35 /255, (double) 38 /255, (double) 38 /255,1), CornerRadii.EMPTY, Insets.EMPTY)));
         primaryStage.setMaximized(true);
 
-        Scene scene = new Scene(layout, 720, 576);
+        modele.stackPane.getChildren().add(layout);
+
+        Scene scene = new Scene(modele.stackPane, 720, 576);
         scene.getStylesheets().add(getClass().getResource("css/style.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.setTitle("Test JavaFX");

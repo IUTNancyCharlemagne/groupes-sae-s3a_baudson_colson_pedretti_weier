@@ -51,3 +51,51 @@ Text{
     -fx-background-color: #323636;
     -fx-cursor: hand;
 }
+
+/* ### Overlay ### */
+
+.overlayBackground {
+    -fx-background-color: rgba(0, 0, 0, 0.5);
+}
+
+.overlay {
+    -fx-background-color: #323636;
+    -fx-background-radius: 10;
+    -fx-padding: 100;
+    -fx-spacing: 50;
+}
+
+.titre {
+    -fx-font-size: 25;
+    -fx-font-family: "Segoe UI";
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-text-alignment: left;
+}
+
+TextArea {
+    -fx-font-size: 15;
+    -fx-background-color: #424848;
+    -fx-border-width: 0;
+    -fx-background-radius: 10;
+    -fx-padding: 10;
+    -fx-text-fill: white;
+}
+
+TextArea .content {
+    -fx-background-color: #424848;
+    -fx-background-radius: 0;
+}
+
+.quitter {
+    -fx-background-radius: 1000;
+    -fx-text-fill: red;
+    -fx-border-radius: 1000;
+    -fx-border-color: red;
+    -fx-padding: 10 15;
+}
+
+.quitter:hover {
+    -fx-background-color: red;
+    -fx-text-fill: white;
+}
