@@ -31,7 +31,7 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
         Text text = (Text) vBox.getChildren().get(0);
         String nomTache = text.getText();
 
-        for (Liste liste : modele.getListeTaches()) {
+        for (Liste liste : modele.getProjet().getListeTaches()) {
             for (Composant composant : liste.getComposants()) {
                 if (composant.getNom().equals(nomTache)) {
                     // Overlay
