@@ -6,6 +6,7 @@ import main.observateur.Observateur;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import main.exceptions.ProjectNotFoundException;
 
 /**
  * Classe Modele qui contient les données du projet <br>
@@ -111,5 +112,17 @@ public class Modele implements Sujet, Serializable {
     }
     public StackPane getStackPane() {
         return stackPane;
+    }
+
+    public void sauvegarderProjet() throws IOException {
+        this.getProjet().sauvegarderProjet();
+    }
+
+    public void sauvegarderProjet(String nomFichier) throws IOException {
+        this.getProjet().sauvegarderProjet(nomFichier);
+    }
+
+    public void chargerProjet(String chemin) throws ProjectNotFoundException, IOException, ClassNotFoundException {
+        this.setProjet(this.getProjet().chargerProjet(chemin));
     }
 }
