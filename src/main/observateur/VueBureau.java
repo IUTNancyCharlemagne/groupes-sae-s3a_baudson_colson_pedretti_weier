@@ -8,6 +8,9 @@ import main.Sujet;
 import main.controleurs.ControlAjouterListe;
 import main.controleurs.ControlAjouterTache;
 
+/**
+ * Classe VueBureau qui affiche au format bureau (liste en vertical)
+ */
 public class VueBureau implements Observateur {
 
     @Override
@@ -15,10 +18,11 @@ public class VueBureau implements Observateur {
         if (!(s instanceof Modele)) return;
 
         Modele modele = (Modele) s;
-        modele.paneBureau.getChildren().clear();
+        modele.getPaneBureau().getChildren().clear();
 
-        modele.paneBureau.getStyleClass().add("paneBureau");
+        modele.getPaneBureau().getStyleClass().add("paneBureau");
 
+        // Affichage des listes
         for (Liste liste : modele.getProjet().getListeTaches()) {
             VBox pane = liste.afficher(modele);
             pane.getStyleClass().add("paneListe");
@@ -29,13 +33,13 @@ public class VueBureau implements Observateur {
 
             pane.getChildren().add(btnAddTache);
 
-            modele.paneBureau.getChildren().add(pane);
+            modele.getPaneBureau().getChildren().add(pane);
         }
 
         Button btnAddListe = new Button("Ajouter liste");
         btnAddListe.setOnAction(new ControlAjouterListe(modele));
 
-        modele.paneBureau.getChildren().add(btnAddListe);
+        modele.getPaneBureau().getChildren().add(btnAddListe);
 
     }
 }

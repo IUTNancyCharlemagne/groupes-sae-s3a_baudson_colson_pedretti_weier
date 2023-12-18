@@ -26,7 +26,7 @@ public class TestJavaFX extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Modele modele = new Modele();
+        Modele modele = new Modele(new Projet("Projet 1"));
         BorderPane layout = new BorderPane();
         MenuBar menuBar = new MenuBar();
 
@@ -206,13 +206,13 @@ public class TestJavaFX extends Application {
         modele.enregistrerObservateur(vueBureau);
 
         modele.notifierObservateur();
-        layout.setCenter(modele.paneBureau);
+        layout.setCenter(modele.getPaneBureau());
         layout.setBackground(new Background(new BackgroundFill(new Color((double) 35 /255, (double) 38 /255, (double) 38 /255,1), CornerRadii.EMPTY, Insets.EMPTY)));
         primaryStage.setMaximized(true);
 
-        modele.stackPane.getChildren().add(layout);
+        modele.getStackPane().getChildren().add(layout);
 
-        Scene scene = new Scene(modele.stackPane, 720, 576);
+        Scene scene = new Scene(modele.getStackPane(), 720, 576);
         scene.getStylesheets().add(getClass().getResource("css/style.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.setTitle("Test JavaFX");

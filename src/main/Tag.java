@@ -1,12 +1,29 @@
-package main.composite;
+package main;
 
 import javafx.scene.paint.Color;
+import main.composite.Tache;
 
 import java.io.Serializable;
 
+/**
+ * Classe permettant de créer un tag pour les tâches
+ * @see Tache
+ */
 public class Tag implements Serializable {
+
+    /**
+     * Nom du tag
+     */
     private String nom;
+
+    /**
+     * Couleur du tag
+     */
     private Color couleur;
+
+    // #########################
+    // ### GETTERS & SETTERS ###
+    // #########################
 
     public String getNom(){
         return nom;

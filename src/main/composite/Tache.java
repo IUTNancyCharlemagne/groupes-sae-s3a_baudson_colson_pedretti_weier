@@ -1,23 +1,34 @@
 package main.composite;
 
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import main.Modele;
+import main.Tag;
 import main.controleurs.ControlAfficherTache;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe qui représente une tâche dans le projet <br>
+ * Elle hérite de la classe Composant
+ * @see Composant
+ */
 public class Tache extends Composant{
-    protected List<Composant> enfants;
+
+    /**
+     * Liste des sous-tâches de la tâche
+     */
+    protected List<Composant> sousTaches;
+
+    /**
+     * Liste des dépendances de la tâche
+     */
     protected List<Tache> dependances;
 
     @Override
     public String toString() {
         return "Tache{" +
-                "enfants=" + enfants +
+                "enfants=" + sousTaches +
                 ", dependances=" + dependances +
                 ", estTerminee=" + estTerminee +
                 ", nom='" + nom + '\'' +
@@ -27,33 +38,30 @@ public class Tache extends Composant{
                 '}';
     }
 
-    protected boolean estTerminee;
-
     public Tache(String nom) {
         this.nom = nom;
         this.description = "";
         this.estArchive = false;
         this.tags = new ArrayList<Tag>();
-        this.enfants = new ArrayList<Composant>();
+        this.sousTaches = new ArrayList<Composant>();
         this.dependances = new ArrayList<Tache>();
         this.estTerminee = false;
         this.nbTags = 0;
     }
 
-    /**
-     * Méthode qui permet de récupérer l'élément JavaFX pour l'afficher dans la méthode main
-     * @return un objet Pane correspondant
-     */
     @Override
     public VBox afficher(Modele modele) {
 
+        // Création du Pane de la tâche
         VBox paneTache = new VBox();
         paneTache.getStyleClass().add("paneTache");
 
+        // Création du texte du nom de la tâche
         Text textNom = new Text(this.nom);
         paneTache.getChildren().add(textNom);
 
-        for (Composant c : enfants) {
+        // Ajout des sous-tâches
+        for (Composant c : sousTaches) {
             paneTache.getChildren().add(c.afficher(modele));
         }
 
@@ -66,35 +74,37 @@ public class Tache extends Composant{
      * @param c sous-tâche
      */
     public void ajouter(Composant c) {
-        this.enfants.add(c);
+        this.sousTaches.add(c);
     }
 
+    /**
+     * Méthode qui permet de retirer une sous-tâche à la tâche
+     * @param c sous-tâche
+     */
     public void retirer(Composant c) {
-        this.enfants.remove(c);
-    }
-
-    public List<Composant> getEnfants() {
-        return this.enfants;
-    }
-
-    public boolean estTerminee(){return this.estTerminee;}
-    public void setTerminee(boolean b){
-        this.estTerminee = b;
-    }
-
-    public List<Tache> getDependances() {
-        return dependances;
+        this.sousTaches.remove(c);
     }
 
     /**
      * Méthode qui permet de voir si les dépendances d'une tâche sont terminées.
-      * @return vrai si toutes les dépendances sont terminées, faux sinon
+     * @return vrai si toutes les dépendances sont terminées, faux sinon
      */
     public boolean dependancesOk(){
         boolean ok = true;
         for(Tache t : this.dependances){
-            ok = ok && t.estTerminee();
+            ok = ok && t.getEstTerminee();
         }
         return ok;
+    }
+
+    // #########################
+    // ### GETTERS & SETTERS ###
+    // #########################
+
+    public List<Composant> getSousTaches() {
+        return this.sousTaches;
+    }
+    public List<Tache> getDependances() {
+        return dependances;
     }
 }

@@ -13,17 +13,32 @@ import main.Modele;
 import main.composite.Composant;
 import main.composite.Tache;
 
+/**
+ * ControlAjouterTache est la classe qui represente le controleur qui ajoute une tâche à une liste.
+ */
 public class ControlAjouterTache implements EventHandler<ActionEvent> {
 
+    /**
+     * Le modele.
+     */
     private Modele modele;
 
+    /**
+     * Constructeur de ControlAjouterTache
+     * @param modele le modele
+     */
     public ControlAjouterTache(Modele modele) {
         this.modele = modele;
     }
 
+    /**
+     * Méthode qui ajoute une tâche à une liste.
+     * @param actionEvent l'action
+     */
     @Override
     public void handle(ActionEvent actionEvent) {
         Button btn = (Button) actionEvent.getSource();
+        // Récupère le nom de la liste
         String nomListe = btn.getId();
 
         VBox overlay = new VBox();
@@ -54,7 +69,7 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
                     modele.getProjet().getListeTaches(nomListe).ajouterComposant(new Tache(nom.getText()));
                     modele.notifierObservateur();
                 }
-                modele.stackPane.getChildren().remove(overlay);
+                modele.getStackPane().getChildren().remove(overlay);
             }
         });
 
@@ -63,7 +78,7 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
         overlay.getChildren().add(nom);
         overlay.getChildren().add(btnValider);
 
-        modele.stackPane.getChildren().add(overlay);
+        modele.getStackPane().getChildren().add(overlay);
         BorderPane.setMargin(overlay, new Insets(50, 50, 50, 50));
     }
 }

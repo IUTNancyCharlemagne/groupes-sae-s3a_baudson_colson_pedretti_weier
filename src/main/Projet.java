@@ -2,9 +2,7 @@ package main;
 
 import main.composite.Composant;
 import main.composite.Tache;
-import main.composite.Tag;
 import main.exceptions.ProjectNotFoundException;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,7 +10,14 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe représentant un projet
+ */
 public class Projet {
+
+    /**
+     * Nom du projet
+     */
     private String nomProjet;
 
     /**
@@ -20,27 +25,24 @@ public class Projet {
      */
     private final List<Liste> listeTaches;
 
+    /**
+     * Constructeur de la classe Projet
+     * @param nomProjet Nom du projet
+     */
     public Projet(String nomProjet){
         this.nomProjet = nomProjet;
         this.listeTaches = new ArrayList<Liste>();
-    }
-
-    @Override
-    public String toString() {
-        return "Projet{" +
-                "nomProjet='" + nomProjet + '\'' +
-                ", listeTaches=" + listeTaches +
-                '}';
     }
 
     public static boolean fichierTrebo(String fileName) {
         return fileName.endsWith(".trebo");
     }
 
-    public List<Liste> getListeTaches() {
-        return this.listeTaches;
-    }
-
+    /**
+     * Récupère une liste de tâches à partir du nom de la liste
+     * @param nom Nom de la liste de tâches
+     * @return Liste de tâches
+     */
     public Liste getListeTaches(String nom) {
         for (Liste liste : this.listeTaches) {
             if (liste.getNom().equals(nom)) {
@@ -50,14 +52,30 @@ public class Projet {
         return null;
     }
 
+    /**
+     * Ajoute une liste de tâches à la liste des listes de tâches
+     * @param liste Liste de tâches à ajouter
+     */
     public void ajouterListeTaches(Liste liste) {
         this.listeTaches.add(liste);
     }
 
+    /**
+     * Supprime une liste de tâches de la liste des listes de tâches
+     * @param liste Liste de tâches à supprimer
+     */
     public void supprimerListeTaches(Liste liste) {
         this.listeTaches.remove(liste);
     }
 
+    /**
+     * Charge un projet à partir d'un fichier de sauvegarde
+     * @param chemin Chemin du fichier de sauvegarde
+     * @return Projet chargé
+     * @throws IOException
+     * @throws ProjectNotFoundException
+     * @throws ClassNotFoundException
+     */
     public Projet chargerProjet(String chemin) throws IOException, ProjectNotFoundException, ClassNotFoundException {
         if (!fichierTrebo(chemin)) chemin += ".trebo";
         if (!Files.exists(Paths.get(chemin))) throw new ProjectNotFoundException();
@@ -137,6 +155,22 @@ public class Projet {
                 }
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Projet{" +
+                "nomProjet='" + nomProjet + '\'' +
+                ", listeTaches=" + listeTaches +
+                '}';
+    }
+
+    // #########################
+    // ### GETTERS & SETTERS ###
+    // #########################
+
+    public List<Liste> getListeTaches() {
+        return this.listeTaches;
     }
 
     public String getNomProjet() {
