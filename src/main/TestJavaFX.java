@@ -19,6 +19,8 @@ import main.observateur.VueBureau;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class TestJavaFX extends Application {
 
@@ -61,8 +63,9 @@ public class TestJavaFX extends Application {
         openMenuItem.setOnAction(e -> {
             System.out.println("Ouvrir Projet");
             try {
+                if(!Files.exists(Paths.get("./projects/"))) Files.createDirectories(Paths.get("./projects"));
                 FileChooser fileChooser = new FileChooser();
-                fileChooser.setTitle("Open Image File");
+                fileChooser.setTitle("Open Project File");
                 fileChooser.setInitialDirectory(new File("./projects"));
                 fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Trebo Files", "*.trebo"));
                 File selectedFile = fileChooser.showOpenDialog(primaryStage);
@@ -83,8 +86,9 @@ public class TestJavaFX extends Application {
             try {
                 if(modele.getProjet().getChemin() != null) modele.sauvegarderProjet(modele.getProjet().getChemin());
                 else{
+                    if(!Files.exists(Paths.get("./projects/"))) Files.createDirectories(Paths.get("./projects"));
                     FileChooser fileChooser = new FileChooser();
-                    fileChooser.setTitle("Open Image File");
+                    fileChooser.setTitle("Save As");
                     fileChooser.setInitialDirectory(new File("./projects/"));
                     if(modele.getProjet().getNomProjet() != null) fileChooser.setInitialFileName(modele.getProjet().getNomProjet() + ".trebo");
                     else fileChooser.setInitialFileName("untitled.trebo");
@@ -207,16 +211,12 @@ public class TestJavaFX extends Application {
             // Mode Plein Ecran (F5)
             layout.setOnKeyPressed(e -> {
                 if(e.getCode().toString().equals("F5")) {
-                    if(fullScreen.isSelected()) {
-                        fullScreen.setSelected(false);
-                    } else {
-                        fullScreen.setSelected(true);
-                    }
+                    fullScreen.setSelected(!fullScreen.isSelected());
                     primaryStage.setFullScreen(!primaryStage.isFullScreen());
                 }
             });
 
-            // Changer de fon d'écran (Ctrl + B)
+            // Changer de fond d'écran (Ctrl + B)
             layout.setOnKeyPressed(e -> {
                 if(e.getCode().toString().equals("B") && e.isControlDown()) {
                     FileChooser fileChooser = new FileChooser();
