@@ -5,7 +5,6 @@ import main.composite.Tache;
 import main.exceptions.ProjectNotFoundException;
 import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +25,10 @@ public class Projet {
     private final List<Liste> listeTaches;
     private String chemin;
 
+    /**
+     * Constructeur vide de Projet.
+     * La liste de listes de tâches est initialisée.
+     */
     public Projet(){
         this.listeTaches = new ArrayList<Liste>();
     }
@@ -78,7 +81,7 @@ public class Projet {
      * @param chemin Chemin du fichier de sauvegarde
      * @return Projet chargé
      * @throws IOException
-     * @throws ProjectNotFoundException
+     * @throws ProjectNotFoundException si le projet spécifié est introuvable.
      * @throws ClassNotFoundException
      */
     public Projet chargerProjet(String chemin) throws IOException, ProjectNotFoundException, ClassNotFoundException {
