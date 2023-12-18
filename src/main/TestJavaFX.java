@@ -26,7 +26,7 @@ public class TestJavaFX extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Modele modele = new Modele();
+        Modele modele = new Modele(new Projet("ProjetTest"));
         BorderPane layout = new BorderPane();
         MenuBar menuBar = new MenuBar();
 

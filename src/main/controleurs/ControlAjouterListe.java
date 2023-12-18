@@ -15,8 +15,8 @@ public class ControlAjouterListe implements EventHandler<ActionEvent> {
 
     @Override
     public void handle(ActionEvent actionEvent) {
-        String nbListes = String.valueOf(modele.getListeTaches().size() + 1);
-        modele.ajouterListeTaches(new Liste("Liste" + nbListes));
+        String nbListes = String.valueOf(modele.getProjet().getListeTaches().size() + 1);
+        modele.getProjet().ajouterListeTaches(new Liste("Liste" + nbListes));
         modele.notifierObservateur();
     }
 }

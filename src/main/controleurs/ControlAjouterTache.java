@@ -41,7 +41,7 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
                 System.out.println("Le nom de la tâche ne peut pas être vide.");
             } else {
                 boolean trouve = false;
-                for (Liste liste : modele.getListeTaches()){
+                for (Liste liste : modele.getProjet().getListeTaches()){
                     for (Composant tache : liste.getComposants()){
                         if (tache.getNom().equals(nom.getText())){
                             trouve = true;
@@ -51,7 +51,7 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
                 if (trouve){
                     System.out.println("La tâche existe déjà.");
                 } else {
-                    modele.getListeTaches(nomListe).ajouterComposant(new Tache(nom.getText()));
+                    modele.getProjet().getListeTaches(nomListe).ajouterComposant(new Tache(nom.getText()));
                     modele.notifierObservateur();
                 }
                 modele.stackPane.getChildren().remove(overlay);

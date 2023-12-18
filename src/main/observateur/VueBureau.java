@@ -19,7 +19,7 @@ public class VueBureau implements Observateur {
 
         modele.paneBureau.getStyleClass().add("paneBureau");
 
-        for (Liste liste : modele.getListeTaches()) {
+        for (Liste liste : modele.getProjet().getListeTaches()) {
             VBox pane = liste.afficher(modele);
             pane.getStyleClass().add("paneListe");
 

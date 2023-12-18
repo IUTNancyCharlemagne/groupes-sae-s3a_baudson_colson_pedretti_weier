@@ -2,6 +2,7 @@ package test;
 
 import main.Liste;
 import main.Modele;
+import main.Projet;
 import main.composite.Tache;
 import main.exceptions.ProjectNotFoundException;
 import org.junit.*;
@@ -15,28 +16,28 @@ import static junit.framework.TestCase.assertEquals;
 public class TestSauvegarde {
     @Test
     public void testSauvegarde() throws ProjectNotFoundException, IOException, ClassNotFoundException {
-        Modele m = new Modele();
-        m.setNomProjet("ProjetTest");
+        Modele m = new Modele(new Projet("ProjetTest"));
+        m.getProjet().setNomProjet("ProjetTest");
 
         Liste liste1 = new Liste("Liste1");
-        m.ajouterListeTaches(liste1);
+        m.getProjet().ajouterListeTaches(liste1);
 
         liste1.ajouterComposant(new Tache("Tache1"));
         liste1.ajouterComposant(new Tache("Tache2"));
 
         Liste liste2 = new Liste("Liste2");
-        m.ajouterListeTaches(liste2);
+        m.getProjet().ajouterListeTaches(liste2);
 
         liste2.ajouterComposant(new Tache("Tache3"));
 
         try {
-            m.sauvegarderProjet();
+            m.getProjet().sauvegarderProjet();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        Modele m2 = m.chargerProjet("./projects/" + m.getNomProjet() + ".trebo");
+        Modele m2 = new Modele(m.getProjet().chargerProjet("./projects/" + m.getProjet().getNomProjet() + ".trebo"));
 
-        assertEquals(m.toString(), m2.toString());
+        assertEquals(m.getProjet().toString(), m2.getProjet().toString());
     }
 }
