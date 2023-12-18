@@ -44,7 +44,7 @@ public class ControlAjouterSousTache implements EventHandler<ActionEvent> {
                 if (nom.getText().isEmpty()) {
                     System.out.println("Le nom de la tâche ne peut pas être vide.");
                 } else {
-                    for (Composant tache : ((Tache) composant).getEnfants()) {
+                    for (Composant tache : ((Tache) composant).getSousTaches()) {
                         if (tache.getNom().equals(nom.getText())) {
                             trouve = true;
                         }
@@ -56,7 +56,7 @@ public class ControlAjouterSousTache implements EventHandler<ActionEvent> {
                     ((Tache) composant).ajouter(new Tache(nom.getText()));
                     modele.notifierObservateur();
                 }
-                modele.stackPane.getChildren().remove(overlay);
+                modele.getStackPane().getChildren().remove(overlay);
             }
         });
 
@@ -65,7 +65,7 @@ public class ControlAjouterSousTache implements EventHandler<ActionEvent> {
         overlay.getChildren().add(nom);
         overlay.getChildren().add(btnValider);
 
-        modele.stackPane.getChildren().add(overlay);
+        modele.getStackPane().getChildren().add(overlay);
         BorderPane.setMargin(overlay, new Insets(50, 50, 50, 50));
     }
 }
