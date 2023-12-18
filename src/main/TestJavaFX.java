@@ -28,7 +28,7 @@ public class TestJavaFX extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Modele modele = new Modele(new Projet("ProjetTest"));
+        Modele modele = new Modele(new Projet());
         BorderPane layout = new BorderPane();
         MenuBar menuBar = new MenuBar();
 
@@ -61,7 +61,12 @@ public class TestJavaFX extends Application {
         openMenuItem.setOnAction(e -> {
             System.out.println("Ouvrir Projet");
             try {
-                modele.chargerProjet("./projects/ProjetTest.trebo");
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Open Image File");
+                fileChooser.setInitialDirectory(new File("./projects"));
+                fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Trebo Files", "*.trebo"));
+                File selectedFile = fileChooser.showOpenDialog(primaryStage);
+                if(selectedFile != null) modele.chargerProjet(selectedFile.getPath());
                 modele.notifierObservateur();
             } catch (IOException | ProjectNotFoundException | ClassNotFoundException ex) {
                 throw new RuntimeException(ex);
@@ -76,7 +81,17 @@ public class TestJavaFX extends Application {
         saveMenuItem.setOnAction(e -> {
             System.out.println("Sauvegarder Projet");
             try {
-                modele.sauvegarderProjet();
+                if(modele.getProjet().getChemin() != null) modele.sauvegarderProjet(modele.getProjet().getChemin());
+                else{
+                    FileChooser fileChooser = new FileChooser();
+                    fileChooser.setTitle("Open Image File");
+                    fileChooser.setInitialDirectory(new File("./projects/"));
+                    if(modele.getProjet().getNomProjet() != null) fileChooser.setInitialFileName(modele.getProjet().getNomProjet() + ".trebo");
+                    else fileChooser.setInitialFileName("untitled.trebo");
+                    fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Trebo Files", "*.trebo"));
+                    File selectedFile = fileChooser.showSaveDialog(primaryStage);
+                    if(selectedFile != null) modele.sauvegarderProjet(selectedFile.getPath());
+                }
                 modele.notifierObservateur();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);

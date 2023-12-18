@@ -31,7 +31,7 @@ public class TestSauvegarde {
         liste2.ajouterComposant(new Tache("Tache3"));
 
         try {
-            m.getProjet().sauvegarderProjet();
+            m.getProjet().sauvegarderProjet("./projects/ProjectTest.trebo");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

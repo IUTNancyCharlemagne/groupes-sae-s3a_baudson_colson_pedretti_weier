@@ -24,6 +24,11 @@ public class Projet {
      * Liste des listes de tâches
      */
     private final List<Liste> listeTaches;
+    private String chemin;
+
+    public Projet(){
+        this.listeTaches = new ArrayList<Liste>();
+    }
 
     /**
      * Constructeur de la classe Projet
@@ -82,6 +87,7 @@ public class Projet {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(chemin))) {
             String nomProjet = (String) ois.readObject();
             Projet projet = new Projet(nomProjet);
+            projet.setChemin(chemin);
             int nbListes = (int) ois.readObject();
             for (int i = 0; i < nbListes; i++) {
                 Liste liste = (Liste) ois.readObject();
@@ -98,51 +104,19 @@ public class Projet {
     }
 
     /**
-     * Crée un fichier de sauvegarde du projet.
-     * Le fichier est un fichier binaire de format '.trebo'
-     * Le nom du fichier est le nom du projet + '.trebo'
-     * L'emplacement du fichier se trouve dans le dossier /projects/.
-     *
-     * @throws IOException
-     */
-    public void sauvegarderProjet() throws IOException {
-        String chemin = "./projects/";
-        String fichier = chemin + this.nomProjet + ".trebo";
-        Path path = Paths.get(chemin);
-        if (!Files.exists(path)) Files.createDirectories(path);
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fichier))) {
-            oos.writeObject(this.nomProjet);
-            oos.writeObject(this.listeTaches.size());
-            for (Liste l : this.listeTaches) {
-                oos.writeObject(l);
-                for (Composant c : l.getComposants()) {
-                    oos.writeObject(c);
-                    if (c.getTags().size() > 0) {
-                        for (Tag t : c.getTags()) oos.writeObject(t);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
      * Crée un fichier de sauvegarde du bureau.
      * Le fichier est un fichier binaire de format '.trebo'
      * Le nom du fichier est nomFichier + '.trebo'
      * L'emplacement du fichier se trouve dans le dossier /projects/.
      *
-     * @param nomFichier Nom du fichier voulu.
+     * @param chemin Nom du fichier voulu.
      *                   Peut se terminer par '.trebo' ou non, la conversion est faite.
      * @throws IOException
      */
-    public void sauvegarderProjet(String nomFichier) throws IOException {
-        String chemin = "./projects/";
-        String fichier;
-        if (fichierTrebo(nomFichier)) fichier = chemin + this.nomProjet;
-        else fichier = chemin + this.nomProjet + ".trebo";
-        Path path = Paths.get(chemin);
-        if (!Files.exists(path)) Files.createDirectories(path);
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fichier))) {
+    public void sauvegarderProjet(String chemin) throws IOException {
+        if (!fichierTrebo(chemin)) chemin += ".trebo";
+        if (this.chemin == null) this.chemin = chemin;
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(this.chemin))) {
             oos.writeObject(this.nomProjet);
             oos.writeObject(this.listeTaches.size());
             for (Liste l : this.listeTaches) {
@@ -179,5 +153,13 @@ public class Projet {
 
     public void setNomProjet(String nomProjet) {
         this.nomProjet = nomProjet;
+    }
+
+    public String getChemin() {
+        return chemin;
+    }
+
+    public void setChemin(String chemin) {
+        this.chemin = chemin;
     }
 }
