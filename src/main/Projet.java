@@ -42,6 +42,11 @@ public class Projet {
         this.listeTaches = new ArrayList<Liste>();
     }
 
+    /**
+     * Indique si le fichier se finit par l'extension '.trebo'
+     * @param fileName chemin du fichier
+     * @return true si l'extension est '.trebo', false sinon
+     */
     public static boolean fichierTrebo(String fileName) {
         return fileName.endsWith(".trebo");
     }
