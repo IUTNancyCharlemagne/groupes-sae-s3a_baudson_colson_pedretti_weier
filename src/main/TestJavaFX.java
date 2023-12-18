@@ -14,9 +14,11 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import main.controleurs.ControlAjouterListe;
 import main.controleurs.ControlChangerVue;
+import main.exceptions.ProjectNotFoundException;
 import main.observateur.VueBureau;
 
 import java.io.File;
+import java.io.IOException;
 
 public class TestJavaFX extends Application {
 
@@ -47,6 +49,8 @@ public class TestJavaFX extends Application {
 
         newMenuItem.setOnAction(e -> {
             System.out.println("Nouveau Projet");
+            modele.setProjet(new Projet(modele.getProjet().getNomProjet()));
+            modele.notifierObservateur();
         });
 
         MenuItem openMenuItem = new MenuItem("Open");
@@ -56,6 +60,12 @@ public class TestJavaFX extends Application {
         openMenuItem.setGraphic(openImage);
         openMenuItem.setOnAction(e -> {
             System.out.println("Ouvrir Projet");
+            try {
+                modele.chargerProjet("./projects/ProjetTest.trebo");
+                modele.notifierObservateur();
+            } catch (IOException | ProjectNotFoundException | ClassNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
         });
 
         MenuItem saveMenuItem = new MenuItem("Save");
@@ -65,6 +75,12 @@ public class TestJavaFX extends Application {
         saveMenuItem.setGraphic(saveImage);
         saveMenuItem.setOnAction(e -> {
             System.out.println("Sauvegarder Projet");
+            try {
+                modele.sauvegarderProjet();
+                modele.notifierObservateur();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         });
 
         MenuItem exitMenuItem = new MenuItem("Exit");

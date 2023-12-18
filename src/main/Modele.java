@@ -82,4 +82,16 @@ public class Modele implements Sujet, Serializable {
     public void setVueCourante(String vueCourante) {
         this.vueCourante = vueCourante;
     }
+
+    public void sauvegarderProjet() throws IOException {
+        this.getProjet().sauvegarderProjet();
+    }
+
+    public void sauvegarderProjet(String nomFichier) throws IOException {
+        this.getProjet().sauvegarderProjet(nomFichier);
+    }
+
+    public void chargerProjet(String chemin) throws ProjectNotFoundException, IOException, ClassNotFoundException {
+        this.setProjet(this.getProjet().chargerProjet(chemin));
+    }
 }
