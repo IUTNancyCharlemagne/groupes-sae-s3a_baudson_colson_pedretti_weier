@@ -10,9 +10,23 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tache extends Composant implements Serializable {
+public class Tache extends Composant{
     protected List<Composant> enfants;
     protected List<Tache> dependances;
+
+    @Override
+    public String toString() {
+        return "Tache{" +
+                "enfants=" + enfants +
+                ", dependances=" + dependances +
+                ", estTerminee=" + estTerminee +
+                ", nom='" + nom + '\'' +
+                ", description='" + description + '\'' +
+                ", estArchive=" + estArchive +
+                ", tags=" + tags +
+                '}';
+    }
+
     protected boolean estTerminee;
 
     public Tache(String nom) {
@@ -23,6 +37,7 @@ public class Tache extends Composant implements Serializable {
         this.enfants = new ArrayList<Composant>();
         this.dependances = new ArrayList<Tache>();
         this.estTerminee = false;
+        this.nbTags = 0;
     }
 
     /**

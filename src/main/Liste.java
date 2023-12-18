@@ -11,11 +11,23 @@ import java.util.List;
 
 public class Liste implements Serializable {
     private String nom;
-    private final ArrayList<Composant> composants;
+
+    @Override
+    public String toString() {
+        return "Liste{" +
+                "nom='" + nom + '\'' +
+                ", composants=" + composants +
+                '}';
+    }
+
+    private final List<Composant> composants;
+
+    private int nbTaches; // SERT POUR LA SAUVEGARDE
 
     public Liste(String nom) {
         this.nom = nom;
         composants = new ArrayList<Composant>();
+        this.nbTaches = 0;
     }
 
     public String getNom() {
@@ -32,10 +44,12 @@ public class Liste implements Serializable {
 
     public void ajouterComposant(Composant c) {
         this.composants.add(c);
+        this.nbTaches++;
     }
 
     public void retirerComposant(Composant c) {
         this.composants.remove(c);
+        this.nbTaches--;
     }
 
     public VBox afficher(Modele modele) {
@@ -49,5 +63,9 @@ public class Liste implements Serializable {
         }
 
         return paneListe;
+    }
+
+    public int getNbTaches(){
+        return this.nbTaches;
     }
 }

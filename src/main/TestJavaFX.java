@@ -20,6 +20,10 @@ import java.io.File;
 
 public class TestJavaFX extends Application {
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
     public void start(Stage primaryStage) {
         Modele modele = new Modele();
@@ -213,9 +217,5 @@ public class TestJavaFX extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Test JavaFX");
         primaryStage.show();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

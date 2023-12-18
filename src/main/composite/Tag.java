@@ -2,7 +2,9 @@ package main.composite;
 
 import javafx.scene.paint.Color;
 
-public class Tag{
+import java.io.Serializable;
+
+public class Tag implements Serializable {
     private String nom;
     private Color couleur;
 
