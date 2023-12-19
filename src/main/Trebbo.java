@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 public class Trebbo extends Application {
 
@@ -38,24 +39,25 @@ public class Trebbo extends Application {
 
         ImageView background = new ImageView();
 
-        Menu fileMenu = new Menu("File");
+        Menu fileMenu = new Menu("Fichier");
         ImageView fileImage = new ImageView("file:icons/file.png");
         fileImage.setFitHeight(16);
         fileImage.setFitWidth(16);
         fileMenu.setGraphic(fileImage);
-        MenuItem newMenuItem = new MenuItem("New Project");
+        MenuItem newMenuItem = new MenuItem("Nouveau Projet (Ctrl + N)");
         ImageView newImage = new ImageView("file:icons/new.png");
         newImage.setFitHeight(16);
         newImage.setFitWidth(16);
         newMenuItem.setGraphic(newImage);
 
         newMenuItem.setOnAction(e -> {
+            primaryStage.setTitle("Nouveau Projet (Non Sauvegardé)");
             System.out.println("Nouveau Projet");
             modele.setProjet(new Projet(modele.getProjet().getNomProjet()));
             modele.notifierObservateur();
         });
 
-        MenuItem openMenuItem = new MenuItem("Open");
+        MenuItem openMenuItem = new MenuItem("Ouvrir Projet (Ctrl + O)");
         ImageView openImage = new ImageView("file:icons/open.png");
         openImage.setFitHeight(16);
         openImage.setFitWidth(16);
@@ -69,14 +71,17 @@ public class Trebbo extends Application {
                 fileChooser.setInitialDirectory(new File("./projects"));
                 fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Trebo Files", "*.trebo"));
                 File selectedFile = fileChooser.showOpenDialog(primaryStage);
-                if(selectedFile != null) modele.chargerProjet(selectedFile.getPath());
+                if(selectedFile != null){
+                    modele.chargerProjet(selectedFile.getPath());
+                    primaryStage.setTitle(selectedFile.getName());
+                }
                 modele.notifierObservateur();
             } catch (IOException | ProjectNotFoundException | ClassNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
         });
 
-        MenuItem saveMenuItem = new MenuItem("Save");
+        MenuItem saveMenuItem = new MenuItem("Enregistrer Projet (Ctrl + S)");
         ImageView saveImage = new ImageView("file:icons/save.png");
         saveImage.setFitHeight(16);
         saveImage.setFitWidth(16);
@@ -94,7 +99,10 @@ public class Trebbo extends Application {
                     else fileChooser.setInitialFileName("untitled.trebo");
                     fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Trebo Files", "*.trebo"));
                     File selectedFile = fileChooser.showSaveDialog(primaryStage);
-                    if(selectedFile != null) modele.sauvegarderProjet(selectedFile.getPath());
+                    if(selectedFile != null) {
+                        modele.sauvegarderProjet(selectedFile.getPath());
+                        primaryStage.setTitle(selectedFile.getName());
+                    }
                 }
                 modele.notifierObservateur();
             } catch (IOException ex) {
@@ -102,7 +110,7 @@ public class Trebbo extends Application {
             }
         });
 
-        MenuItem exitMenuItem = new MenuItem("Exit");
+        MenuItem exitMenuItem = new MenuItem("Fermer l'application (Alt+F4)");
         ImageView exitImage = new ImageView("file:icons/exit.png");
         exitImage.setFitHeight(16);
         exitImage.setFitWidth(16);
@@ -113,7 +121,7 @@ public class Trebbo extends Application {
         fileMenu.getItems().addAll(newMenuItem, openMenuItem, saveMenuItem, new SeparatorMenuItem(), exitMenuItem);
         menuBar.getMenus().add(fileMenu);
 
-        Menu displayMenu = new Menu("Display");
+        Menu displayMenu = new Menu("Affichage");
         ImageView displayImage = new ImageView("file:icons/display.png");
         displayImage.setFitHeight(16);
         displayImage.setFitWidth(16);
@@ -208,16 +216,15 @@ public class Trebbo extends Application {
 
 
         // Raccourcis Clavier
-            // Mode Plein Ecran (F5)
             layout.setOnKeyPressed(e -> {
+
+                // Mode Plein Ecran (F5)
                 if(e.getCode().toString().equals("F5")) {
                     fullScreen.setSelected(!fullScreen.isSelected());
                     primaryStage.setFullScreen(!primaryStage.isFullScreen());
                 }
-            });
 
-            // Changer de fond d'écran (Ctrl + B)
-            layout.setOnKeyPressed(e -> {
+                // Changer de fond d'écran (Ctrl + B)
                 if(e.getCode().toString().equals("B") && e.isControlDown()) {
                     FileChooser fileChooser = new FileChooser();
                     fileChooser.setTitle("Open Image File");
@@ -229,6 +236,62 @@ public class Trebbo extends Application {
                         layout.setBackground(new Background(new BackgroundImage(image, null, null, null, null)));
                     }
                 }
+
+                // Nouveau Projet (Ctrl + N)
+                if(e.getCode().toString().equals("N") && e.isControlDown()) {
+                    primaryStage.setTitle("Nouveau Projet (Non Sauvegardé)");
+                    System.out.println("Nouveau Projet");
+                    modele.setProjet(new Projet(modele.getProjet().getNomProjet()));
+                    modele.notifierObservateur();
+                }
+
+                // Sauvegarder (Ctrl + S)
+                if(e.getCode().toString().equals("S") && e.isControlDown()) {
+                    System.out.println("Sauvegarder Projet");
+                    try {
+                        if(modele.getProjet().getChemin() != null) modele.sauvegarderProjet(modele.getProjet().getChemin());
+                        else{
+                            if(!Files.exists(Paths.get("./projects/"))) Files.createDirectories(Paths.get("./projects"));
+                            FileChooser fileChooser = new FileChooser();
+                            fileChooser.setTitle("Save As");
+                            fileChooser.setInitialDirectory(new File("./projects/"));
+                            if(modele.getProjet().getNomProjet() != null){
+                                fileChooser.setInitialFileName(modele.getProjet().getNomProjet() + ".trebo");
+                            }
+                            else fileChooser.setInitialFileName("untitled.trebo");
+                            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Trebo Files", "*.trebo"));
+                            File selectedFile = fileChooser.showSaveDialog(primaryStage);
+                            if(selectedFile != null){
+                                modele.sauvegarderProjet(selectedFile.getPath());
+                                primaryStage.setTitle(selectedFile.getName());
+                            }
+                        }
+                        modele.notifierObservateur();
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+
+                // Ouvrir (Ctrl + O)
+                if(e.getCode().toString().equals("O") && e.isControlDown()) {
+                    System.out.println("Ouvrir Projet");
+                    try {
+                        if(!Files.exists(Paths.get("./projects/"))) Files.createDirectories(Paths.get("./projects"));
+                        FileChooser fileChooser = new FileChooser();
+                        fileChooser.setTitle("Open Project File");
+                        fileChooser.setInitialDirectory(new File("./projects"));
+                        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Trebo Files", "*.trebo"));
+                        File selectedFile = fileChooser.showOpenDialog(primaryStage);
+                        if(selectedFile != null){
+                            modele.chargerProjet(selectedFile.getPath());
+                            primaryStage.setTitle(selectedFile.getName());
+                        }
+                        modele.notifierObservateur();
+                    } catch (IOException | ProjectNotFoundException | ClassNotFoundException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+
             });
 
         layout.setTop(menuBar);
@@ -242,8 +305,8 @@ public class Trebbo extends Application {
         primaryStage.setMaximized(true);
 
         modele.getStackPane().getChildren().add(layout);
-
         Scene scene = new Scene(modele.getStackPane(), 720, 576);
+        primaryStage.getIcons().add(new Image("file:icons/logo.png"));
         scene.getStylesheets().add(getClass().getResource("css/style.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.setTitle("Trebbo");
