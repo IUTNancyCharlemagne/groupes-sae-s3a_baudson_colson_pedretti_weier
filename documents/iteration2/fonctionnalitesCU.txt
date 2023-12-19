@@ -1,0 +1,9 @@
+Dans cette itération, nous avons ajouté comme fonctionnalité :
+    - Sauvegarde du projet (Zack)
+    - Ouvrir un projet à partir d'un fichier .trebbo (Zack)
+    - Ajouter sous-tâche (Dylan)
+    - Supprimer une tâche (Dylan)
+    - Supprimer une Liste (Dylan)
+    - Ajouter nom Tâche à la création (Dylan)
+    - Ajouter nom Liste à la création (Dylan)
+    - Drag and Drop des Tâches (Loris)

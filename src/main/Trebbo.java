@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class TestJavaFX extends Application {
+public class Trebbo extends Application {
 
     public static void main(String[] args) {
         launch(args);
@@ -246,7 +246,7 @@ public class TestJavaFX extends Application {
         Scene scene = new Scene(modele.getStackPane(), 720, 576);
         scene.getStylesheets().add(getClass().getResource("css/style.css").toExternalForm());
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Test JavaFX");
+        primaryStage.setTitle("Trebbo");
         primaryStage.show();
     }
 }

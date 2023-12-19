@@ -1,0 +1,13 @@
+Pour notre version 2.0, nous avons les fonctionnalités suivantes :
+
+    - Sauvegarde du projet
+    - Ouvrir un projet à partir d'un fichier .trebbo
+    - Ajouter sous-tâche
+    - Supprimer une tâche
+    - Supprimer une Liste
+    - Ajouter nom Tâche à la création
+    - Ajouter nom Liste à la création
+    - Drag and Drop des Tâches
+
+Pour l'instant, il n'y a toujours pas de bugs connus.
+L'affichage n'est pas encore dans sa version définitive, mais il est fonctionnel.
