@@ -32,7 +32,6 @@ public class ControlAjouterSousTache implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent actionEvent) {
         Button btn = (Button) actionEvent.getSource();
-        String nomListe = btn.getId();
 
         VBox overlay = new VBox();
         overlay.getStyleClass().add("overlay");
@@ -71,23 +70,33 @@ public class ControlAjouterSousTache implements EventHandler<ActionEvent> {
                 if (nom.getText().isEmpty()) {
                     System.out.println("Le nom de la tâche ne peut pas être vide.");
                 } else {
-                    for (Composant tache : ((Tache) composant).getSousTaches()) {
-                        if (tache.getNom().equals(nom.getText())) {
-                            trouve = true;
+                    for (Liste liste : modele.getProjet().getListeTaches()) {
+                        for (Composant composant : liste.getComposants()) {
+                            if (composant.getNom().equals(nom.getText())) {
+                                trouve = true;
+                            } else {
+                                if (composant instanceof Tache) {
+                                    for (Composant sousTache : ((Tache) composant).getSousTaches()) {
+                                        if (sousTache.getNom().equals(nom.getText())) {
+                                            trouve = true;
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
                 if (trouve) {
                     System.out.println("La tâche existe déjà.");
                 } else {
-                    if (tacheImage.getImage() == null){
+                    if (tacheImage.getImage() == null) {
                         ((Tache) composant).ajouter(new Tache(nom.getText(), null));
-                    } else{
+                        modele.getStackPane().getChildren().remove(overlay);
+                    } else {
                         ((Tache) composant).ajouter(new Tache(nom.getText(), tacheImage.getImage().getUrl()));
+                        modele.getStackPane().getChildren().remove(overlay);
                     }
-
                 }
-                modele.getStackPane().getChildren().remove(overlay);
             }
         });
 
@@ -95,13 +104,28 @@ public class ControlAjouterSousTache implements EventHandler<ActionEvent> {
         imageSelection.setSpacing(10);
 
         nom.setWrapText(true);
-        nom.getStyleClass().add("description");
-        overlay.getChildren().add(nom);
-        overlay.getChildren().add(imageSelection);
-        overlay.getChildren().add(btnValider);
+        nom.getStyleClass().
+
+                add("description");
+        overlay.getChildren().
+
+                add(nom);
+        overlay.getChildren().
+
+                add(imageSelection);
+        overlay.getChildren().
+
+                add(btnValider);
         overlay.setAlignment(Pos.CENTER);
 
-        modele.getStackPane().getChildren().add(overlay);
-        BorderPane.setMargin(overlay, new Insets(50, 50, 50, 50));
+        modele.getStackPane().
+
+                getChildren().
+
+                add(overlay);
+
+        BorderPane.setMargin(overlay, new
+
+                Insets(50, 50, 50, 50));
     }
 }

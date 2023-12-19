@@ -30,9 +30,7 @@ public class VueBureau implements Observateur {
             Button btnAddTache = new Button("Ajouter tâche");
             btnAddTache.setOnAction(new ControlAjouterTache(modele));
             btnAddTache.setId(liste.getNom());
-
             pane.getChildren().add(btnAddTache);
-
             modele.getPaneBureau().getChildren().add(pane);
         }
 

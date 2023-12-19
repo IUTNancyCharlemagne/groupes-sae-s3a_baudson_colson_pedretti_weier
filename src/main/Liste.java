@@ -94,7 +94,7 @@ public class Liste implements Serializable {
         paneListe.getChildren().add(hbox);
 
         for (Composant c : composants) {
-            paneListe.getChildren().add(c.afficher(modele));
+            if(!c.getEstArchive()) paneListe.getChildren().add(c.afficher(modele));
         }
 
         paneListe.setOnDragDropped(new ControlOnDragDropped(modele));

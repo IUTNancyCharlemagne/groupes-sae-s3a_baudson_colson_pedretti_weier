@@ -77,7 +77,7 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
             }
         }
 
-        if (trouve){
+        if (trouve) {
             BorderPane overlayBackground = new BorderPane();
             overlayBackground.getStyleClass().add("overlayBackground");
             overlayBackground.setMinSize(modele.getStackPane().getWidth(), modele.getStackPane().getHeight());
@@ -101,11 +101,10 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
             HBox detailsBox = new HBox();
 
 
-
             // Description
 
             TextArea description = new TextArea();
-            if(composantAfficher.getDescription() == null){
+            if (composantAfficher.getDescription() == null) {
                 description.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet nisi at mi imperdiet elementum. Maecenas et tellus vitae enim dapibus sagittis. Nulla interdum enim vitae eros hendrerit pellentesque. Sed pretium tortor sit amet vestibulum finibus. Donec tempus nisl gravida arcu porttitor, ut laoreet lacus fringilla. Curabitur dui est, varius ut consectetur id, accumsan vel tortor. Praesent laoreet accumsan magna eget tristique.");
             } else {
                 description.setText(composantAfficher.getDescription());
@@ -117,8 +116,8 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
 
             // Vbox de bouttons supprimer et archiver
             HBox buttons = new HBox();
-            Button btnArchiver = new Button("Archiver");
-            btnArchiver.getStyleClass().add("quitter");
+            String archiverText;
+
 
             // Image
             VBox imageBox = new VBox();
@@ -128,18 +127,18 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
             imageBox.getChildren().add(btnImage);
             detailsBox.getChildren().add(imageBox);
             ImageView image = new ImageView();
-            if(composantAfficher.getImage() != null){
+            if (composantAfficher.getImage() != null) {
                 image.setImage(new Image(composantAfficher.getImage()));
                 image.setFitHeight(200);
                 image.setFitWidth(200);
                 image.setPreserveRatio(true);
                 btnImage.setText("Changer l'image");
-                imageBox.getChildren().add(0,image);
+                imageBox.getChildren().add(0, image);
             } else {
                 btnImage.setText("Ajouter une image");
             }
 
-            btnImage.setOnAction(e->{
+            btnImage.setOnAction(e -> {
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.setTitle("Choisir une image");
                 fileChooser.getExtensionFilters().addAll(
@@ -151,8 +150,7 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
                 image.setFitWidth(200);
                 image.setPreserveRatio(true);
                 imageBox.getChildren().clear();
-                imageBox.getChildren().addAll(image,btnImage);
-
+                imageBox.getChildren().addAll(image, btnImage);
             });
 
             detailsBox.setAlignment(Pos.CENTER);
@@ -171,16 +169,25 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
             btnSupprimer.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-                    finalListeAfficher.retirerComposant(finalComposantAfficher);
+                    modele.getProjet().supprimerTache(finalComposantAfficher.getNom());
                     modele.notifierObservateur();
                     modele.getStackPane().getChildren().remove(overlayBackground);
                 }
             });
 
+            if (finalComposantAfficher.getEstArchive()) archiverText = "Désarchiver";
+            else archiverText = "Archiver";
+            Button btnArchiver = new Button(archiverText);
+            btnArchiver.getStyleClass().add("quitter");
+
             btnArchiver.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-                    modele.getProjet().archiverTache(finalComposantAfficher.getNom());
+                    if (!finalComposantAfficher.getEstArchive()) {
+                        modele.getProjet().archiverTache(finalComposantAfficher.getNom());
+                    } else {
+                        modele.getProjet().desarchiverTache(finalComposantAfficher.getNom());
+                    }
                     modele.notifierObservateur();
                     modele.getStackPane().getChildren().remove(overlayBackground);
                 }
@@ -216,7 +223,7 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
                 @Override
                 public void handle(ActionEvent actionEvent) {
                     finalComposantAfficher1.setDescription(description.getText());
-                    if(image.getImage() != null){
+                    if (image.getImage() != null) {
                         finalComposantAfficher1.setImage(image.getImage().getUrl());
                     }
                     modele.getStackPane().getChildren().remove(overlayBackground);
