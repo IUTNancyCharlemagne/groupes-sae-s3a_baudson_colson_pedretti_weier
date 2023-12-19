@@ -107,6 +107,11 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
             overlay.getChildren().add(description);
 //                    overlay.getChildren().add(new Text(composant.getDescription()));
 
+            // Vbox de bouttons supprimer et archiver
+            VBox buttons = new VBox();
+            Button btnArchiver = new Button("Archiver");
+            btnArchiver.getStyleClass().add("quitter");
+
             Button btnSupprimer = new Button("Supprimer");
             btnSupprimer.getStyleClass().add("quitter");
             Liste finalListeAfficher = listeAfficher;
@@ -120,8 +125,18 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
                 }
             });
 
-            btnSupprimer.setAlignment(Pos.TOP_RIGHT);
-            overlay.getChildren().add(btnSupprimer);
+            btnArchiver.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    modele.getProjet().archiverTache(finalComposantAfficher.getNom());
+                    modele.notifierObservateur();
+                    modele.getStackPane().getChildren().remove(overlayBackground);
+                }
+            });
+
+            buttons.getChildren().addAll(btnSupprimer, btnArchiver);
+            buttons.setAlignment(Pos.TOP_RIGHT);
+            overlay.getChildren().add(buttons);
 
             Text sousTache = new Text("Sous-tâches");
             sousTache.getStyleClass().add("titre");

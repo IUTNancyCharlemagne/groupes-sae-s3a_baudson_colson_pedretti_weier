@@ -5,6 +5,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import main.composite.Composant;
+import main.composite.Tache;
 import main.controleurs.ControlOnDragDropped;
 import main.controleurs.ControlOnDragOver;
 
@@ -91,6 +92,8 @@ public class Liste implements Serializable {
         paneListe.setOnDragOver(new ControlOnDragOver(modele));
         return paneListe;
     }
+
+    public boolean contient(Tache t){return this.getComposants().contains(t);}
 
     @Override
     public String toString() {

@@ -159,6 +159,17 @@ public class Projet {
         }
     }
 
+    public void archiverTache(String nomTache){
+        this.getTache(nomTache).setEstArchive(true);
+        for (Liste liste : this.listeTaches) {
+            for (Composant composant : liste.getComposants()) {
+                if (composant.getNom().equals(nomTache)) {
+                    liste.retirerComposant(composant);
+                }
+            }
+        }
+    }
+
     @Override
     public String toString() {
         return "Projet{" +
@@ -189,5 +200,13 @@ public class Projet {
 
     public void setChemin(String chemin) {
         this.chemin = chemin;
+    }
+
+    public ArrayList<Composant> getArchives() {
+        ArrayList<Composant> archives = new ArrayList<Composant>();
+        for(Liste l : this.getListeTaches()){
+            for(Composant composant : l.getComposants()) if(composant.getEstArchive()) archives.add(composant);
+        }
+        return archives;
     }
 }

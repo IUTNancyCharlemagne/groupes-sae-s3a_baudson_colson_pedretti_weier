@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import main.controleurs.ControlAjouterListe;
 import main.controleurs.ControlChangerVue;
 import main.exceptions.ProjectNotFoundException;
+import main.observateur.VueArchives;
 import main.observateur.VueBureau;
 
 import java.io.File;
@@ -295,9 +296,11 @@ public class Trebbo extends Application {
             });
 
         layout.setTop(menuBar);
-
         VueBureau vueBureau = new VueBureau();
         modele.enregistrerObservateur(vueBureau);
+
+        VueArchives vueArchives = new VueArchives();
+        modele.enregistrerObservateur(vueArchives);
 
         modele.notifierObservateur();
         layout.setCenter(modele.getPaneBureau());

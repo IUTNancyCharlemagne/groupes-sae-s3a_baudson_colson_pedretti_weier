@@ -48,6 +48,7 @@ public class ControlChangerVue implements EventHandler<ActionEvent> {
         }
 
         System.out.println(modele.getVueCourante());
+        modele.notifierObservateur();
 
     }
 

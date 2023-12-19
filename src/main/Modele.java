@@ -4,6 +4,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import main.exceptions.ProjectNotFoundException;
 import main.observateur.Observateur;
+import main.observateur.VueArchives;
 import main.observateur.VueBureau;
 
 import java.io.*;
