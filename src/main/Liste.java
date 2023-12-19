@@ -70,11 +70,9 @@ public class Liste implements Serializable {
     public VBox afficher(Modele modele) {
 
         VBox paneListe = new VBox();
-<<<<<<< HEAD
         HBox hbox = new HBox();
-=======
+
         paneListe.setId(this.nom);
->>>>>>> 6aebb4c5b856b53ac1e408394b5c79342dd214f3
         Text textNom = new Text(this.nom);
         Button suppListe = new Button("Supprimer");
         suppListe.getStyleClass().add("quitter");
