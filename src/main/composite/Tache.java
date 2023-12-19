@@ -1,5 +1,7 @@
 package main.composite;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import main.Liste;
@@ -45,8 +47,9 @@ public class Tache extends Composant {
      */
     protected String dateFin;
 
-    public Tache(String nom) {
+    public Tache(String nom, String image) {
         this.nom = nom;
+        this.image = image;
         this.description = "";
         this.estArchive = false;
         this.tags = new ArrayList<Tag>();

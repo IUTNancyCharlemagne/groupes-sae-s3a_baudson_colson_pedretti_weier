@@ -22,13 +22,13 @@ public class TestSauvegarde {
         Liste liste1 = new Liste("Liste1");
         m.getProjet().ajouterListeTaches(liste1);
 
-        liste1.ajouterComposant(new Tache("Tache1"));
-        liste1.ajouterComposant(new Tache("Tache2"));
+        liste1.ajouterComposant(new Tache("Tache1",null));
+        liste1.ajouterComposant(new Tache("Tache2",null));
 
         Liste liste2 = new Liste("Liste2");
         m.getProjet().ajouterListeTaches(liste2);
 
-        liste2.ajouterComposant(new Tache("Tache3"));
+        liste2.ajouterComposant(new Tache("Tache3",null));
 
         try {
             m.getProjet().sauvegarderProjet("./projects/ProjectTest.trebo");
