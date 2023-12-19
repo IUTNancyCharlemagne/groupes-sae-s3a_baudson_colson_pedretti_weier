@@ -4,9 +4,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import main.exceptions.ProjectNotFoundException;
 import main.observateur.Observateur;
+import main.observateur.VueBureau;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Classe Modele qui contient les données du projet <br>
@@ -79,7 +82,19 @@ public class Modele implements Sujet, Serializable {
     @Override
     public void notifierObservateur() {
         for (Observateur o : this.observateurs) {
-            o.actualiser(this);
+            if (Objects.equals(vueCourante, Modele.COLONNE)){
+                if (o instanceof VueBureau){
+                    o.actualiser(this);
+                }
+            } else if (Objects.equals(vueCourante, Modele.LIGNE)){
+                if (o instanceof VueBureau){
+                    o.actualiser(this);
+                }
+            } else if (Objects.equals(vueCourante, Modele.ARCHIVES)){
+                if (o instanceof VueArchives){
+                    o.actualiser(this);
+                }
+            }
         }
     }
 
