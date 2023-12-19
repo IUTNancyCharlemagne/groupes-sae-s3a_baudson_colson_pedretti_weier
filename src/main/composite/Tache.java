@@ -2,9 +2,12 @@ package main.composite;
 
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import main.Liste;
 import main.Modele;
 import main.Tag;
 import main.controleurs.ControlAfficherTache;
+import main.controleurs.ControlOnDragDetected;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -111,6 +114,7 @@ public class Tache extends Composant {
 
         // Création du Pane de la tâche
         VBox paneTache = new VBox();
+        paneTache.setId(this.nom);
         paneTache.getStyleClass().add("paneTache");
 
         // Création du texte du nom de la tâche
@@ -118,7 +122,27 @@ public class Tache extends Composant {
         paneTache.getChildren().add(textNom);
 
         paneTache.setOnMouseClicked(new ControlAfficherTache(modele));
+        paneTache.setOnDragDetected(new ControlOnDragDetected(modele));
         return paneTache;
+    }
+
+    /**
+     * Méthode qui permet de récupérer la liste dans laquelle se trouve la tâche
+     *
+     * @param modele Le modele
+     * @return La liste dans laquelle se trouve la tâche
+     */
+    public Liste getCurentListe(Modele modele) {
+        Liste liste = null;
+        for (Liste l : modele.getProjet().getListeTaches()) {
+            for (Composant c : l.getComposants()) {
+                if (c.getNom().equals(this.nom)) {
+                    liste = l;
+                    break;
+                }
+            }
+        }
+        return liste;
     }
 
     /**

@@ -3,6 +3,9 @@ package main;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import main.composite.Composant;
+import main.controleurs.ControlOnDragDropped;
+import main.controleurs.ControlOnDragOver;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +68,7 @@ public class Liste implements Serializable {
     public VBox afficher(Modele modele) {
 
         VBox paneListe = new VBox();
+        paneListe.setId(this.nom);
         Text textNom = new Text(this.nom);
         paneListe.getChildren().add(textNom);
 
@@ -72,6 +76,8 @@ public class Liste implements Serializable {
             paneListe.getChildren().add(c.afficher(modele));
         }
 
+        paneListe.setOnDragDropped(new ControlOnDragDropped(modele));
+        paneListe.setOnDragOver(new ControlOnDragOver(modele));
         return paneListe;
     }
 
