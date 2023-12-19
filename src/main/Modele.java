@@ -2,11 +2,11 @@ package main;
 
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import main.exceptions.ProjectNotFoundException;
 import main.observateur.Observateur;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import main.exceptions.ProjectNotFoundException;
 
 /**
  * Classe Modele qui contient les données du projet <br>

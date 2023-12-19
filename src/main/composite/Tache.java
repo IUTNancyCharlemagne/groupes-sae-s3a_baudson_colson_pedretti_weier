@@ -5,7 +5,6 @@ import javafx.scene.text.Text;
 import main.Modele;
 import main.Tag;
 import main.controleurs.ControlAfficherTache;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
