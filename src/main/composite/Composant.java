@@ -1,5 +1,7 @@
 package main.composite;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import main.Modele;
 import main.Tag;
@@ -34,6 +36,11 @@ public abstract class Composant implements Serializable {
      * @see Tag
      */
     protected List<Tag> tags;
+
+    /**
+     * Image de description de la tâche
+     */
+    protected String image;
 
     /**
      * Nombre de tags de la tâche
@@ -102,4 +109,7 @@ public abstract class Composant implements Serializable {
     public void setEstTerminee(boolean b){
         this.estTerminee = b;
     }
+
+    public String getImage() {return image;}
+    public void setImage(String image) {this.image = image;}
 }

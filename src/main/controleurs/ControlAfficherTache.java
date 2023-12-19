@@ -5,7 +5,10 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
@@ -98,14 +101,40 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
             titre.getStyleClass().add("titre");
             overlay.getChildren().add(titre);
 
+            HBox detailsBox = new HBox();
+
             // Description
             TextArea description = new TextArea(
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet nisi at mi imperdiet elementum. Maecenas et tellus vitae enim dapibus sagittis. Nulla interdum enim vitae eros hendrerit pellentesque. Sed pretium tortor sit amet vestibulum finibus. Donec tempus nisl gravida arcu porttitor, ut laoreet lacus fringilla. Curabitur dui est, varius ut consectetur id, accumsan vel tortor. Praesent laoreet accumsan magna eget tristique."
             );
             description.setWrapText(true);
             description.getStyleClass().add("description");
-            overlay.getChildren().add(description);
+            detailsBox.getChildren().add(description);
 //                    overlay.getChildren().add(new Text(composant.getDescription()));
+
+            // Image
+            VBox imageBox = new VBox();
+            imageBox.setAlignment(Pos.CENTER);
+            imageBox.setSpacing(10);
+            Button btnImage = new Button();
+            imageBox.getChildren().add(btnImage);
+            detailsBox.getChildren().add(imageBox);
+            if(composantAfficher.getImage() != null){
+                ImageView image = new ImageView();
+                image.setImage(new Image(composantAfficher.getImage()));
+                image.setFitHeight(200);
+                image.setFitWidth(200);
+                image.setPreserveRatio(true);
+                btnImage.setText("Changer l'image");
+                imageBox.getChildren().add(0,image);
+            } else {
+                btnImage.setText("Ajouter une image");
+            }
+
+            detailsBox.setAlignment(Pos.CENTER);
+            detailsBox.setSpacing(50);
+            overlay.getChildren().add(detailsBox);
+
 
             Button btnSupprimer = new Button("Supprimer");
             btnSupprimer.getStyleClass().add("quitter");
@@ -144,6 +173,7 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
             overlay.getChildren().add(btnAjouterSousTache);
 
             modele.getStackPane().getChildren().add(overlayBackground);
+            overlay.setAlignment(Pos.CENTER);
             overlayBackground.setCenter(overlay);
             BorderPane.setMargin(overlay, new Insets(50, 50, 50, 50));
         }
