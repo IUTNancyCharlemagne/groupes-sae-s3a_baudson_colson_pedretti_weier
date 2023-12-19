@@ -117,11 +117,6 @@ public class Tache extends Composant {
         Text textNom = new Text(this.nom);
         paneTache.getChildren().add(textNom);
 
-        // Ajout des sous-tâches
-        for (Composant c : sousTaches) {
-            paneTache.getChildren().add(c.afficher(modele));
-        }
-
         paneTache.setOnMouseClicked(new ControlAfficherTache(modele));
         return paneTache;
     }

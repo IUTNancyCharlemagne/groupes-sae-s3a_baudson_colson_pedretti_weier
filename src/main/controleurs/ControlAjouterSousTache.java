@@ -54,7 +54,6 @@ public class ControlAjouterSousTache implements EventHandler<ActionEvent> {
                     System.out.println("La tâche existe déjà.");
                 } else {
                     ((Tache) composant).ajouter(new Tache(nom.getText()));
-                    modele.notifierObservateur();
                 }
                 modele.getStackPane().getChildren().remove(overlay);
             }
