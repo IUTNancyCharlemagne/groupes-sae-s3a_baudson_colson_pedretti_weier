@@ -4,17 +4,17 @@ Button {
     -fx-background-color: transparent;
     -fx-background-radius: 10;
     -fx-padding: 5;
-    -fx-text-fill: deepskyblue;
+    -fx-text-fill: #c379ef;
     -fx-font-size: 15;
     -fx-font-family: "Segoe UI";
     -fx-font-weight: bold;
     -fx-border-radius: 10;
-    -fx-border-color: deepskyblue;
+    -fx-border-color: #c379ef;
 
 }
 
 Button:hover {
-    -fx-background-color: deepskyblue;
+    -fx-background-color: #c379ef;
     -fx-text-fill: #232626;
     -fx-cursor: hand;
 }
