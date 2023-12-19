@@ -20,12 +20,11 @@ public class VueArchives implements Observateur {
         modele.getPaneBureau().getStyleClass().clear();
         modele.getPaneBureau().getStyleClass().add("paneArchives");
 
-        GridPane pane = new GridPane();
-        for(Composant c : modele.getProjet().getArchives()){
-            modele.getPaneBureau().getChildren().add(c.afficher(modele));
+        VBox pane = new VBox();
+        for (Composant c : modele.getProjet().getArchives()) {
+            pane.getChildren().add(c.afficher(modele));
+            System.out.println(c);
         }
-        pane.getStyleClass().add("paneListe");
+        modele.getPaneBureau().getChildren().add(pane);
     }
-
-
 }

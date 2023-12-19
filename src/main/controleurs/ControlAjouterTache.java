@@ -71,7 +71,7 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
             tacheImage.setFitHeight(200);
             tacheImage.setFitWidth(200);
             tacheImage.setPreserveRatio(true);
-            tacheImage.setImage(new Image(selectedFile.toURI().toString()));
+            if (selectedFile != null) tacheImage.setImage(new Image(selectedFile.toURI().toString()));
             imageSelection.getChildren().add(tacheImage);
 
         });
