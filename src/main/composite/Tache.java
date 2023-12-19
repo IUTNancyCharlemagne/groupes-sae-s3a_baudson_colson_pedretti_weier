@@ -47,7 +47,17 @@ public class Tache extends Composant {
      */
     protected String dateFin;
 
-    public Tache(String nom, String image) {
+    /**
+     * Durée de la tâche
+     */
+    protected int duree;
+
+    /**
+     * Constructeur de la classe Tache
+     * @param nom nom de la tâche
+     * @param image url de l'image de la tâche
+     */
+    public Tache(String nom, String image, int duree) {
         this.nom = nom;
         this.image = image;
         this.description = "";

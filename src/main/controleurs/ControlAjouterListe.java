@@ -5,9 +5,11 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import main.Liste;
 import main.Modele;
 import main.composite.Composant;
@@ -44,6 +46,8 @@ public class ControlAjouterListe implements EventHandler<ActionEvent> {
         overlay.getStyleClass().add("overlay");
         overlay.setAlignment(Pos.TOP_LEFT);
 
+        Text title = new Text("Nom de la liste :");
+
         TextArea nom = new TextArea(
                 ""
         );
@@ -72,6 +76,7 @@ public class ControlAjouterListe implements EventHandler<ActionEvent> {
 
         nom.setWrapText(true);
         nom.getStyleClass().add("description");
+        overlay.getChildren().add(title);
         overlay.getChildren().add(nom);
         overlay.getChildren().add(btnValider);
 

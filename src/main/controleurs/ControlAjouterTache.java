@@ -6,11 +6,13 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import main.Liste;
 import main.Modele;
@@ -31,6 +33,7 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
 
     /**
      * Constructeur de ControlAjouterTache
+     *
      * @param modele le modele
      */
     public ControlAjouterTache(Modele modele) {
@@ -39,6 +42,7 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
 
     /**
      * Méthode qui ajoute une tâche à une liste.
+     *
      * @param actionEvent l'action
      */
     @Override
@@ -51,9 +55,18 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
         overlay.getStyleClass().add("overlay");
         overlay.setAlignment(Pos.TOP_LEFT);
 
+        Text title = new Text("Nom de la tâche :");
+
         TextArea nom = new TextArea(
                 ""
         );
+
+        Text dureeText = new Text("Durée de la tâche :");
+
+        TextArea duree = new TextArea(
+                ""
+        );
+
 
         ImageView tacheImage = new ImageView();
 
@@ -83,21 +96,30 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
                 System.out.println("Le nom de la tâche ne peut pas être vide.");
             } else {
                 boolean trouve = false;
-                for (Liste liste : modele.getProjet().getListeTaches()){
-                    for (Composant tache : liste.getComposants()){
-                        if (tache.getNom().equals(nom.getText())){
+                for (Liste liste : modele.getProjet().getListeTaches()) {
+                    for (Composant tache : liste.getComposants()) {
+                        if (tache.getNom().equals(nom.getText())) {
                             trouve = true;
                         }
                     }
                 }
-                if (trouve){
+                if (trouve) {
                     System.out.println("La tâche existe déjà.");
                 } else {
-                    if (tacheImage.getImage() == null){
-                        modele.getProjet().getListeTaches(nomListe).ajouterComposant(new Tache(nom.getText(), null));
-                    } else{
-                        modele.getProjet().getListeTaches(nomListe).ajouterComposant(new Tache(nom.getText(), tacheImage.getImage().getUrl()));
+                    String imgUrl = null;
+                    int dureeInt = 5;
+                    if (tacheImage.getImage() != null) {
+                        imgUrl = tacheImage.getImage().getUrl();
                     }
+                    if (!duree.getText().isEmpty()) {
+                        try {
+                            dureeInt = Integer.parseInt(duree.getText());
+                        } catch (NumberFormatException ex) {
+                            System.out.println("La durée doit être un nombre.");
+                        }
+                    }
+
+                    modele.getProjet().getListeTaches(nomListe).ajouterComposant(new Tache(nom.getText(), imgUrl, dureeInt));
 
                     modele.notifierObservateur();
                 }
@@ -110,7 +132,10 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
 
         nom.setWrapText(true);
         nom.getStyleClass().add("description");
+        overlay.getChildren().add(title);
         overlay.getChildren().add(nom);
+        overlay.getChildren().add(dureeText);
+        overlay.getChildren().add(duree);
         overlay.getChildren().add(imageSelection);
         overlay.getChildren().add(btnValider);
         overlay.setAlignment(Pos.CENTER);

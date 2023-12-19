@@ -90,10 +90,10 @@ public class ControlAjouterSousTache implements EventHandler<ActionEvent> {
                     System.out.println("La tâche existe déjà.");
                 } else {
                     if (tacheImage.getImage() == null) {
-                        ((Tache) composant).ajouter(new Tache(nom.getText(), null));
+                        ((Tache) composant).ajouter(new Tache(nom.getText(), null, null));
                         modele.getStackPane().getChildren().remove(overlay);
                     } else {
-                        ((Tache) composant).ajouter(new Tache(nom.getText(), tacheImage.getImage().getUrl()));
+                        ((Tache) composant).ajouter(new Tache(nom.getText(), tacheImage.getImage().getUrl(), null));
                         modele.getStackPane().getChildren().remove(overlay);
                     }
                 }
