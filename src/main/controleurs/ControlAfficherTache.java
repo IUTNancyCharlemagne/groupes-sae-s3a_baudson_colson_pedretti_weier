@@ -116,7 +116,7 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
 //                    overlay.getChildren().add(new Text(composant.getDescription()));
 
             // Vbox de bouttons supprimer et archiver
-            VBox buttons = new VBox();
+            HBox buttons = new HBox();
             Button btnArchiver = new Button("Archiver");
             btnArchiver.getStyleClass().add("quitter");
 
@@ -160,7 +160,11 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
             overlay.getChildren().add(detailsBox);
 
 
-            Button btnSupprimer = new Button("Supprimer");
+            Button btnSupprimer = new Button();
+            ImageView imgSupp = new ImageView(new Image("file:icons/trash.png"));
+            imgSupp.setFitHeight(50);
+            imgSupp.setFitWidth(50);
+            btnSupprimer.setGraphic(imgSupp);
             btnSupprimer.getStyleClass().add("quitter");
             Liste finalListeAfficher = listeAfficher;
             Composant finalComposantAfficher = composantAfficher;
@@ -182,8 +186,9 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
                 }
             });
 
+            buttons.setAlignment(Pos.CENTER);
+            buttons.setSpacing(10);
             buttons.getChildren().addAll(btnSupprimer, btnArchiver);
-            buttons.setAlignment(Pos.TOP_RIGHT);
             overlay.getChildren().add(buttons);
 
             Text sousTache = new Text("Sous-tâches");

@@ -1,6 +1,9 @@
 package main;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -72,10 +75,16 @@ public class Liste implements Serializable {
 
         VBox paneListe = new VBox();
         HBox hbox = new HBox();
+        hbox.setAlignment(Pos.CENTER);
+        hbox.setSpacing(10);
 
         paneListe.setId(this.nom);
         Text textNom = new Text(this.nom);
-        Button suppListe = new Button("Supprimer");
+        Button suppListe = new Button();
+        ImageView imgSupp = new ImageView(new Image("file:icons/trash.png"));
+        imgSupp.setFitHeight(20);
+        imgSupp.setFitWidth(20);
+        suppListe.setGraphic(imgSupp);
         suppListe.getStyleClass().add("quitter");
         suppListe.setOnAction(e -> {
             modele.getProjet().supprimerListeTaches(this);
