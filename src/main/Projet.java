@@ -23,6 +23,10 @@ public class Projet {
      * Liste des listes de tâches
      */
     private final List<Liste> listeTaches;
+
+    /**
+     * Chemin du fichier de sauvegarde
+     */
     private String chemin;
 
     /**
@@ -60,6 +64,22 @@ public class Projet {
         for (Liste liste : this.listeTaches) {
             if (liste.getNom().equals(nom)) {
                 return liste;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Récupère une tâche à partir du nom de la tâche
+     * @param nomTache Nom de la tâche
+     * @return Tâche
+     */
+    public Tache getTache(String nomTache) {
+        for (Liste liste : this.listeTaches) {
+            for (Composant composant : liste.getComposants()) {
+                if (composant.getNom().equals(nomTache)) {
+                    return (Tache) composant;
+                }
             }
         }
         return null;

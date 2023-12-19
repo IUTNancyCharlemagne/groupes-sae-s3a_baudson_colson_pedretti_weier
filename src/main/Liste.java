@@ -5,6 +5,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import main.composite.Composant;
+import main.controleurs.ControlOnDragDropped;
+import main.controleurs.ControlOnDragOver;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +70,11 @@ public class Liste implements Serializable {
     public VBox afficher(Modele modele) {
 
         VBox paneListe = new VBox();
+<<<<<<< HEAD
         HBox hbox = new HBox();
+=======
+        paneListe.setId(this.nom);
+>>>>>>> 6aebb4c5b856b53ac1e408394b5c79342dd214f3
         Text textNom = new Text(this.nom);
         Button suppListe = new Button("Supprimer");
         suppListe.getStyleClass().add("quitter");
@@ -82,6 +89,8 @@ public class Liste implements Serializable {
             paneListe.getChildren().add(c.afficher(modele));
         }
 
+        paneListe.setOnDragDropped(new ControlOnDragDropped(modele));
+        paneListe.setOnDragOver(new ControlOnDragOver(modele));
         return paneListe;
     }
 
