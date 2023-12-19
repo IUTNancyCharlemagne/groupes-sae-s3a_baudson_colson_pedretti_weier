@@ -8,6 +8,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -216,5 +217,34 @@ public class Projet {
             }
         }
         return archives;
+    }
+
+    public void supprimerTache(String nomTache) {
+        Iterator<Liste> listeIterator = this.getListeTaches().iterator();
+
+        while (listeIterator.hasNext()) {
+            Liste liste = listeIterator.next();
+            Iterator<Composant> composantIterator = liste.getComposants().iterator();
+
+            while (composantIterator.hasNext()) {
+                Composant composant = composantIterator.next();
+
+                if (composant.getNom().equals(nomTache)) {
+                    composantIterator.remove();
+                } else {
+                    if (composant instanceof Tache) {
+                        Iterator<Composant> sousTacheIterator = ((Tache) composant).getSousTaches().iterator();
+
+                        while (sousTacheIterator.hasNext()) {
+                            Composant sousTache = sousTacheIterator.next();
+
+                            if (sousTache.getNom().equals(nomTache)) {
+                                sousTacheIterator.remove();
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

@@ -169,7 +169,7 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
             btnSupprimer.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-                    finalListeAfficher.retirerComposant(finalComposantAfficher);
+                    modele.getProjet().supprimerTache(finalComposantAfficher.getNom());
                     modele.notifierObservateur();
                     modele.getStackPane().getChildren().remove(overlayBackground);
                 }
