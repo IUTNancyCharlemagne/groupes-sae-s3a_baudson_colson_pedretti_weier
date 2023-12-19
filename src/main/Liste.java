@@ -1,5 +1,7 @@
 package main;
 
+import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import main.composite.Composant;
@@ -65,8 +67,16 @@ public class Liste implements Serializable {
     public VBox afficher(Modele modele) {
 
         VBox paneListe = new VBox();
+        HBox hbox = new HBox();
         Text textNom = new Text(this.nom);
-        paneListe.getChildren().add(textNom);
+        Button suppListe = new Button("Supprimer");
+        suppListe.getStyleClass().add("quitter");
+        suppListe.setOnAction(e -> {
+            modele.getProjet().supprimerListeTaches(this);
+            modele.notifierObservateur();
+        });
+        hbox.getChildren().addAll(textNom, suppListe);
+        paneListe.getChildren().add(hbox);
 
         for (Composant c : composants) {
             paneListe.getChildren().add(c.afficher(modele));
