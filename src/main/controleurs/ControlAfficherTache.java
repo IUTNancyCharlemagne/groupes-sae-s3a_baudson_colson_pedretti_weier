@@ -12,10 +12,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import main.Liste;
 import main.Modele;
 import main.composite.Composant;
 import main.composite.Tache;
+
+import java.io.File;
 
 /**
  * ControlAfficherTache est la classe qui represente le controleur qui affiche une tache en detail
@@ -87,12 +90,6 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
             // Quitter
             Button quitter = new Button("X");
             quitter.getStyleClass().add("quitter");
-            quitter.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    modele.getStackPane().getChildren().remove(overlayBackground);
-                }
-            });
             quitter.setAlignment(Pos.TOP_RIGHT);
             overlay.getChildren().add(quitter);
 
@@ -103,10 +100,16 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
 
             HBox detailsBox = new HBox();
 
+
+
             // Description
-            TextArea description = new TextArea(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet nisi at mi imperdiet elementum. Maecenas et tellus vitae enim dapibus sagittis. Nulla interdum enim vitae eros hendrerit pellentesque. Sed pretium tortor sit amet vestibulum finibus. Donec tempus nisl gravida arcu porttitor, ut laoreet lacus fringilla. Curabitur dui est, varius ut consectetur id, accumsan vel tortor. Praesent laoreet accumsan magna eget tristique."
-            );
+
+            TextArea description = new TextArea();
+            if(composantAfficher.getDescription() == null){
+                description.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet nisi at mi imperdiet elementum. Maecenas et tellus vitae enim dapibus sagittis. Nulla interdum enim vitae eros hendrerit pellentesque. Sed pretium tortor sit amet vestibulum finibus. Donec tempus nisl gravida arcu porttitor, ut laoreet lacus fringilla. Curabitur dui est, varius ut consectetur id, accumsan vel tortor. Praesent laoreet accumsan magna eget tristique.");
+            } else {
+                description.setText(composantAfficher.getDescription());
+            }
             description.setWrapText(true);
             description.getStyleClass().add("description");
             detailsBox.getChildren().add(description);
@@ -124,8 +127,8 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
             Button btnImage = new Button();
             imageBox.getChildren().add(btnImage);
             detailsBox.getChildren().add(imageBox);
+            ImageView image = new ImageView();
             if(composantAfficher.getImage() != null){
-                ImageView image = new ImageView();
                 image.setImage(new Image(composantAfficher.getImage()));
                 image.setFitHeight(200);
                 image.setFitWidth(200);
@@ -135,6 +138,22 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
             } else {
                 btnImage.setText("Ajouter une image");
             }
+
+            btnImage.setOnAction(e->{
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Choisir une image");
+                fileChooser.getExtensionFilters().addAll(
+                        new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
+                );
+                File selectedFile = fileChooser.showOpenDialog(null);
+                image.setImage(new Image(selectedFile.toURI().toString()));
+                image.setFitHeight(200);
+                image.setFitWidth(200);
+                image.setPreserveRatio(true);
+                imageBox.getChildren().clear();
+                imageBox.getChildren().addAll(image,btnImage);
+
+            });
 
             detailsBox.setAlignment(Pos.CENTER);
             detailsBox.setSpacing(50);
@@ -186,6 +205,18 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
             btnAjouterSousTache.setOnAction(new ControlAjouterSousTache(modele, composantAfficher));
             btnAjouterSousTache.setId(composantAfficher.getNom());
             overlay.getChildren().add(btnAjouterSousTache);
+
+            Composant finalComposantAfficher1 = composantAfficher;
+            quitter.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    finalComposantAfficher1.setDescription(description.getText());
+                    if(image.getImage() != null){
+                        finalComposantAfficher1.setImage(image.getImage().getUrl());
+                    }
+                    modele.getStackPane().getChildren().remove(overlayBackground);
+                }
+            });
 
             modele.getStackPane().getChildren().add(overlayBackground);
             overlay.setAlignment(Pos.CENTER);
