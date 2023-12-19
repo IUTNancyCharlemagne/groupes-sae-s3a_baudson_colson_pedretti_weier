@@ -7,3 +7,13 @@ Dans cette itération, nous avons ajouté comme fonctionnalité :
     - Ajouter nom Tâche à la création (Dylan)
     - Ajouter nom Liste à la création (Dylan)
     - Drag and Drop des Tâches (Loris)
+    - Raccourcis Clavier (Lenny)
+    - Classes des Menus (Lenny)
+    - Supprimer une sous-tâche (Dylan)
+    - Archivage d'une tâche (Zack)
+    - Affichage des tâches archivées (Zack)
+    - Ajout d'une image aux tâches (Lenny)
+    - Ajout d'une Icône à l'application (Lenny)
+    - Sauvegarde des détails d'une tâche (Lenny)
+
+Loris travaille sur l'amélioration de l'interface graphique et sur la documentation du code.

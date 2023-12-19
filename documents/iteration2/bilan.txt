@@ -8,6 +8,14 @@ Pour notre version 2.0, nous avons les fonctionnalités suivantes :
     - Ajouter nom Tâche à la création
     - Ajouter nom Liste à la création
     - Drag and Drop des Tâches
+    - Raccourcis Clavier
+    - Classes des Menus
+    - Supprimer une sous-tâche
+    - Archivage d'une tâche
+    - Affichage des tâches archivées
+    - Ajout d'une image aux tâches
+    - Ajout d'une Icône à l'application
+    - Sauvegarde des détails d'une tâche
 
 Pour l'instant, il n'y a toujours pas de bugs connus.
 L'affichage n'est pas encore dans sa version définitive, mais il est fonctionnel.
