@@ -39,7 +39,8 @@ public class MenuContext implements EventHandler<ActionEvent> {
         contextMenuItem.setGraphic(contextImage);
 
         EventHandler<ActionEvent> changeBackgroundEvent = e -> {
-            ControlChangerFond ccf = new ControlChangerFond(modele, primaryStage, layout);
+            ControlChangerFond cf = new ControlChangerFond(modele, primaryStage, layout);
+            cf.handle(new ActionEvent());
         };
 
         MenuItem contextMenuItem2 = new MenuItem("Changer le fond (Ctrl + B)");

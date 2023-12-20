@@ -146,7 +146,8 @@ public class MenuOptions implements EventHandler<ActionEvent> {
         changeBackground.setGraphic(changeBackgroundImage);
 
         EventHandler<ActionEvent> changeBackgroundEvent = e -> {
-            new ControlChangerFond(modele, primaryStage, layout);
+            ControlChangerFond cf = new ControlChangerFond(modele, primaryStage, layout);
+            cf.handle(new ActionEvent());
         };
 
         changeBackground.setOnAction(changeBackgroundEvent);
