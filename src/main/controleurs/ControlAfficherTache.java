@@ -98,10 +98,29 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
             titre.getStyleClass().add("titre");
             overlay.getChildren().add(titre);
 
-            HBox detailsBox = new HBox();
+            // Tags
+            VBox tagsGeneral = new VBox();
+            Button btnAjouterTag = new Button("Ajouter un tag");
+            btnAjouterTag.getStyleClass().add("btn");
+            btnAjouterTag.setOnAction(new ControlAjouterTag(modele, composantAfficher));
+            btnAjouterTag.setId(composantAfficher.getNom());
+            tagsGeneral.getChildren().add(btnAjouterTag);
 
+            HBox tagsBox = new HBox();
+            tagsBox.setAlignment(Pos.CENTER);
+            tagsBox.setSpacing(10);
+            for (main.Tag tag : composantAfficher.getTags()) {
+                Label label = new Label(tag.getNom());
+                label.getStyleClass().add("tag");
+                label.setBackground(new Background(new BackgroundFill(tag.getCouleur(), CornerRadii.EMPTY, Insets.EMPTY)));
+                tagsBox.getChildren().add(label);
+            }
+
+            tagsGeneral.getChildren().add(tagsBox);
+            overlay.getChildren().add(tagsGeneral);
 
             // Description
+            HBox detailsBox = new HBox();
 
             TextArea description = new TextArea();
             if (composantAfficher.getDescription() == null) {

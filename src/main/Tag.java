@@ -21,6 +21,17 @@ public class Tag implements Serializable {
      */
     private Color couleur;
 
+    /**
+     * Constructeur de Tag
+     * @param nom Nom du tag
+     * @param couleur Couleur du tag
+     */
+
+    public Tag(String nom, Color couleur) {
+        this.nom = nom;
+        this.couleur = couleur;
+    }
+
     // #########################
     // ### GETTERS & SETTERS ###
     // #########################

@@ -72,7 +72,6 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
 
         duree.setPromptText("5");
 
-
         ImageView tacheImage = new ImageView();
 
         VBox imageSelection = new VBox();
