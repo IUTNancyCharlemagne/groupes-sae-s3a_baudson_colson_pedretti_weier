@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -14,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import main.Liste;
 import main.Modele;
 import main.composite.Composant;
@@ -47,6 +49,7 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
      */
     @Override
     public void handle(ActionEvent actionEvent) {
+        Stage stage = new Stage();
         Button btn = (Button) actionEvent.getSource();
         // Récupère le nom de la liste
         String nomListe = btn.getId();
@@ -55,24 +58,27 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
         overlay.getStyleClass().add("overlay");
         overlay.setAlignment(Pos.TOP_LEFT);
 
-        Text title = new Text("Nom de la tâche :");
+        Text title = new Text("Nom de la tâche");
 
-        TextArea nom = new TextArea(
+        TextField nom = new TextField(
                 ""
         );
 
-        Text dureeText = new Text("Durée de la tâche :");
+        Text dureeText = new Text("Durée de la tâche en jours");
 
-        TextArea duree = new TextArea(
+        TextField duree = new TextField(
                 ""
         );
+
+        duree.setPromptText("5");
 
 
         ImageView tacheImage = new ImageView();
 
-        HBox imageSelection = new HBox();
+        VBox imageSelection = new VBox();
         Button btnImage1 = new Button("Ajouter une image");
         btnImage1.getStyleClass().add("btn");
+        imageSelection.getChildren().add(tacheImage);
         imageSelection.getChildren().add(btnImage1);
         btnImage1.setOnAction(e -> {
             FileChooser fileChooser = new FileChooser();
@@ -85,7 +91,6 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
             tacheImage.setFitWidth(200);
             tacheImage.setPreserveRatio(true);
             if (selectedFile != null) tacheImage.setImage(new Image(selectedFile.toURI().toString()));
-            imageSelection.getChildren().add(tacheImage);
 
         });
 
@@ -123,14 +128,14 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
 
                     modele.notifierObservateur();
                 }
-                modele.getStackPane().getChildren().remove(overlay);
+                stage.close();
             }
         });
 
         imageSelection.setAlignment(Pos.CENTER);
         imageSelection.setSpacing(10);
 
-        nom.setWrapText(true);
+
         nom.getStyleClass().add("description");
         overlay.getChildren().add(title);
         overlay.getChildren().add(nom);
@@ -140,7 +145,20 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
         overlay.getChildren().add(btnValider);
         overlay.setAlignment(Pos.CENTER);
 
-        modele.getStackPane().getChildren().add(overlay);
-        BorderPane.setMargin(overlay, new Insets(50, 50, 50, 50));
+        Scene scene = new Scene(overlay);
+        scene.setOnKeyPressed(e -> {
+            switch (e.getCode()) {
+                case ENTER:
+                    btnValider.fire();
+                    break;
+                case ESCAPE:
+                    stage.close();
+                    break;
+            }
+        });
+        scene.getStylesheets().add("file:src/main/css/style.css");
+        stage.setTitle("Ajouter une tâche");
+        stage.setScene(scene);
+        stage.show();
     }
 }

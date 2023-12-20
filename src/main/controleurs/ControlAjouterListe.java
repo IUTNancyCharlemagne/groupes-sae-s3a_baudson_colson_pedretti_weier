@@ -4,12 +4,15 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import main.Liste;
 import main.Modele;
 import main.composite.Composant;
@@ -41,14 +44,14 @@ public class ControlAjouterListe implements EventHandler<ActionEvent> {
      */
     @Override
     public void handle(ActionEvent actionEvent) {
-
+        Stage stage = new Stage();
         VBox overlay = new VBox();
         overlay.getStyleClass().add("overlay");
         overlay.setAlignment(Pos.TOP_LEFT);
 
         Text title = new Text("Nom de la liste :");
 
-        TextArea nom = new TextArea(
+        TextField nom = new TextField(
                 ""
         );
 
@@ -70,18 +73,32 @@ public class ControlAjouterListe implements EventHandler<ActionEvent> {
                     modele.getProjet().ajouterListeTaches(new Liste(nom.getText()));
                     modele.notifierObservateur();
                 }
-                modele.getStackPane().getChildren().remove(overlay);
+                stage.close();
             }
         });
 
-        nom.setWrapText(true);
         nom.getStyleClass().add("description");
         overlay.getChildren().add(title);
         overlay.getChildren().add(nom);
         overlay.getChildren().add(btnValider);
+        overlay.setAlignment(Pos.CENTER);
 
-        modele.getStackPane().getChildren().add(overlay);
-        BorderPane.setMargin(overlay, new Insets(50, 50, 50, 50));
+        Scene scene = new Scene(overlay);
+
+        scene.setOnKeyPressed(e -> {
+            switch (e.getCode()) {
+                case ENTER:
+                    btnValider.fire();
+                    break;
+                case ESCAPE:
+                    stage.close();
+                    break;
+            }
+        });
+        scene.getStylesheets().add("file:src/main/css/style.css");
+        stage.setTitle("Ajouter une liste");
+        stage.setScene(scene);
+        stage.show();
     }
 }
 

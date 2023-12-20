@@ -60,7 +60,7 @@ Text{
 
 .overlay {
     -fx-background-color: #323636;
-    -fx-background-radius: 10;
+/*    -fx-background-radius: 10;*/
     -fx-padding: 100;
     -fx-spacing: 50;
 }
