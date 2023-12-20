@@ -8,6 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import main.controleurs.ControlChangerFond;
 import main.controleurs.ControlChangerVue;
 import main.controleurs.ControlCharger;
 import main.controleurs.ControlSauvegarde;
@@ -145,20 +146,7 @@ public class MenuOptions implements EventHandler<ActionEvent> {
         changeBackground.setGraphic(changeBackgroundImage);
 
         EventHandler<ActionEvent> changeBackgroundEvent = e -> {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Open Image File");
-            fileChooser.setInitialDirectory(new File("./backgrounds/"));
-            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
-            File selectedFile = fileChooser.showOpenDialog(primaryStage);
-            if(selectedFile != null) {
-                Image image = new Image(selectedFile.getPath());
-                BackgroundImage backgroundImage = new BackgroundImage(image, null, null, null, null);
-                // si l'image est plus grande que la fenêtre, on la redimensionne
-                if(image.getWidth() > layout.getWidth()|| image.getHeight() > layout.getHeight()) {
-                    backgroundImage = new BackgroundImage(image, null, null, null, new BackgroundSize(1,1,false,false,true,true));
-                }
-                layout.setBackground(new Background(backgroundImage));
-            }
+            new ControlChangerFond(modele, primaryStage, layout);
         };
 
         changeBackground.setOnAction(changeBackgroundEvent);

@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -106,6 +107,7 @@ public class ControlAjouterTag implements EventHandler<ActionEvent> {
             }
         });
         scene.getStylesheets().add("file:src/main/css/style.css");
+        stage.getIcons().add(new Image("file:icons/logo.png"));
         stage.setTitle("Ajouter une liste");
         stage.setScene(scene);
         stage.show();

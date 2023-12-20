@@ -12,6 +12,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import main.controleurs.ControlAjouterListe;
+import main.controleurs.ControlChangerFond;
 import main.controleurs.ControlCharger;
 import main.controleurs.ControlSauvegarde;
 import main.exceptions.ProjectNotFoundException;
@@ -25,17 +26,13 @@ public class Shortcut implements EventHandler<ActionEvent> {
 
     private final Modele modele;
     private final Stage primaryStage;
-    private final ControlSauvegarde controlSauvegarde;
-    private final ControlCharger controlCharger;
 
     private final BorderPane layout;
 
-    public Shortcut(Modele modele, Stage primaryStage, BorderPane layout, ControlSauvegarde controlSauvegarde, ControlCharger controlCharger) {
+    public Shortcut(Modele modele, Stage primaryStage, BorderPane layout) {
         this.modele = modele;
         this.primaryStage = primaryStage;
         this.layout = layout;
-        this.controlSauvegarde = controlSauvegarde;
-        this.controlCharger = controlCharger;
     }
 
     @Override
@@ -50,20 +47,8 @@ public class Shortcut implements EventHandler<ActionEvent> {
 
             // Changer de fond d'écran (Ctrl + B)
             if (e.getCode().toString().equals("B") && e.isControlDown()) {
-                FileChooser fileChooser = new FileChooser();
-                fileChooser.setTitle("Open Image File");
-                fileChooser.setInitialDirectory(new File("./backgrounds/"));
-                fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
-                File selectedFile = fileChooser.showOpenDialog(primaryStage);
-                if (selectedFile != null) {
-                    Image image = new Image(selectedFile.getPath());
-                    BackgroundImage backgroundImage = new BackgroundImage(image, null, null, null, null);
-                    // si l'image est plus grande que la fenêtre, on la redimensionne
-                    if (image.getWidth() > layout.getWidth() || image.getHeight() > layout.getHeight()) {
-                        backgroundImage = new BackgroundImage(image, null, null, null, new BackgroundSize(1, 1, false, false, true, true));
-                    }
-                    layout.setBackground(new Background(backgroundImage));
-                }
+                ControlChangerFond ccf = new ControlChangerFond(modele, primaryStage, layout);
+                ccf.handle(new ActionEvent());
             }
 
             // Nouveau Projet (Ctrl + N)
@@ -77,13 +62,15 @@ public class Shortcut implements EventHandler<ActionEvent> {
             // Sauvegarder (Ctrl + S)
             if (e.getCode().toString().equals("S") && e.isControlDown()) {
                 System.out.println("Sauvegarder Projet");
-                this.controlSauvegarde.handle(new ActionEvent());
+                ControlSauvegarde cs = new ControlSauvegarde(modele,primaryStage);
+                cs.handle(new ActionEvent());
             }
 
             // Ouvrir (Ctrl + O)
             if (e.getCode().toString().equals("O") && e.isControlDown()) {
                 System.out.println("Ouvrir Projet");
-                this.controlCharger.handle(new ActionEvent());
+                ControlCharger cc = new ControlCharger(modele,primaryStage);
+                cc.handle(new ActionEvent());
             }
 
             // Créer une liste (Ctrl + L)

@@ -36,7 +36,7 @@ public class Trebbo extends Application {
         menuOptions.handle(new ActionEvent());
         menuContext.handle(new ActionEvent());
 
-        Shortcut shortcut = new Shortcut(modele, primaryStage, layout, controlSauvegarde, controlCharger);
+        Shortcut shortcut = new Shortcut(modele, primaryStage, layout);
         shortcut.handle(new ActionEvent());
 
         VueBureau vueBureau = new VueBureau();
@@ -52,7 +52,6 @@ public class Trebbo extends Application {
 
         modele.getStackPane().getChildren().add(layout);
         Scene scene = new Scene(modele.getStackPane(), 720, 576);
-        primaryStage.getIcons().add(new Image("file:icons/logo.png"));
         scene.getStylesheets().add(getClass().getResource("css/style.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.setTitle("Trebbo");

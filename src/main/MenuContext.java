@@ -11,6 +11,7 @@ import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import main.controleurs.ControlAjouterListe;
+import main.controleurs.ControlChangerFond;
 
 import java.io.File;
 
@@ -38,20 +39,7 @@ public class MenuContext implements EventHandler<ActionEvent> {
         contextMenuItem.setGraphic(contextImage);
 
         EventHandler<ActionEvent> changeBackgroundEvent = e -> {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Open Image File");
-            fileChooser.setInitialDirectory(new File("./backgrounds/"));
-            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
-            File selectedFile = fileChooser.showOpenDialog(primaryStage);
-            if(selectedFile != null) {
-                Image image = new Image(selectedFile.getPath());
-                BackgroundImage backgroundImage = new BackgroundImage(image, null, null, null, null);
-                // si l'image est plus grande que la fenêtre, on la redimensionne
-                if(image.getWidth() > layout.getWidth()|| image.getHeight() > layout.getHeight()) {
-                    backgroundImage = new BackgroundImage(image, null, null, null, new BackgroundSize(1,1,false,false,true,true));
-                }
-                layout.setBackground(new Background(backgroundImage));
-            }
+            ControlChangerFond ccf = new ControlChangerFond(modele, primaryStage, layout);
         };
 
         MenuItem contextMenuItem2 = new MenuItem("Changer le fond (Ctrl + B)");

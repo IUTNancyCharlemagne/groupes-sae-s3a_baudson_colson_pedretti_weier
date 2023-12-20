@@ -156,6 +156,7 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
             }
         });
         scene.getStylesheets().add("file:src/main/css/style.css");
+        stage.getIcons().add(new Image("file:icons/logo.png"));
         stage.setTitle("Ajouter une tâche");
         stage.setScene(scene);
         stage.show();
