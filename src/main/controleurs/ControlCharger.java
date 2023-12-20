@@ -2,7 +2,6 @@ package main.controleurs;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import main.Liste;
@@ -20,11 +19,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class ControlCharger implements EventHandler<ActionEvent> {
-
     private final Modele modele;
+    private final Stage primaryStage;
 
-    public ControlCharger(Modele modele){
+    public ControlCharger(Modele modele, Stage primaryStage){
         this.modele = modele;
+        this.primaryStage = primaryStage;
     }
 
     /**
@@ -37,7 +37,7 @@ public class ControlCharger implements EventHandler<ActionEvent> {
      * @throws ClassNotFoundException
      */
     public Projet chargerProjet(String chemin) throws IOException, ProjectNotFoundException, ClassNotFoundException {
-        if (!Projet.fichierTrebo(chemin)) chemin += ".trebbo";
+        if (!Projet.fichierTrebbo(chemin)) chemin += ".trebbo";
         if (!Files.exists(Paths.get(chemin))) throw new ProjectNotFoundException();
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(chemin))) {
             String nomProjet = (String) ois.readObject();
@@ -61,14 +61,12 @@ public class ControlCharger implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent actionEvent) {
         try {
-            Node source = (Node)actionEvent.getSource();
-            Stage primaryStage = (Stage)source.getScene().getWindow();
             if(!Files.exists(Paths.get("./projects/"))) Files.createDirectories(Paths.get("./projects"));
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open Project File");
             fileChooser.setInitialDirectory(new File("./projects"));
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Trebbo Files", "*.trebbo"));
-            File selectedFile = fileChooser.showOpenDialog(primaryStage);
+            File selectedFile = fileChooser.showOpenDialog(null);
             if(selectedFile != null){
                 modele.chargerProjet(selectedFile.getPath());
                 primaryStage.setTitle(selectedFile.getName());

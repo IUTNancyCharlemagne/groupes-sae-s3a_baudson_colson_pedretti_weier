@@ -2,27 +2,17 @@ package main;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import main.controleurs.ControlAjouterListe;
 import main.controleurs.ControlChangerVue;
-import main.exceptions.ProjectNotFoundException;
+import main.controleurs.ControlCharger;
+import main.controleurs.ControlSauvegarde;
 import main.observateur.VueArchives;
 import main.observateur.VueBureau;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Objects;
 
 public class Trebbo extends Application {
 
@@ -36,15 +26,17 @@ public class Trebbo extends Application {
         BorderPane layout = new BorderPane();
 
         ControlChangerVue controlChangerVue = new ControlChangerVue(modele);
+        ControlSauvegarde controlSauvegarde = new ControlSauvegarde(modele, primaryStage);
+        ControlCharger controlCharger = new ControlCharger(modele, primaryStage);
 
-        MenuOptions menuOptions = new MenuOptions(modele, primaryStage, layout, controlChangerVue);
+        MenuOptions menuOptions = new MenuOptions(modele, primaryStage, layout, controlChangerVue, controlSauvegarde, controlCharger);
 
         MenuContext menuContext = new MenuContext(modele, layout,primaryStage);
 
         menuOptions.handle(new ActionEvent());
         menuContext.handle(new ActionEvent());
 
-        Shortcut shortcut = new Shortcut(modele, primaryStage, layout);
+        Shortcut shortcut = new Shortcut(modele, primaryStage, layout, controlSauvegarde, controlCharger);
         shortcut.handle(new ActionEvent());
 
         VueBureau vueBureau = new VueBureau();

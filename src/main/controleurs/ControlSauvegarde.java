@@ -2,7 +2,6 @@ package main.controleurs;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import main.Liste;
@@ -20,24 +19,25 @@ import java.nio.file.Paths;
 
 public class ControlSauvegarde implements EventHandler<ActionEvent> {
     Modele modele;
+    Stage primaryStage;
 
-    public ControlSauvegarde(Modele modele) {
+    public ControlSauvegarde(Modele modele, Stage primaryStage) {
         this.modele = modele;
+        this.primaryStage = primaryStage;
     }
-
 
     /**
      * Crée un fichier de sauvegarde du bureau.
-     * Le fichier est un fichier binaire de format '.trebo'
-     * Le nom du fichier est nomFichier + '.trebo'
+     * Le fichier est un fichier binaire de format '.trebbo'
+     * Le nom du fichier est nomFichier + '.trebbo'
      * L'emplacement du fichier se trouve dans le dossier /projects/.
      *
      * @param chemin Nom du fichier voulu.
-     *               Peut se terminer par '.trebo' ou non, la conversion est faite.
+     *               Peut se terminer par '.trebbo' ou non, la conversion est faite.
      * @throws IOException
      */
     public void sauvegarderProjet(String chemin) throws IOException {
-        if (!Projet.fichierTrebo(chemin)) chemin += ".trebo";
+        if (!Projet.fichierTrebbo(chemin)) chemin += ".trebbo";
         if (modele.getProjet().getChemin() == null) modele.getProjet().setChemin(chemin);
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(modele.getProjet().getChemin()))) {
             oos.writeObject(modele.getProjet().getNomProjet());
@@ -57,8 +57,6 @@ public class ControlSauvegarde implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent actionEvent) {
         try {
-            Node source = (Node)actionEvent.getSource();
-            Stage primaryStage = (Stage)source.getScene().getWindow();
             if (modele.getProjet().getChemin() != null) modele.sauvegarderProjet(modele.getProjet().getChemin());
             else {
                 if (!Files.exists(Paths.get("./projects/"))) Files.createDirectories(Paths.get("./projects"));
@@ -66,10 +64,10 @@ public class ControlSauvegarde implements EventHandler<ActionEvent> {
                 fileChooser.setTitle("Save As");
                 fileChooser.setInitialDirectory(new File("./projects/"));
                 if (modele.getProjet().getNomProjet() != null)
-                    fileChooser.setInitialFileName(modele.getProjet().getNomProjet() + ".trebo");
-                else fileChooser.setInitialFileName("untitled.trebo");
-                fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Trebo Files", "*.trebo"));
-                File selectedFile = fileChooser.showSaveDialog(primaryStage);
+                    fileChooser.setInitialFileName(modele.getProjet().getNomProjet() + ".trebbo");
+                else fileChooser.setInitialFileName("untitled.trebbo");
+                fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Trebbo Files", "*.trebbo"));
+                File selectedFile = fileChooser.showSaveDialog(this.primaryStage);
                 if (selectedFile != null) {
                     modele.sauvegarderProjet(selectedFile.getPath());
                     primaryStage.setTitle(selectedFile.getName());

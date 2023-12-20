@@ -48,13 +48,13 @@ public class Projet {
     }
 
     /**
-     * Indique si le fichier se finit par l'extension '.trebo'
+     * Indique si le fichier se finit par l'extension '.trebbo'
      *
      * @param fileName chemin du fichier
-     * @return true si l'extension est '.trebo', false sinon
+     * @return true si l'extension est '.trebbo', false sinon
      */
-    public static boolean fichierTrebo(String fileName) {
-        return fileName.endsWith(".trebo");
+    public static boolean fichierTrebbo(String fileName) {
+        return fileName.endsWith(".trebbo");
     }
 
     /**
@@ -117,7 +117,7 @@ public class Projet {
      * @throws ClassNotFoundException
      */
     public Projet chargerProjet(String chemin) throws IOException, ProjectNotFoundException, ClassNotFoundException {
-        if (!fichierTrebo(chemin)) chemin += ".trebo";
+        if (!fichierTrebbo(chemin)) chemin += ".trebbo";
         if (!Files.exists(Paths.get(chemin))) throw new ProjectNotFoundException();
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(chemin))) {
             String nomProjet = (String) ois.readObject();
@@ -140,16 +140,16 @@ public class Projet {
 
     /**
      * Crée un fichier de sauvegarde du bureau.
-     * Le fichier est un fichier binaire de format '.trebo'
-     * Le nom du fichier est nomFichier + '.trebo'
+     * Le fichier est un fichier binaire de format '.trebbo'
+     * Le nom du fichier est nomFichier + '.trebbo'
      * L'emplacement du fichier se trouve dans le dossier /projects/.
      *
      * @param chemin Nom du fichier voulu.
-     *               Peut se terminer par '.trebo' ou non, la conversion est faite.
+     *               Peut se terminer par '.trebbo' ou non, la conversion est faite.
      * @throws IOException
      */
     public void sauvegarderProjet(String chemin) throws IOException {
-        if (!fichierTrebo(chemin)) chemin += ".trebo";
+        if (!fichierTrebbo(chemin)) chemin += ".trebbo";
         if (this.chemin == null) this.chemin = chemin;
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(this.chemin))) {
             oos.writeObject(this.nomProjet);
@@ -220,10 +220,8 @@ public class Projet {
     }
 
     public void supprimerTache(String nomTache) {
-        Iterator<Liste> listeIterator = this.getListeTaches().iterator();
 
-        while (listeIterator.hasNext()) {
-            Liste liste = listeIterator.next();
+        for (Liste liste : this.getListeTaches()) {
             Iterator<Composant> composantIterator = liste.getComposants().iterator();
 
             while (composantIterator.hasNext()) {
@@ -233,15 +231,8 @@ public class Projet {
                     composantIterator.remove();
                 } else {
                     if (composant instanceof Tache) {
-                        Iterator<Composant> sousTacheIterator = ((Tache) composant).getSousTaches().iterator();
 
-                        while (sousTacheIterator.hasNext()) {
-                            Composant sousTache = sousTacheIterator.next();
-
-                            if (sousTache.getNom().equals(nomTache)) {
-                                sousTacheIterator.remove();
-                            }
-                        }
+                        ((Tache) composant).getSousTaches().removeIf(sousTache -> sousTache.getNom().equals(nomTache));
                     }
                 }
             }
