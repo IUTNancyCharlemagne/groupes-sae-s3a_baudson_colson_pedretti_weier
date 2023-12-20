@@ -28,8 +28,6 @@ public class MenuOptions implements EventHandler<ActionEvent> {
     private ControlChangerVue controlChangerVue;
 
 
-
-
     public MenuOptions(Modele modele, Stage stage, BorderPane layout, ControlChangerVue controlChangerVue) {
         this.modele = modele;
         this.primaryStage = stage;
@@ -70,7 +68,7 @@ public class MenuOptions implements EventHandler<ActionEvent> {
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.setTitle("Open Project File");
                 fileChooser.setInitialDirectory(new File("./projects"));
-                fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Trebo Files", "*.trebo"));
+                fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Trebbo Files", "*.trebbo"));
                 File selectedFile = fileChooser.showOpenDialog(primaryStage);
                 if(selectedFile != null){
                     modele.chargerProjet(selectedFile.getPath());
@@ -96,9 +94,9 @@ public class MenuOptions implements EventHandler<ActionEvent> {
                     FileChooser fileChooser = new FileChooser();
                     fileChooser.setTitle("Save As");
                     fileChooser.setInitialDirectory(new File("./projects/"));
-                    if(modele.getProjet().getNomProjet() != null) fileChooser.setInitialFileName(modele.getProjet().getNomProjet() + ".trebo");
-                    else fileChooser.setInitialFileName("untitled.trebo");
-                    fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Trebo Files", "*.trebo"));
+                    if(modele.getProjet().getNomProjet() != null) fileChooser.setInitialFileName(modele.getProjet().getNomProjet() + ".trebbo");
+                    else fileChooser.setInitialFileName("untitled.trebbo");
+                    fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Trebbo Files", "*.trebo"));
                     File selectedFile = fileChooser.showSaveDialog(primaryStage);
                     if(selectedFile != null) {
                         modele.sauvegarderProjet(selectedFile.getPath());
