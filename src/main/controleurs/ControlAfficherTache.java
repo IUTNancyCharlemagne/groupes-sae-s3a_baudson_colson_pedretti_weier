@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -53,13 +54,11 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
 
         boolean trouve = false;
         Composant composantAfficher = null;
-        Liste listeAfficher = null;
         // Recherche de la tache
         for (Liste liste : modele.getProjet().getListeTaches()) {
             for (Composant composant : liste.getComposants()) {
                 // Si la tache est trouvee
                 if (composant.getNom().equals(nomTache) && !trouve) {
-                    listeAfficher = liste;
                     composantAfficher = composant;
                     trouve = true;
                 } else if (!trouve) {
@@ -68,7 +67,6 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
                         Tache tache = (Tache) composant;
                         for (Composant sousTache : tache.getSousTaches()) {
                             if (sousTache.getNom().equals(nomTache)) {
-                                listeAfficher = liste;
                                 composantAfficher = sousTache;
                                 trouve = true;
                             }
@@ -144,7 +142,6 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
             description.setWrapText(true);
             description.getStyleClass().add("description");
             detailsBox.getChildren().add(description);
-//                    overlay.getChildren().add(new Text(composant.getDescription()));
 
             // Vbox de bouttons supprimer et archiver
             HBox buttons = new HBox();
@@ -196,7 +193,6 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
             imgSupp.setFitWidth(50);
             btnSupprimer.setGraphic(imgSupp);
             btnSupprimer.getStyleClass().add("quitter");
-            Liste finalListeAfficher = listeAfficher;
             Composant finalComposantAfficher = composantAfficher;
             btnSupprimer.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
@@ -249,6 +245,17 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
             btnAjouterSousTache.setOnAction(new ControlAjouterSousTache(modele, composantAfficher));
             btnAjouterSousTache.setId(composantAfficher.getNom());
             overlay.getChildren().add(btnAjouterSousTache);
+
+            ComboBox comboBox = new ComboBox();
+            for (Liste liste : modele.getProjet().getListeTaches()) {
+                for (Composant composant : liste.getComposants()) {
+                    if (!composant.getNom().equals(composantAfficher.getNom())) {
+                        comboBox.getItems().add(composant.getNom());
+                    }
+                }
+            }
+
+            overlay.getChildren().add(comboBox);
 
             Composant finalComposantAfficher1 = composantAfficher;
             quitter.setOnAction(new EventHandler<ActionEvent>() {

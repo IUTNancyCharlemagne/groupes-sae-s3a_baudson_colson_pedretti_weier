@@ -31,11 +31,6 @@ public class Tache extends Composant {
     protected List<Composant> sousTaches;
 
     /**
-     * Liste des dépendances de la tâche
-     */
-    protected List<Tache> dependances;
-
-    /**
      * Date de début de la tâche
      * Format : yyyy-MM-dd
      */
@@ -64,7 +59,6 @@ public class Tache extends Composant {
         this.estArchive = false;
         this.tags = new ArrayList<Tag>();
         this.sousTaches = new ArrayList<Composant>();
-        this.dependances = new ArrayList<Tache>();
         this.estTerminee = false;
         this.nbTags = 0;
     }
@@ -82,7 +76,6 @@ public class Tache extends Composant {
         this.estArchive = false;
         this.tags = new ArrayList<Tag>();
         this.sousTaches = new ArrayList<Composant>();
-        this.dependances = new ArrayList<Tache>();
         this.estTerminee = false;
         this.nbTags = 0;
         if (dateValide(dateDebut) && dateValide(dateFin)) {
@@ -183,8 +176,8 @@ public class Tache extends Composant {
      */
     public boolean dependancesOk() {
         boolean ok = true;
-        for (Tache t : this.dependances) {
-            ok = ok && t.getEstTerminee();
+        for (Composant c : this.dependances) {
+            ok = ok && c.getEstTerminee();
         }
         return ok;
     }
@@ -210,10 +203,6 @@ public class Tache extends Composant {
 
     public List<Composant> getSousTaches() {
         return this.sousTaches;
-    }
-
-    public List<Tache> getDependances() {
-        return dependances;
     }
 
     public String getDateDebut() {

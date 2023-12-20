@@ -53,6 +53,11 @@ public abstract class Composant implements Serializable {
     protected boolean estTerminee;
 
     /**
+     * Liste des dépendances de la tâche
+     */
+    protected List<Composant> dependances;
+
+    /**
      * Méthode abstraite permettant d'afficher la tâche
      * @param modele Modèle de l'application
      * @return
@@ -112,4 +117,12 @@ public abstract class Composant implements Serializable {
 
     public String getImage() {return image;}
     public void setImage(String image) {this.image = image;}
+
+    public List<Composant> getDependances() {
+        return dependances;
+    }
+
+    public void setDependances(List<Composant> dependances) {
+        this.dependances = dependances;
+    }
 }
