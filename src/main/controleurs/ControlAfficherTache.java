@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import main.Liste;
 import main.Modele;
+import main.Tag;
 import main.composite.Composant;
 import main.composite.Tache;
 
@@ -109,11 +110,23 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
             HBox tagsBox = new HBox();
             tagsBox.setAlignment(Pos.CENTER);
             tagsBox.setSpacing(10);
-            for (main.Tag tag : composantAfficher.getTags()) {
+            for (Tag tag : composantAfficher.getTags()) {
                 Label label = new Label(tag.getNom());
                 label.getStyleClass().add("tag");
                 label.setBackground(new Background(new BackgroundFill(tag.getCouleur(), CornerRadii.EMPTY, Insets.EMPTY)));
                 tagsBox.getChildren().add(label);
+                Button btnSupprimerTag = new Button("X");
+                btnSupprimerTag.getStyleClass().add("btn");
+
+                Composant finalComposantAfficher = composantAfficher;
+                btnSupprimerTag.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        finalComposantAfficher.removeTag(tag);
+                        modele.getStackPane().getChildren().remove(overlayBackground);
+                    }
+                });
+                tagsBox.getChildren().add(btnSupprimerTag);
             }
 
             tagsGeneral.getChildren().add(tagsBox);
