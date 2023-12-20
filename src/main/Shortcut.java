@@ -46,7 +46,7 @@ public class Shortcut implements EventHandler<ActionEvent> {
             if(e.getCode().toString().equals("B") && e.isControlDown()) {
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.setTitle("Open Image File");
-                fileChooser.setInitialDirectory(new File("C:\\"));
+                fileChooser.setInitialDirectory(new File("./backgrounds/"));
                 fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
                 File selectedFile = fileChooser.showOpenDialog(primaryStage);
                 if(selectedFile != null) {
