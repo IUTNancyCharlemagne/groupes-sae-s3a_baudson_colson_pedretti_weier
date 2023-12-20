@@ -7,10 +7,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import main.controleurs.ControlAjouterListe;
@@ -48,7 +45,12 @@ public class MenuContext implements EventHandler<ActionEvent> {
             File selectedFile = fileChooser.showOpenDialog(primaryStage);
             if(selectedFile != null) {
                 Image image = new Image(selectedFile.getPath());
-                layout.setBackground(new Background(new BackgroundImage(image, null, null, null, null)));
+                BackgroundImage backgroundImage = new BackgroundImage(image, null, null, null, null);
+                // si l'image est plus grande que la fenêtre, on la redimensionne
+                if(image.getWidth() > layout.getWidth()|| image.getHeight() > layout.getHeight()) {
+                    backgroundImage = new BackgroundImage(image, null, null, null, new BackgroundSize(1,1,false,false,true,true));
+                }
+                layout.setBackground(new Background(backgroundImage));
             }
         };
 
