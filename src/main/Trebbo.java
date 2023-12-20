@@ -52,7 +52,9 @@ public class Trebbo extends Application {
 
         modele.getStackPane().getChildren().add(layout);
         Scene scene = new Scene(modele.getStackPane(), 720, 576);
+
         scene.getStylesheets().add(getClass().getResource("css/style.css").toExternalForm());
+        primaryStage.getIcons().add(new Image("file:icons/logo.png"));
         primaryStage.setScene(scene);
         primaryStage.setTitle("Trebbo");
         primaryStage.show();
