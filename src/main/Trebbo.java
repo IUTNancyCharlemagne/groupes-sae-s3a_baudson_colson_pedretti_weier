@@ -39,13 +39,13 @@ public class Trebbo extends Application {
 
         MenuOptions menuOptions = new MenuOptions(modele, primaryStage, layout, controlChangerVue);
 
-        Shortcut shortcut = new Shortcut(modele, primaryStage, layout, menuOptions.getFullScreen());
-
         MenuContext menuContext = new MenuContext(modele, layout,primaryStage);
 
         menuOptions.handle(new ActionEvent());
-        shortcut.handle(new ActionEvent());
         menuContext.handle(new ActionEvent());
+
+        Shortcut shortcut = new Shortcut(modele, primaryStage, layout);
+        shortcut.handle(new ActionEvent());
 
         VueBureau vueBureau = new VueBureau();
         modele.enregistrerObservateur(vueBureau);

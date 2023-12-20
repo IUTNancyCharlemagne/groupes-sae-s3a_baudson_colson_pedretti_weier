@@ -10,6 +10,7 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import main.controleurs.ControlAjouterListe;
 import main.exceptions.ProjectNotFoundException;
 
 import java.io.File;
@@ -24,13 +25,10 @@ public class Shortcut implements EventHandler<ActionEvent> {
 
     private BorderPane layout;
 
-    private CheckMenuItem fullScreen;
-
-    public Shortcut(Modele modele, Stage primaryStage, BorderPane layout, CheckMenuItem fullScreen) {
+    public Shortcut(Modele modele, Stage primaryStage, BorderPane layout) {
         this.modele = modele;
         this.primaryStage = primaryStage;
         this.layout = layout;
-        this.fullScreen = fullScreen;
     }
 
     @Override
@@ -40,7 +38,6 @@ public class Shortcut implements EventHandler<ActionEvent> {
 
             // Mode Plein Ecran (F5)
             if(e.getCode().toString().equals("F5")) {
-                fullScreen.setSelected(!fullScreen.isSelected());
                 primaryStage.setFullScreen(!primaryStage.isFullScreen());
             }
 
@@ -110,6 +107,13 @@ public class Shortcut implements EventHandler<ActionEvent> {
                 } catch (IOException | ProjectNotFoundException | ClassNotFoundException ex) {
                     throw new RuntimeException(ex);
                 }
+            }
+
+            // Créer une liste (Ctrl + L)
+            if(e.getCode().toString().equals("L") && e.isControlDown()) {
+                System.out.println("Créer une liste");
+                ControlAjouterListe cal = new ControlAjouterListe(modele);
+                cal.handle(new ActionEvent());
             }
 
         });

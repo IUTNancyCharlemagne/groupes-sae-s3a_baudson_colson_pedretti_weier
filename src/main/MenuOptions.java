@@ -162,6 +162,10 @@ public class MenuOptions implements EventHandler<ActionEvent> {
 
         EventHandler<ActionEvent> setFullScreen = e -> {
             primaryStage.setFullScreen(!primaryStage.isFullScreen());
+            if (e.getSource() instanceof CheckMenuItem){
+                if(primaryStage.isFullScreen()) ((CheckMenuItem) e.getSource()).setSelected(true);
+                else ((CheckMenuItem) e.getSource()).setSelected(false);
+            }
         };
 
         CheckMenuItem fullScreen = new CheckMenuItem("Plein écran (F5)");
@@ -202,7 +206,4 @@ public class MenuOptions implements EventHandler<ActionEvent> {
         menuBar.getMenus().add(displayMenu);
     }
 
-    public CheckMenuItem getFullScreen() {
-        return fullScreen;
-    }
 }

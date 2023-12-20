@@ -34,7 +34,7 @@ public class MenuContext implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent actionEvent) {
         ContextMenu contextMenu = new ContextMenu();
-        MenuItem contextMenuItem = new MenuItem("Ajouter une liste");
+        MenuItem contextMenuItem = new MenuItem("Ajouter une liste (Ctrl + L)");
         ImageView contextImage = new ImageView("file:icons/plus.png");
         contextImage.setFitHeight(16);
         contextImage.setFitWidth(16);
