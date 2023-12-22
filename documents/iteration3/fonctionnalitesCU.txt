@@ -1,9 +1,10 @@
 Pour cette itération, nous avons ajouté les fonctionnalités suivantes :
 
-- Ajout d'une vue pour les tâches (Dylan)
-- Ajout des dates lors de la création des tâches (Lenny)
-- Ajout de la possibilité de modifier les dates dans une tâche (Lenny)
-- Ajout de ControlChangerTitre (Loris)
-- Ajout de ControlChangerFond (Lenny)
-- Mise en place d'un arbre pour déplacer les tâches et sous-tâches (Loris)
--
+    - Ajout d'une vue pour les tâches (Dylan)
+    - Ajout des dates lors de la création des tâches (Lenny)
+    - Ajout de la possibilité de modifier les dates dans une tâche (Lenny)
+    - Ajout de ControlChangerTitre (Loris)
+    - Ajout de ControlChangerFond (Lenny)
+
+Nous avons un peu réaranger le code pour que ce soit plus propre et plus facile à comprendre.
+Loris travaille sur la mise en place d'un arbre (TreeView) pour déplacer les tâches et sous-tâches.

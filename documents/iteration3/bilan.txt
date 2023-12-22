@@ -1,2 +1,10 @@
 Pour cette itération, nous avons les fonctionnalités suivantes :
 
+    - Ajout d'une vue pour les tâches
+    - Ajout des dates lors de la création des tâches
+    - Ajout de la possibilité de modifier les dates dans une tâche
+    - Ajout de ControlChangerTitre
+    - Ajout de ControlChangerFond
+
+Pour l'instant, il n'y a toujours pas de bugs connus.
+L'affichage n'est pas encore dans sa version définitive, mais il est fonctionnel.

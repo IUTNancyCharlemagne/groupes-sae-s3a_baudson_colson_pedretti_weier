@@ -1,0 +1,281 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class Composant {
+  + Composant(): 
+  # estTerminee: boolean
+  # image: String
+  # description: String
+  # nbTags: int
+  # dependances: List<Composant>
+  # tags: List<Tag>
+  # estArchive: boolean
+  # nom: String
+  + afficher(Modele): VBox
+  + addTag(Tag): void
+  + removeTag(Tag): void
+   description: String
+   dependances: List<Composant>
+   tags: List<Tag>
+   image: String
+   nom: String
+   estTerminee: boolean
+   nbTags: int
+   estArchive: boolean
+}
+class ControlAfficherTache {
+  + ControlAfficherTache(Modele): 
+  + handle(MouseEvent): void
+}
+class ControlAjouterListe {
+  + ControlAjouterListe(Modele): 
+  + handle(ActionEvent): void
+}
+class ControlAjouterSousTache {
+  + ControlAjouterSousTache(Modele, Composant): 
+  + handle(ActionEvent): void
+}
+class ControlAjouterTache {
+  + ControlAjouterTache(Modele): 
+  + handle(ActionEvent): void
+}
+class ControlAjouterTag {
+  + ControlAjouterTag(Modele, Composant): 
+  + handle(ActionEvent): void
+}
+class ControlChangerFond {
+  + ControlChangerFond(Modele, Stage, Pane): 
+  + handle(ActionEvent): void
+}
+class ControlChangerTitre {
+  + ControlChangerTitre(Modele, Composant): 
+  + handle(MouseEvent): void
+}
+class ControlChangerVue {
+  + ControlChangerVue(Modele): 
+  + handle(ActionEvent): void
+}
+class ControlCharger {
+  + ControlCharger(Modele, Stage): 
+  + chargerProjet(String): Projet
+  + handle(ActionEvent): void
+}
+class ControlOnDragDetected {
+  + ControlOnDragDetected(Modele): 
+  + handle(MouseEvent): void
+}
+class ControlOnDragDropped {
+  + ControlOnDragDropped(Modele): 
+  + handle(DragEvent): void
+}
+class ControlOnDragOver {
+  + ControlOnDragOver(Modele): 
+  + handle(DragEvent): void
+}
+class ControlSauvegarde {
+  + ControlSauvegarde(Modele, Stage): 
+  + sauvegarderProjet(String): void
+  + handle(ActionEvent): void
+}
+class Liste {
+  + Liste(String): 
+  - nom: String
+  - composants: List<Composant>
+  - nbTaches: int
+  + toString(): String
+  + afficher(Modele): VBox
+  + retirerComposant(Composant): void
+  + contient(Tache): boolean
+  + ajouterComposant(Composant): void
+  + setNom(): void
+   nbTaches: int
+   composants: List<Composant>
+   nom: String
+}
+class MenuContext {
+  + MenuContext(Modele, BorderPane, Stage): 
+  + handle(ActionEvent): void
+}
+class MenuOptions {
+  + MenuOptions(Modele, Stage, BorderPane, ControlChangerVue, ControlSauvegarde, ControlCharger): 
+  + handle(ActionEvent): void
+}
+class Modele {
+  + Modele(): 
+  + Modele(Projet): 
+  - stackPane: StackPane
+  - vueCourante: String
+  - projet: Projet
+  - paneBureau: HBox
+  - currentTache: Composant
+  + sauvegarderProjet(String): void
+  + supprimerObservateur(Observateur): void
+  + chargerProjet(String): void
+  + enregistrerObservateur(Observateur): void
+  + toString(): String
+  + notifierObservateur(): void
+   paneBureau: HBox
+   stackPane: StackPane
+   currentTache: Composant
+   projet: Projet
+   vueCourante: String
+}
+interface Observateur << interface >> {
+  + actualiser(Sujet): void
+}
+class Projet {
+  + Projet(String): 
+  + Projet(): 
+  - listeTaches: List<Liste>
+  - chemin: String
+  - nomProjet: String
+  + getTache(String): Tache
+  + fichierTrebbo(String): boolean
+  + ajouterListeTaches(Liste): void
+  + chargerProjet(String): Projet
+  + supprimerListeTaches(Liste): void
+  + desarchiverTache(String): void
+  + getListeTaches(String): Liste
+  + toString(): String
+  + archiverTache(String): void
+  + sauvegarderProjet(String): void
+  + supprimerTache(String): void
+   listeTaches: List<Liste>
+   chemin: String
+   archives: ArrayList<Composant>
+   nomProjet: String
+}
+class Shortcut {
+  + Shortcut(Modele, Stage, BorderPane): 
+  + handle(ActionEvent): void
+}
+class SousTache {
+  + SousTache(String): 
+  + afficher(Modele): VBox
+}
+interface Sujet << interface >> {
+  + enregistrerObservateur(Observateur): void
+  + supprimerObservateur(Observateur): void
+  + notifierObservateur(): void
+}
+class Tache {
+  + Tache(String, String, int): 
+  + Tache(String, LocalDate, LocalDate): 
+  # sousTaches: List<Composant>
+  # dateDebut: LocalDate
+  # duree: int
+  # dateFin: LocalDate
+  + retirer(Composant): void
+  + calculerDateFin(): LocalDate
+  + toString(): String
+  + dependancesOk(): boolean
+  + getCurentListe(Modele): Liste
+  + ajouter(Composant): void
+  + afficher(Modele): VBox
+  + calculerDureeTache(): int
+  + dateValide(LocalDate): boolean
+   dateDebut: LocalDate
+   duree: int
+   dateFin: LocalDate
+   sousTaches: List<Composant>
+}
+class Tag {
+  + Tag(String, Color): 
+  - couleur: Color
+  - nom: String
+   couleur: Color
+   nom: String
+}
+class Trebbo {
+  + Trebbo(): 
+  + main(String[]): void
+  + start(Stage): void
+}
+class VueArchives {
+  + VueArchives(): 
+  + actualiser(Sujet): void
+}
+class VueBureau {
+  + VueBureau(): 
+  + actualiser(Sujet): void
+}
+class VueTache {
+  + VueTache(Modele): 
+  + actualiser(Sujet): void
+}
+
+Composant               "1" *-[#595959,plain]-> "tags\n*" Tag                     
+ControlAfficherTache    "1" *-[#595959,plain]-> "composantAfficher\n1" Composant               
+ControlAfficherTache    "1" *-[#595959,plain]-> "modele\n1" Modele                  
+ControlAjouterListe      -[#595959,dashed]->  Liste                   : "«create»"
+ControlAjouterListe     "1" *-[#595959,plain]-> "modele\n1" Modele                  
+ControlAjouterSousTache "1" *-[#595959,plain]-> "composant\n1" Composant               
+ControlAjouterSousTache "1" *-[#595959,plain]-> "modele\n1" Modele                  
+ControlAjouterSousTache  -[#595959,dashed]->  Tache                   : "«create»"
+ControlAjouterTache     "1" *-[#595959,plain]-> "modele\n1" Modele                  
+ControlAjouterTache      -[#595959,dashed]->  Tache                   : "«create»"
+ControlAjouterTag       "1" *-[#595959,plain]-> "composant\n1" Composant               
+ControlAjouterTag       "1" *-[#595959,plain]-> "modele\n1" Modele                  
+ControlAjouterTag        -[#595959,dashed]->  Tag                     : "«create»"
+ControlChangerFond      "1" *-[#595959,plain]-> "modele\n1" Modele                  
+ControlChangerTitre     "1" *-[#595959,plain]-> "composant\n1" Composant               
+ControlChangerTitre     "1" *-[#595959,plain]-> "modele\n1" Modele                  
+ControlChangerVue       "1" *-[#595959,plain]-> "modele\n1" Modele                  
+ControlCharger          "1" *-[#595959,plain]-> "modele\n1" Modele                  
+ControlCharger           -[#595959,dashed]->  Projet                  : "«create»"
+ControlOnDragDetected   "1" *-[#595959,plain]-> "modele\n1" Modele                  
+ControlOnDragDropped    "1" *-[#595959,plain]-> "modele\n1" Modele                  
+ControlOnDragOver       "1" *-[#595959,plain]-> "modele\n1" Modele                  
+ControlSauvegarde       "1" *-[#595959,plain]-> "modele\n1" Modele                  
+Liste                   "1" *-[#595959,plain]-> "composants\n*" Composant               
+Liste                    -[#595959,dashed]->  ControlOnDragDropped    : "«create»"
+Liste                    -[#595959,dashed]->  ControlOnDragOver       : "«create»"
+MenuContext              -[#595959,dashed]->  ControlAjouterListe     : "«create»"
+MenuContext              -[#595959,dashed]->  ControlChangerFond      : "«create»"
+MenuContext             "1" *-[#595959,plain]-> "modele\n1" Modele                  
+MenuOptions              -[#595959,dashed]->  ControlChangerFond      : "«create»"
+MenuOptions             "1" *-[#595959,plain]-> "controlChangerVue\n1" ControlChangerVue       
+MenuOptions             "1" *-[#595959,plain]-> "controlCharger\n1" ControlCharger          
+MenuOptions             "1" *-[#595959,plain]-> "controlSauvegarde\n1" ControlSauvegarde       
+MenuOptions             "1" *-[#595959,plain]-> "modele\n1" Modele                  
+MenuOptions              -[#595959,dashed]->  Projet                  : "«create»"
+Modele                  "1" *-[#595959,plain]-> "currentTache\n1" Composant               
+Modele                  "1" *-[#595959,plain]-> "observateurs\n*" Observateur             
+Modele                  "1" *-[#595959,plain]-> "projet\n1" Projet                  
+Modele                   -[#008200,dashed]-^  Sujet                   
+Projet                  "1" *-[#595959,plain]-> "listeTaches\n*" Liste                   
+Shortcut                 -[#595959,dashed]->  ControlAjouterListe     : "«create»"
+Shortcut                 -[#595959,dashed]->  ControlChangerFond      : "«create»"
+Shortcut                 -[#595959,dashed]->  ControlCharger          : "«create»"
+Shortcut                 -[#595959,dashed]->  ControlSauvegarde       : "«create»"
+Shortcut                "1" *-[#595959,plain]-> "modele\n1" Modele                  
+Shortcut                 -[#595959,dashed]->  Projet                  : "«create»"
+SousTache                -[#000082,plain]-^  Composant               
+Tache                    -[#000082,plain]-^  Composant               
+Tache                   "1" *-[#595959,plain]-> "sousTaches\n*" Composant               
+Tache                    -[#595959,dashed]->  ControlAfficherTache    : "«create»"
+Tache                    -[#595959,dashed]->  ControlOnDragDetected   : "«create»"
+Trebbo                   -[#595959,dashed]->  ControlChangerVue       : "«create»"
+Trebbo                   -[#595959,dashed]->  ControlCharger          : "«create»"
+Trebbo                   -[#595959,dashed]->  ControlSauvegarde       : "«create»"
+Trebbo                   -[#595959,dashed]->  MenuContext             : "«create»"
+Trebbo                   -[#595959,dashed]->  MenuOptions             : "«create»"
+Trebbo                   -[#595959,dashed]->  Modele                  : "«create»"
+Trebbo                   -[#595959,dashed]->  Projet                  : "«create»"
+Trebbo                   -[#595959,dashed]->  Shortcut                : "«create»"
+Trebbo                   -[#595959,dashed]->  VueArchives             : "«create»"
+Trebbo                   -[#595959,dashed]->  VueBureau               : "«create»"
+Trebbo                   -[#595959,dashed]->  VueTache                : "«create»"
+VueArchives              -[#008200,dashed]-^  Observateur             
+VueBureau                -[#595959,dashed]->  ControlAjouterListe     : "«create»"
+VueBureau                -[#595959,dashed]->  ControlAjouterTache     : "«create»"
+VueBureau                -[#008200,dashed]-^  Observateur             
+VueTache                 -[#595959,dashed]->  ControlAjouterSousTache : "«create»"
+VueTache                 -[#595959,dashed]->  ControlAjouterTag       : "«create»"
+VueTache                 -[#595959,dashed]->  ControlChangerTitre     : "«create»"
+VueTache                "1" *-[#595959,plain]-> "modele\n1" Modele                  
+VueTache                 -[#008200,dashed]-^  Observateur             
+@enduml
