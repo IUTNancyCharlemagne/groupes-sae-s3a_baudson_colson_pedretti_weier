@@ -1,3 +1,3 @@
 # groupes-sae-s3a_baudson_colson_pedretti_weier
 
-Pedretti au tableau
+https://trello.com/b/9tHvRLrv/taches-danalyse
