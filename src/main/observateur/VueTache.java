@@ -100,7 +100,7 @@ public class VueTache implements Observateur {
         quitter.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                modele.getCurrentTache().setDescription(modele.getCurrentTache().getDescription());
+                modele.getCurrentTache().setDescription(description.getText());
                 if (image.getImage() != null) {
                     modele.getCurrentTache().setImage(image.getImage().getUrl());
                 }
@@ -179,6 +179,7 @@ public class VueTache implements Observateur {
             image.setFitHeight(300);
             image.setFitWidth(300);
             image.setPreserveRatio(true);
+            modele.getCurrentTache().setImage(selectedFile.toURI().toString());
             modele.notifierObservateur();
         });
 
