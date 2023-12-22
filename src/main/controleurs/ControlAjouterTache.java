@@ -23,7 +23,11 @@ import main.composite.Composant;
 import main.composite.Tache;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * ControlAjouterTache est la classe qui represente le controleur qui ajoute une tâche à une liste.
@@ -66,28 +70,86 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
                 ""
         );
 
-        // Gestion de la durée et da la date de début
+        // Gestion de la durée
         HBox ganttBox = new HBox();
-
-        // Input de la date de début
-        VBox dateBox = new VBox();
-        Text dateText = new Text("Date de début");
-        DatePicker datePicker = new DatePicker();
-        datePicker.setValue(LocalDate.now());
-        dateBox.getChildren().addAll(dateText, datePicker);
-
-        // Input de la duree
-        VBox dureeBox = new VBox();
-        Text dureeText = new Text("Durée de la tâche en jours");
-        TextField duree = new TextField(
-                ""
-        );
-        duree.setPromptText("5");
-        dureeBox.getChildren().addAll(dureeText, duree);
-
-        ganttBox.getChildren().addAll(dateBox, dureeBox);
+        VBox dateDebVBox = new VBox();
+        VBox dureeVBox = new VBox();
+        VBox dateFinVBox = new VBox();
         ganttBox.setSpacing(10);
         ganttBox.setAlignment(Pos.CENTER);
+        dateDebVBox.setSpacing(10);
+        dureeVBox.setSpacing(10);
+        dateFinVBox.setSpacing(10);
+
+        // Date de début
+        Text dateDebText = new Text("Date de début");
+        DatePicker dateDebPicker = new DatePicker();
+        dateDebPicker.setValue(LocalDate.now());
+        dateDebVBox.getChildren().addAll(dateDebText, dateDebPicker);
+
+        // Durée
+        Text dureeText = new Text("Durée (jours)");
+        TextField duree = new TextField();
+        duree.setText("0");
+        dureeVBox.getChildren().addAll(dureeText, duree);
+
+        // Date de fin
+        Text dateFinText = new Text("Date de fin");
+        DatePicker dateFinPicker = new DatePicker();
+        dateFinPicker.setValue(LocalDate.now());
+        dateFinVBox.getChildren().addAll(dateFinText, dateFinPicker);
+
+        // Actions sur les dates
+
+        // Quand on change la valeur de la date de début
+        dateDebPicker.setOnAction(e -> {
+            // Si la date de début est supérieure à la date de fin
+            if (dateDebPicker.getValue().isAfter(dateFinPicker.getValue())) {
+                // On met la date de fin à la date de début
+                dateFinPicker.setValue(dateDebPicker.getValue());
+            }
+
+            // On met à jour la date de fin en fonction de la durée
+            dateFinPicker.setValue(dateDebPicker.getValue().plusDays(Integer.parseInt(duree.getText())));
+        });
+
+        // Quand on modifie la durée
+        duree.setOnAction(e -> {
+            // Si la durée est négative
+            if (Integer.parseInt(duree.getText()) < 0) {
+                // On met la durée à 0
+                duree.setText("0");
+            }
+            // On ajoute la durée à la date de début
+            dateFinPicker.setValue(dateDebPicker.getValue().plusDays(Integer.parseInt(duree.getText())));
+            duree.getParent().requestFocus();
+        });
+
+        // Quand on change la valeur de la date de fin
+        dateFinPicker.setOnAction(e -> {
+            // Si la date de fin est inférieure à la date de début
+            if (dateFinPicker.getValue().isBefore(dateDebPicker.getValue())) {
+                // On met la date de début à la date de fin
+                dateDebPicker.setValue(dateFinPicker.getValue());
+            }
+            // On met la duree au nombre de jours entre la date de début et la date de fin (en comptant l'année et le mois)
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date date1 = null;
+            Date date2 = null;
+            try {
+                date1 = sdf.parse(dateDebPicker.getValue().toString());
+                date2 = sdf.parse(dateFinPicker.getValue().toString());
+            } catch (ParseException ex) {
+                throw new RuntimeException(ex);
+            }
+            long diff = date2.getTime() - date1.getTime();
+            duree.setText(String.valueOf((int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)));
+        });
+
+
+
+        // Ajout des éléments à la fenêtre
+        ganttBox.getChildren().addAll(dateDebVBox, dureeVBox, dateFinVBox);
 
         ImageView tacheImage = new ImageView();
 
@@ -128,21 +190,13 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
                     System.out.println("La tâche existe déjà.");
                 } else {
                     String imgUrl = null;
-                    int dureeInt = 5;
                     if (tacheImage.getImage() != null) {
                         imgUrl = tacheImage.getImage().getUrl();
                     }
-                    if (!duree.getText().isEmpty()) {
-                        try {
-                            dureeInt = Integer.parseInt(duree.getText());
-                        } catch (NumberFormatException ex) {
-                            System.out.println("La durée doit être un nombre.");
-                        }
-                    }
 
-                    Tache tache = new Tache(nom.getText(), imgUrl, dureeInt);
+                    Tache tache = new Tache(nom.getText(), imgUrl, Integer.parseInt(duree.getText()));
 
-                    tache.setDateDebut(datePicker.getValue());
+                    tache.setDateDebut(dateDebPicker.getValue());
 
                     modele.getProjet().getListeTaches(nomListe).ajouterComposant(tache);
 

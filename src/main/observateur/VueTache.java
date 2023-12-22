@@ -5,10 +5,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -25,6 +22,7 @@ import main.controleurs.ControlAjouterTag;
 import main.controleurs.ControlChangerTitre;
 
 import java.io.File;
+import java.text.ParseException;
 
 public class VueTache implements Observateur {
 
@@ -217,6 +215,80 @@ public class VueTache implements Observateur {
             }
         });
 
+        // Dates
+        HBox ganttBox = new HBox();
+        VBox dateDebVBox = new VBox();
+        VBox dureeVBox = new VBox();
+        VBox dateFinVBox = new VBox();
+        ganttBox.setSpacing(10);
+        ganttBox.setAlignment(Pos.CENTER);
+        dateDebVBox.setSpacing(10);
+        dureeVBox.setSpacing(10);
+        dateFinVBox.setSpacing(10);
+
+        // Création des Text pour la date
+        Text dateDebutText = new Text("Date de début");
+        Text dureeText = new Text("Durée (Jours)");
+        Text dateFinText = new Text("Date de fin");
+
+        // Création des inputs de valeurs
+        DatePicker dateDebutPicker = new DatePicker();
+        TextField dureeTextField = new TextField();
+        DatePicker dateFinPicker = new DatePicker();
+
+        // On met les valeurs de la tache dans les inputs
+        if (modele.getCurrentTache() instanceof Tache) {
+            Tache tache = (Tache) modele.getCurrentTache();
+
+            dateDebutPicker.setValue(tache.getDateDebut());
+            dureeTextField.setText(String.valueOf(tache.getDuree()));
+            dateFinPicker.setValue(tache.getDateFin());
+
+            // Quand la valeur de durée est changée, on met à jour la date de fin
+            dureeTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+                if (!newValue.matches("\\d*")) {
+                    dureeTextField.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+                if (!dureeTextField.getText().isEmpty()) {
+                    tache.setDuree(Integer.parseInt(dureeTextField.getText()));
+                    try {
+                        tache.setDateFin(tache.calculerDateFin());
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
+                    dateFinPicker.setValue(tache.getDateFin());
+                }
+            });
+
+            // Quand la valeur de la date de début est changée, on met à jour la date de fin
+            dateDebutPicker.valueProperty().addListener((observable, oldValue, newValue) -> {
+                tache.setDateDebut(newValue);
+                try {
+                    tache.setDateFin(tache.calculerDateFin());
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+                dateFinPicker.setValue(tache.getDateFin());
+            });
+
+            // Quand la valeur de la date de fin est changée, on met à jour la durée
+            dateFinPicker.valueProperty().addListener((observable, oldValue, newValue) -> {
+                tache.setDateFin(newValue);
+                try {
+                    tache.setDuree(tache.calculerDureeTache());
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+                dureeTextField.setText(String.valueOf(tache.getDuree()));
+            });
+        }
+
+        // On ajoute les éléments aux conteneurs
+        dateDebVBox.getChildren().addAll(dateDebutText, dateDebutPicker);
+        dureeVBox.getChildren().addAll(dureeText, dureeTextField);
+        dateFinVBox.getChildren().addAll(dateFinText, dateFinPicker);
+        ganttBox.getChildren().addAll(dateDebVBox, dureeVBox, dateFinVBox);
+
         // ### Texte sous-taches ###
         sousTacheText.getStyleClass().add("titre");
 
@@ -251,11 +323,12 @@ public class VueTache implements Observateur {
         overlay.addRow(1, tagsGeneral);
         overlay.addRow(2, new Text("Description"));
         overlay.addRow(3, description, imageBox);
-        overlay.addRow(4, sousTacheText);
-        overlay.addRow(5, vBoxSousTaches);
-        overlay.addRow(6, new Text("Dépendances"));
-        overlay.addRow(7, comboBox);
-        overlay.addRow(8, btnAjouterSousTache, btnArchiver, btnSupprimer);
+        overlay.addRow(4, ganttBox);
+        overlay.addRow(5, sousTacheText);
+        overlay.addRow(6, vBoxSousTaches);
+        overlay.addRow(7, new Text("Dépendances"));
+        overlay.addRow(8, comboBox);
+        overlay.addRow(9, btnAjouterSousTache, btnArchiver, btnSupprimer);
 
         overlayBackground.getChildren().add(overlay);
     }

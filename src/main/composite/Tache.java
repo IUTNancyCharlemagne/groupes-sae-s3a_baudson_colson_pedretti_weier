@@ -62,6 +62,7 @@ public class Tache extends Composant {
         this.sousTaches = new ArrayList<Composant>();
         this.estTerminee = false;
         this.nbTags = 0;
+        this.duree = duree;
     }
 
     /**
@@ -191,6 +192,14 @@ public class Tache extends Composant {
         return (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
     }
 
+    public LocalDate calculerDateFin() throws ParseException {
+        if (this.dateDebut == null || this.duree == 0) return null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date1 = sdf.parse(this.dateDebut.toString());
+        Date date2 = new Date(date1.getTime() + TimeUnit.DAYS.toMillis(this.duree));
+        return LocalDate.parse(sdf.format(date2));
+    }
+
     // #########################
     // ### GETTERS & SETTERS ###
     // #########################
@@ -213,5 +222,13 @@ public class Tache extends Composant {
 
     public void setDateFin(LocalDate dateFin) {
         this.dateFin = dateFin;
+    }
+
+    public int getDuree() {
+        return duree;
+    }
+
+    public void setDuree(int duree) {
+        this.duree = duree;
     }
 }
