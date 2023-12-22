@@ -134,6 +134,7 @@ public class ControlAjouterSousTache implements EventHandler<ActionEvent> {
             }
         });
         scene.getStylesheets().add("file:src/main/css/style.css");
+        stage.getIcons().add(new Image("file:icons/logo.png"));
         stage.setScene(scene);
         stage.setTitle("Ajouter une sous-tâche");
         stage.show();

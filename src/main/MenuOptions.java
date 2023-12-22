@@ -8,7 +8,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import main.controleurs.ControlChangerFond;
 import main.controleurs.ControlChangerVue;
+import main.controleurs.ControlCharger;
+import main.controleurs.ControlSauvegarde;
 import main.exceptions.ProjectNotFoundException;
 
 import java.io.File;
@@ -27,14 +30,17 @@ public class MenuOptions implements EventHandler<ActionEvent> {
 
     private ControlChangerVue controlChangerVue;
 
+    private ControlSauvegarde controlSauvegarde;
+    private ControlCharger controlCharger;
 
 
-
-    public MenuOptions(Modele modele, Stage stage, BorderPane layout, ControlChangerVue controlChangerVue) {
+    public MenuOptions(Modele modele, Stage stage, BorderPane layout, ControlChangerVue controlChangerVue, ControlSauvegarde controlSauvegarde, ControlCharger controlCharger) {
         this.modele = modele;
         this.primaryStage = stage;
         this.layout = layout;
         this.controlChangerVue = controlChangerVue;
+        this.controlSauvegarde = controlSauvegarde;
+        this.controlCharger = controlCharger;
     }
 
     @Override
@@ -63,53 +69,14 @@ public class MenuOptions implements EventHandler<ActionEvent> {
         openImage.setFitHeight(16);
         openImage.setFitWidth(16);
         openMenuItem.setGraphic(openImage);
-        openMenuItem.setOnAction(e -> {
-            System.out.println("Ouvrir Projet");
-            try {
-                if(!Files.exists(Paths.get("./projects/"))) Files.createDirectories(Paths.get("./projects"));
-                FileChooser fileChooser = new FileChooser();
-                fileChooser.setTitle("Open Project File");
-                fileChooser.setInitialDirectory(new File("./projects"));
-                fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Trebo Files", "*.trebo"));
-                File selectedFile = fileChooser.showOpenDialog(primaryStage);
-                if(selectedFile != null){
-                    modele.chargerProjet(selectedFile.getPath());
-                    primaryStage.setTitle(selectedFile.getName());
-                }
-                modele.notifierObservateur();
-            } catch (IOException | ProjectNotFoundException | ClassNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
+        openMenuItem.setOnAction(this.controlCharger);
 
         MenuItem saveMenuItem = new MenuItem("Enregistrer Projet (Ctrl + S)");
         ImageView saveImage = new ImageView("file:icons/save.png");
         saveImage.setFitHeight(16);
         saveImage.setFitWidth(16);
         saveMenuItem.setGraphic(saveImage);
-        saveMenuItem.setOnAction(e -> {
-            System.out.println("Sauvegarder Projet");
-            try {
-                if(modele.getProjet().getChemin() != null) modele.sauvegarderProjet(modele.getProjet().getChemin());
-                else{
-                    if(!Files.exists(Paths.get("./projects/"))) Files.createDirectories(Paths.get("./projects"));
-                    FileChooser fileChooser = new FileChooser();
-                    fileChooser.setTitle("Save As");
-                    fileChooser.setInitialDirectory(new File("./projects/"));
-                    if(modele.getProjet().getNomProjet() != null) fileChooser.setInitialFileName(modele.getProjet().getNomProjet() + ".trebo");
-                    else fileChooser.setInitialFileName("untitled.trebo");
-                    fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Trebo Files", "*.trebo"));
-                    File selectedFile = fileChooser.showSaveDialog(primaryStage);
-                    if(selectedFile != null) {
-                        modele.sauvegarderProjet(selectedFile.getPath());
-                        primaryStage.setTitle(selectedFile.getName());
-                    }
-                }
-                modele.notifierObservateur();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
+        saveMenuItem.setOnAction(this.controlSauvegarde);
 
         MenuItem exitMenuItem = new MenuItem("Fermer l'application (Alt+F4)");
         ImageView exitImage = new ImageView("file:icons/exit.png");
@@ -179,20 +146,8 @@ public class MenuOptions implements EventHandler<ActionEvent> {
         changeBackground.setGraphic(changeBackgroundImage);
 
         EventHandler<ActionEvent> changeBackgroundEvent = e -> {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Open Image File");
-            fileChooser.setInitialDirectory(new File("./backgrounds/"));
-            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
-            File selectedFile = fileChooser.showOpenDialog(primaryStage);
-            if(selectedFile != null) {
-                Image image = new Image(selectedFile.getPath());
-                BackgroundImage backgroundImage = new BackgroundImage(image, null, null, null, null);
-                // si l'image est plus grande que la fenêtre, on la redimensionne
-                if(image.getWidth() > layout.getWidth()|| image.getHeight() > layout.getHeight()) {
-                    backgroundImage = new BackgroundImage(image, null, null, null, new BackgroundSize(1,1,false,false,true,true));
-                }
-                layout.setBackground(new Background(backgroundImage));
-            }
+            ControlChangerFond cf = new ControlChangerFond(modele, primaryStage, layout);
+            cf.handle(new ActionEvent());
         };
 
         changeBackground.setOnAction(changeBackgroundEvent);

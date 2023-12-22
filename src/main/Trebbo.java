@@ -2,28 +2,18 @@ package main;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import main.controleurs.ControlAjouterListe;
 import main.controleurs.ControlChangerVue;
-import main.exceptions.ProjectNotFoundException;
+import main.controleurs.ControlCharger;
+import main.controleurs.ControlSauvegarde;
 import main.observateur.VueArchives;
 import main.observateur.VueBureau;
 import main.observateur.VueTache;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Objects;
 
 public class Trebbo extends Application {
 
@@ -31,14 +21,21 @@ public class Trebbo extends Application {
         launch(args);
     }
 
+
+    /**
+     * Méthode qui lance l'application.
+     * @param primaryStage
+     */
     @Override
     public void start(Stage primaryStage) {
         Modele modele = new Modele(new Projet());
         BorderPane layout = new BorderPane();
 
         ControlChangerVue controlChangerVue = new ControlChangerVue(modele);
+        ControlSauvegarde controlSauvegarde = new ControlSauvegarde(modele, primaryStage);
+        ControlCharger controlCharger = new ControlCharger(modele, primaryStage);
 
-        MenuOptions menuOptions = new MenuOptions(modele, primaryStage, layout, controlChangerVue);
+        MenuOptions menuOptions = new MenuOptions(modele, primaryStage, layout, controlChangerVue, controlSauvegarde, controlCharger);
 
         MenuContext menuContext = new MenuContext(modele, layout,primaryStage);
 
@@ -64,8 +61,9 @@ public class Trebbo extends Application {
 
         modele.getStackPane().getChildren().add(layout);
         Scene scene = new Scene(modele.getStackPane(), 720, 576);
-        primaryStage.getIcons().add(new Image("file:icons/logo.png"));
+
         scene.getStylesheets().add(getClass().getResource("css/style.css").toExternalForm());
+        primaryStage.getIcons().add(new Image("file:icons/logo.png"));
         primaryStage.setScene(scene);
         primaryStage.setTitle("Trebbo");
         primaryStage.show();

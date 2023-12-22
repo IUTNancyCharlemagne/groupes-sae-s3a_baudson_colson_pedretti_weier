@@ -1,5 +1,6 @@
 package main.observateur;
 
+<<<<<<< HEAD
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -236,4 +237,23 @@ public class VueTache implements Observateur {
         overlayBackground.setCenter(overlay);
         BorderPane.setMargin(overlay, new Insets(50, 50, 50, 50));
     }
+=======
+import javafx.scene.layout.VBox;
+import main.Modele;
+import main.Sujet;
+
+public class VueTache extends VBox implements Observateur {
+
+        @Override
+        public void actualiser(Sujet s) {
+            if (!(s instanceof main.Modele)) return;
+
+            Modele modele = (Modele) s;
+
+
+
+
+
+        }
+>>>>>>> a9024266a47e98fe5547aa235f624cf37c11fc96
 }
