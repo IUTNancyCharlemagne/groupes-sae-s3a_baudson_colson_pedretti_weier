@@ -98,6 +98,7 @@ public class ControlAjouterSousTache implements EventHandler<ActionEvent> {
                     } else {
                         ((Tache) composant).ajouter(new Tache(nom.getText(), tacheImage.getImage().getUrl(), 0));
                     }
+                    modele.getStackPane().getChildren().remove(1);
                     modele.notifierObservateur();
                     stage.close();
                 }

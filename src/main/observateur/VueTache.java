@@ -1,8 +1,8 @@
 package main.observateur;
 
-<<<<<<< HEAD
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -22,6 +22,7 @@ import main.composite.Composant;
 import main.composite.Tache;
 import main.controleurs.ControlAjouterSousTache;
 import main.controleurs.ControlAjouterTag;
+import main.controleurs.ControlChangerTitre;
 
 import java.io.File;
 
@@ -35,97 +36,133 @@ public class VueTache implements Observateur {
 
     @Override
     public void actualiser(Sujet s) {
+
         if (!(s instanceof Modele modele)) return;
-        modele.getPaneBureau().getChildren().clear();
 
-        BorderPane overlayBackground = new BorderPane();
-        overlayBackground.getStyleClass().add("overlayBackground");
-        overlayBackground.setMinSize(modele.getStackPane().getWidth(), modele.getStackPane().getHeight());
+        // ### Déclaration des variables ###
 
-        // Overlay
-        VBox overlay = new VBox();
-        overlay.getStyleClass().add("overlay");
-        overlay.setAlignment(Pos.TOP_LEFT);
+        StackPane   overlayBackground = new StackPane();
+        GridPane    overlay =           new GridPane();
 
-        // Quitter
+        // ### Box ###
+        HBox tagsGeneral = new HBox();
+        VBox imageBox = new VBox();
+        VBox vBoxSousTaches = new VBox();
+        ComboBox comboBox = new ComboBox();
+
+        // ### Boutons ###
         Button quitter = new Button("X");
-        quitter.getStyleClass().add("quitter");
-        quitter.setAlignment(Pos.TOP_RIGHT);
-        overlay.getChildren().add(quitter);
+        Button btnAjouterTag = new Button("+");
+        Button btnImage = new Button();
+        Button btnSupprimer = new Button();
+        Button btnArchiver;
+        Button btnAjouterSousTache = new Button("Ajouter une sous-tâche");
 
+        // ### Texte ###
+        Text titre = new Text();
+        Text sousTacheText = new Text("Sous-tâches");
+        TextArea description = new TextArea();
 
-        // Titre
-        Text titre = new Text(modele.getCurrentTache().getNom());
+        // ### Image ###
+        ImageView image = new ImageView();
+        ImageView imgSupp = new ImageView(new Image("file:icons/trash.png"));
+
+        String archiverText = "";
+
+        // ### Overlay background ###
+        overlayBackground.getStyleClass().add("overlayBackground");
+        overlayBackground.setPrefSize(
+                modele.getStackPane().getWidth(),
+                modele.getStackPane().getHeight());
+
+        // ### Overlay ###
+        overlay.getStyleClass().add("overlay");
+        overlay.setAlignment(Pos.CENTER);
+        overlay.setHgap(20);
+        overlay.setVgap(20);
+        overlay.setId("overlay");
+
+        // ### Titre ###
+        titre.setText(modele.getCurrentTache().getNom());
         titre.getStyleClass().add("titre");
-        overlay.getChildren().add(titre);
+        titre.setOnMouseClicked(new ControlChangerTitre(modele, modele.getCurrentTache()));
 
-        // Tags
-        VBox tagsGeneral = new VBox();
-        Button btnAjouterTag = new Button("Ajouter un tag");
-        btnAjouterTag.getStyleClass().add("btn");
-        btnAjouterTag.setOnAction(new ControlAjouterTag(modele, modele.getCurrentTache()));
-        btnAjouterTag.setId(modele.getCurrentTache().getNom());
-        tagsGeneral.getChildren().add(btnAjouterTag);
+        // ### Quitter ###
+        quitter.getStyleClass().add("quitter");
+        // TODO: Faire un ControlQuitterTache qui enregistre les modifications
+        quitter.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                modele.getCurrentTache().setDescription(modele.getCurrentTache().getDescription());
+                if (image.getImage() != null) {
+                    modele.getCurrentTache().setImage(image.getImage().getUrl());
+                }
+                modele.getStackPane().getChildren().remove(overlayBackground);
+                modele.setCurrentTache(null);
+                modele.notifierObservateur();
+            }
+        });
 
-        HBox tagsBox = new HBox();
-        tagsBox.setAlignment(Pos.CENTER);
-        tagsBox.setSpacing(10);
+        // ### Tags ###
         for (Tag tag : modele.getCurrentTache().getTags()) {
+            HBox tagBox = new HBox();
+            tagBox.setSpacing(5);
+            tagBox.setPadding(new Insets(5));
+            tagBox.setAlignment(Pos.CENTER);
+            tagBox.setBackground(new Background(
+                    new BackgroundFill(
+                            tag.getCouleur(), new CornerRadii(10), Insets.EMPTY)));
+            // ### Texte du tag ###
             Label label = new Label(tag.getNom());
             label.getStyleClass().add("tag");
-            label.setBackground(new Background(new BackgroundFill(tag.getCouleur(), CornerRadii.EMPTY, Insets.EMPTY)));
-            tagsBox.getChildren().add(label);
-            Button btnSupprimerTag = new Button("X");
-            btnSupprimerTag.getStyleClass().add("btn");
+            // ### Bouton supprimer tag ###
+            Button btnSupprimerTag = new Button("x");
+            btnSupprimerTag.getStyleClass().add("btnTag");
+            tagBox.getChildren().addAll(label, btnSupprimerTag);
+            // TODO: Faire un ControlSupprimerTag qui supprime le tag de la tache
             btnSupprimerTag.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
+                    modele.getStackPane().getChildren().remove(overlayBackground);
                     modele.getCurrentTache().removeTag(tag);
                     modele.notifierObservateur();
                 }
             });
-            tagsBox.getChildren().add(btnSupprimerTag);
+            tagsGeneral.getChildren().add(tagBox);
         }
 
-        tagsGeneral.getChildren().add(tagsBox);
-        overlay.getChildren().add(tagsGeneral);
+        // ### Bouton ajouter tag ###
+        btnAjouterTag.getStyleClass().add("btn");
+        btnAjouterTag.setOnAction(new ControlAjouterTag(modele, modele.getCurrentTache()));
+        btnAjouterTag.setId(modele.getCurrentTache().getNom());
 
-        // Description
-        HBox detailsBox = new HBox();
+        // ### Conteneur des tags ###
+        tagsGeneral.getChildren().add(btnAjouterTag);
+        tagsGeneral.setSpacing(5);
 
-        TextArea description = new TextArea();
-        if (modele.getCurrentTache().getDescription() == null) {
-            description.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet nisi at mi imperdiet elementum. Maecenas et tellus vitae enim dapibus sagittis. Nulla interdum enim vitae eros hendrerit pellentesque. Sed pretium tortor sit amet vestibulum finibus. Donec tempus nisl gravida arcu porttitor, ut laoreet lacus fringilla. Curabitur dui est, varius ut consectetur id, accumsan vel tortor. Praesent laoreet accumsan magna eget tristique.");
-        } else {
-            description.setText(modele.getCurrentTache().getDescription());
-        }
+        // ### Description ###
+        description.setText(modele.getCurrentTache().getDescription());
         description.setWrapText(true);
         description.getStyleClass().add("description");
-        detailsBox.getChildren().add(description);
 
-        // Vbox de bouttons supprimer et archiver
-        HBox buttons = new HBox();
-        String archiverText;
-
-        // Image
-        VBox imageBox = new VBox();
-        imageBox.setAlignment(Pos.CENTER);
+        // ### Image ###
         imageBox.setSpacing(10);
-        Button btnImage = new Button();
+        imageBox.setAlignment(Pos.CENTER);
+        GridPane.setHalignment(imageBox, HPos.CENTER);
         imageBox.getChildren().add(btnImage);
-        detailsBox.getChildren().add(imageBox);
-        ImageView image = new ImageView();
+        // Si la tache a une image
         if (modele.getCurrentTache().getImage() != null) {
             image.setImage(new Image(modele.getCurrentTache().getImage()));
-            image.setFitHeight(200);
-            image.setFitWidth(200);
+            image.setFitHeight(300);
+            image.setFitWidth(300);
             image.setPreserveRatio(true);
             btnImage.setText("Changer l'image");
-            imageBox.getChildren().add(0, image);
+            imageBox.getChildren().add(image);
         } else {
             btnImage.setText("Ajouter une image");
         }
 
+        // TODO: Faire un ControlAjouterImage qui ajoute une image a la tache
         btnImage.setOnAction(e -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Choisir une image");
@@ -134,63 +171,54 @@ public class VueTache implements Observateur {
             );
             File selectedFile = fileChooser.showOpenDialog(null);
             image.setImage(new Image(selectedFile.toURI().toString()));
-            image.setFitHeight(200);
-            image.setFitWidth(200);
+            image.setFitHeight(300);
+            image.setFitWidth(300);
             image.setPreserveRatio(true);
-            imageBox.getChildren().clear();
-            imageBox.getChildren().addAll(image, btnImage);
+            modele.getStackPane().getChildren().remove(overlayBackground);
+            modele.notifierObservateur();
         });
 
-        detailsBox.setAlignment(Pos.CENTER);
-        detailsBox.setSpacing(50);
-        overlay.getChildren().add(detailsBox);
-
-
-        Button btnSupprimer = new Button();
-        ImageView imgSupp = new ImageView(new Image("file:icons/trash.png"));
-        imgSupp.setFitHeight(50);
-        imgSupp.setFitWidth(50);
+        // ### Bouton supprimer tache ###
+        imgSupp.setFitHeight(10);
+        imgSupp.setFitWidth(10);
         btnSupprimer.setGraphic(imgSupp);
         btnSupprimer.getStyleClass().add("quitter");
+        // TODO: Faire un ControlSupprimerTache qui supprime la tache
         btnSupprimer.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 modele.getProjet().supprimerTache(modele.getCurrentTache().getNom());
+                modele.getStackPane().getChildren().remove(overlayBackground);
                 modele.setCurrentTache(null);
                 modele.notifierObservateur();
             }
         });
 
-        if (modele.getCurrentTache().getEstArchive()) archiverText = "Désarchiver";
-        else archiverText = "Archiver";
-        Button btnArchiver = new Button(archiverText);
+        // ### Bouton archiver tache ###
+        // Si la tache est archivee, le bouton affiche "Desarchiver" sinon il affiche "Archiver"
+        archiverText = modele.getCurrentTache().getEstArchive() ? "Désarchiver" : "Archiver";
+        btnArchiver = new Button(archiverText);
+        GridPane.setHalignment(btnArchiver, HPos.RIGHT);
         btnArchiver.getStyleClass().add("quitter");
-
+        // TODO: Faire un ControlArchiverTache qui archive ou désarchive la tache
         btnArchiver.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 if (!modele.getCurrentTache().getEstArchive()) {
                     modele.getProjet().archiverTache(modele.getCurrentTache().getNom());
-                    modele.setCurrentTache(null);
-                    modele.notifierObservateur();
                 } else {
                     modele.getProjet().desarchiverTache(modele.getCurrentTache().getNom());
-                    modele.setCurrentTache(null);
-                    modele.notifierObservateur();
                 }
+                modele.getStackPane().getChildren().remove(overlayBackground);
+                modele.setCurrentTache(null);
+                modele.notifierObservateur();
             }
         });
 
-        buttons.setAlignment(Pos.CENTER);
-        buttons.setSpacing(10);
-        buttons.getChildren().addAll(btnSupprimer, btnArchiver);
-        overlay.getChildren().add(buttons);
+        // ### Texte sous-taches ###
+        sousTacheText.getStyleClass().add("titre");
 
-        Text sousTache = new Text("Sous-tâches");
-        sousTache.getStyleClass().add("titre");
-        overlay.getChildren().add(sousTache);
-
-        VBox vBoxSousTaches = new VBox();
+        // ### Sous-taches ###
         vBoxSousTaches.getStyleClass().add("sousTaches");
         if (modele.getCurrentTache() instanceof Tache) {
             Tache tache = (Tache) modele.getCurrentTache();
@@ -198,15 +226,13 @@ public class VueTache implements Observateur {
                 vBoxSousTaches.getChildren().add(sousTacheComposant.afficher(modele));
             }
         }
-        overlay.getChildren().add(vBoxSousTaches);
 
-        Button btnAjouterSousTache = new Button("Ajouter une sous-tâche");
+        // ### Bouton ajouter sous-tache ###
         btnAjouterSousTache.getStyleClass().add("btn");
         btnAjouterSousTache.setOnAction(new ControlAjouterSousTache(modele, modele.getCurrentTache()));
         btnAjouterSousTache.setId(modele.getCurrentTache().getNom());
-        overlay.getChildren().add(btnAjouterSousTache);
 
-        ComboBox comboBox = new ComboBox();
+        // ### ComboBox ###
         for (Liste liste : modele.getProjet().getListeTaches()) {
             for (Composant composant : liste.getComposants()) {
                 if (!composant.getNom().equals(modele.getCurrentTache().getNom())) {
@@ -215,45 +241,20 @@ public class VueTache implements Observateur {
             }
         }
 
-        overlay.getChildren().add(comboBox);
-        quitter.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                modele.getCurrentTache().setDescription(description.getText());
-                if (image.getImage() != null) {
-                    modele.getCurrentTache().setImage(image.getImage().getUrl());
-                }
-                modele.setCurrentTache(null);
-                modele.notifierObservateur();
-            }
-        });
+        // ### Ajout overlay background ###
+        modele.getStackPane().getChildren().add(overlayBackground);
 
-        overlay.setAlignment(Pos.CENTER);
-        overlayBackground.setCenter(overlay);
-        BorderPane.setMargin(overlay, new Insets(50, 50, 50, 50));
+        // ### Ajout des elements au gridpane ###
+        overlay.addRow(0, titre, new Label(), quitter);
+        overlay.addRow(1, tagsGeneral);
+        overlay.addRow(2, new Text("Description"));
+        overlay.addRow(3, description, imageBox);
+        overlay.addRow(4, sousTacheText);
+        overlay.addRow(5, vBoxSousTaches);
+        overlay.addRow(6, new Text("Dépendances"));
+        overlay.addRow(7, comboBox);
+        overlay.addRow(8, btnAjouterSousTache, btnArchiver, btnSupprimer);
 
-        modele.getPaneBureau().getChildren().add(overlayBackground);
-        overlay.setAlignment(Pos.CENTER);
-        overlayBackground.setCenter(overlay);
-        BorderPane.setMargin(overlay, new Insets(50, 50, 50, 50));
+        overlayBackground.getChildren().add(overlay);
     }
-=======
-import javafx.scene.layout.VBox;
-import main.Modele;
-import main.Sujet;
-
-public class VueTache extends VBox implements Observateur {
-
-        @Override
-        public void actualiser(Sujet s) {
-            if (!(s instanceof main.Modele)) return;
-
-            Modele modele = (Modele) s;
-
-
-
-
-
-        }
->>>>>>> a9024266a47e98fe5547aa235f624cf37c11fc96
 }

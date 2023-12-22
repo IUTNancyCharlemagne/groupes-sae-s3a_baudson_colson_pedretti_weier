@@ -21,7 +21,6 @@ public class Trebbo extends Application {
         launch(args);
     }
 
-
     /**
      * Méthode qui lance l'application.
      * @param primaryStage
