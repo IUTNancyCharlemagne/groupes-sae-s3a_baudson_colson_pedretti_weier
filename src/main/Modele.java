@@ -99,9 +99,10 @@ public class Modele implements Sujet, Serializable {
                 }
             }
 
-            if (o instanceof VueTache && this.currentTache != null){
+            if (o instanceof VueTache){
                 o.actualiser(this);
             }
+
         }
     }
 

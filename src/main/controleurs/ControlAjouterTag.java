@@ -82,7 +82,6 @@ public class ControlAjouterTag implements EventHandler<ActionEvent> {
                 } else {
                     composant.addTag(new Tag(nom.getText(), colorPicker.getValue()));
                     modele.notifierObservateur();
-                    modele.getStackPane().getChildren().remove(1);
                 }
                 stage.close();
             }

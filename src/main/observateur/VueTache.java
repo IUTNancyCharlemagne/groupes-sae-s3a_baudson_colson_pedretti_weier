@@ -69,6 +69,13 @@ public class VueTache implements Observateur {
 
         String archiverText = "";
 
+        // ### Reset ancienne vue ###
+        if (modele.getStackPane().getChildren().size() > 1) {
+            modele.getStackPane().getChildren().remove(1);
+        }
+
+        if (modele.getCurrentTache() == null) return;
+
         // ### Overlay background ###
         overlayBackground.getStyleClass().add("overlayBackground");
         overlayBackground.setPrefSize(
@@ -97,7 +104,6 @@ public class VueTache implements Observateur {
                 if (image.getImage() != null) {
                     modele.getCurrentTache().setImage(image.getImage().getUrl());
                 }
-                modele.getStackPane().getChildren().remove(overlayBackground);
                 modele.setCurrentTache(null);
                 modele.notifierObservateur();
             }
@@ -123,7 +129,6 @@ public class VueTache implements Observateur {
             btnSupprimerTag.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-                    modele.getStackPane().getChildren().remove(overlayBackground);
                     modele.getCurrentTache().removeTag(tag);
                     modele.notifierObservateur();
                 }
@@ -174,7 +179,6 @@ public class VueTache implements Observateur {
             image.setFitHeight(300);
             image.setFitWidth(300);
             image.setPreserveRatio(true);
-            modele.getStackPane().getChildren().remove(overlayBackground);
             modele.notifierObservateur();
         });
 
@@ -188,7 +192,6 @@ public class VueTache implements Observateur {
             @Override
             public void handle(ActionEvent actionEvent) {
                 modele.getProjet().supprimerTache(modele.getCurrentTache().getNom());
-                modele.getStackPane().getChildren().remove(overlayBackground);
                 modele.setCurrentTache(null);
                 modele.notifierObservateur();
             }
@@ -209,7 +212,6 @@ public class VueTache implements Observateur {
                 } else {
                     modele.getProjet().desarchiverTache(modele.getCurrentTache().getNom());
                 }
-                modele.getStackPane().getChildren().remove(overlayBackground);
                 modele.setCurrentTache(null);
                 modele.notifierObservateur();
             }
