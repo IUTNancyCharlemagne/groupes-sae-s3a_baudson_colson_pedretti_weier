@@ -2,10 +2,13 @@ package main;
 
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import main.composite.Composant;
+import main.composite.Tache;
 import main.exceptions.ProjectNotFoundException;
 import main.observateur.Observateur;
 import main.observateur.VueArchives;
 import main.observateur.VueBureau;
+import main.observateur.VueTache;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -26,6 +29,7 @@ public class Modele implements Sujet, Serializable {
     public static final String LIGNE = "Ligne";
     public static final String GANTT = "Gantt";
     public static final String ARCHIVES = "Archives";
+    private Composant currentTache;
 
     /**
      * Panneau principal de l'application
@@ -58,6 +62,7 @@ public class Modele implements Sujet, Serializable {
     public Modele() {
         this.observateurs = new ArrayList<Observateur>();
         this.vueCourante = Modele.COLONNE;
+        this.currentTache = null;
     }
 
     /**
@@ -83,18 +88,19 @@ public class Modele implements Sujet, Serializable {
     @Override
     public void notifierObservateur() {
         for (Observateur o : this.observateurs) {
+
             if (Objects.equals(vueCourante, Modele.COLONNE)){
                 if (o instanceof VueBureau){
                     o.actualiser(this);
                 }
-            } else if (Objects.equals(vueCourante, Modele.LIGNE)){
-                if (o instanceof VueBureau){
+            } else if (Objects.equals(vueCourante, Modele.ARCHIVES)) {
+                if (o instanceof VueArchives) {
                     o.actualiser(this);
                 }
-            } else if (Objects.equals(vueCourante, Modele.ARCHIVES)){
-                if (o instanceof VueArchives){
-                    o.actualiser(this);
-                }
+            }
+
+            if (o instanceof VueTache && this.currentTache != null){
+                o.actualiser(this);
             }
         }
     }
@@ -150,5 +156,11 @@ public class Modele implements Sujet, Serializable {
     }
     public StackPane getStackPane() {
         return stackPane;
+    }
+    public Composant getCurrentTache() {
+        return currentTache;
+    }
+    public void setCurrentTache(Composant currentTache) {
+        this.currentTache = currentTache;
     }
 }

@@ -17,6 +17,7 @@ import main.controleurs.ControlChangerVue;
 import main.exceptions.ProjectNotFoundException;
 import main.observateur.VueArchives;
 import main.observateur.VueBureau;
+import main.observateur.VueTache;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,6 +53,9 @@ public class Trebbo extends Application {
 
         VueArchives vueArchives = new VueArchives();
         modele.enregistrerObservateur(vueArchives);
+
+        VueTache vueTache = new VueTache(modele);
+        modele.enregistrerObservateur(vueTache);
 
         modele.notifierObservateur();
         layout.setCenter(modele.getPaneBureau());
