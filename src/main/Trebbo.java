@@ -20,6 +20,11 @@ public class Trebbo extends Application {
         launch(args);
     }
 
+
+    /**
+     * Méthode qui lance l'application.
+     * @param primaryStage
+     */
     @Override
     public void start(Stage primaryStage) {
         Modele modele = new Modele(new Projet());
