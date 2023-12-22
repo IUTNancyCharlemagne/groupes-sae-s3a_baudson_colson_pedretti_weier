@@ -12,6 +12,7 @@ import main.controleurs.ControlOnDragDetected;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,13 +35,13 @@ public class Tache extends Composant {
      * Date de début de la tâche
      * Format : yyyy-MM-dd
      */
-    protected String dateDebut;
+    protected LocalDate dateDebut;
 
     /**
      * Date de fin de la tâche
      * Format : yyyy-MM-dd
      */
-    protected String dateFin;
+    protected LocalDate dateFin;
 
     /**
      * Durée de la tâche
@@ -70,7 +71,7 @@ public class Tache extends Composant {
      * @param dateDebut
      * @param dateFin
      */
-    public Tache(String nom, String dateDebut, String dateFin) {
+    public Tache(String nom, LocalDate dateDebut, LocalDate dateFin) {
         this.nom = nom;
         this.description = "";
         this.estArchive = false;
@@ -90,15 +91,8 @@ public class Tache extends Composant {
      * @param date Date
      * @return true si elle est valide, false sinon
      */
-    public static boolean dateValide(String date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        dateFormat.setLenient(false);
-        try {
-            Date d = dateFormat.parse(date);
-            return true;
-        } catch (ParseException e) {
-            return false;
-        }
+    public static boolean dateValide(LocalDate date) {
+        return date != null;
     }
 
     @Override
@@ -190,11 +184,11 @@ public class Tache extends Composant {
      */
     public int calculerDureeTache() throws ParseException {
         if (this.dateDebut == null || this.dateFin == null) return -1;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date dateD = dateFormat.parse(this.dateDebut);
-        Date dateF = dateFormat.parse(this.dateFin);
-        long durationInMillis = dateD.getTime() - dateF.getTime();
-        return (int) TimeUnit.MILLISECONDS.toDays(durationInMillis);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date1 = sdf.parse(this.dateDebut.toString());
+        Date date2 = sdf.parse(this.dateFin.toString());
+        long diff = date2.getTime() - date1.getTime();
+        return (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
     }
 
     // #########################
@@ -205,19 +199,19 @@ public class Tache extends Composant {
         return this.sousTaches;
     }
 
-    public String getDateDebut() {
+    public LocalDate getDateDebut() {
         return dateDebut;
     }
 
-    public void setDateDebut(String dateDebut) {
+    public void setDateDebut(LocalDate dateDebut) {
         this.dateDebut = dateDebut;
     }
 
-    public String getDateFin() {
+    public LocalDate getDateFin() {
         return dateFin;
     }
 
-    public void setDateFin(String dateFin) {
+    public void setDateFin(LocalDate dateFin) {
         this.dateFin = dateFin;
     }
 }

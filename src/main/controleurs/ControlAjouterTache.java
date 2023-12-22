@@ -6,6 +6,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -22,6 +23,7 @@ import main.composite.Composant;
 import main.composite.Tache;
 
 import java.io.File;
+import java.time.LocalDate;
 
 /**
  * ControlAjouterTache est la classe qui represente le controleur qui ajoute une tâche à une liste.
@@ -64,13 +66,28 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
                 ""
         );
 
-        Text dureeText = new Text("Durée de la tâche en jours");
+        // Gestion de la durée et da la date de début
+        HBox ganttBox = new HBox();
 
+        // Input de la date de début
+        VBox dateBox = new VBox();
+        Text dateText = new Text("Date de début");
+        DatePicker datePicker = new DatePicker();
+        datePicker.setValue(LocalDate.now());
+        dateBox.getChildren().addAll(dateText, datePicker);
+
+        // Input de la duree
+        VBox dureeBox = new VBox();
+        Text dureeText = new Text("Durée de la tâche en jours");
         TextField duree = new TextField(
                 ""
         );
-
         duree.setPromptText("5");
+        dureeBox.getChildren().addAll(dureeText, duree);
+
+        ganttBox.getChildren().addAll(dateBox, dureeBox);
+        ganttBox.setSpacing(10);
+        ganttBox.setAlignment(Pos.CENTER);
 
         ImageView tacheImage = new ImageView();
 
@@ -123,7 +140,11 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
                         }
                     }
 
-                    modele.getProjet().getListeTaches(nomListe).ajouterComposant(new Tache(nom.getText(), imgUrl, dureeInt));
+                    Tache tache = new Tache(nom.getText(), imgUrl, dureeInt);
+
+                    tache.setDateDebut(datePicker.getValue());
+
+                    modele.getProjet().getListeTaches(nomListe).ajouterComposant(tache);
 
                     modele.notifierObservateur();
                 }
@@ -138,8 +159,7 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
         nom.getStyleClass().add("description");
         overlay.getChildren().add(title);
         overlay.getChildren().add(nom);
-        overlay.getChildren().add(dureeText);
-        overlay.getChildren().add(duree);
+        overlay.getChildren().add(ganttBox);
         overlay.getChildren().add(imageSelection);
         overlay.getChildren().add(btnValider);
         overlay.setAlignment(Pos.CENTER);
