@@ -100,10 +100,6 @@ public class VueTache implements Observateur {
         quitter.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                modele.getCurrentTache().setDescription(description.getText());
-                if (image.getImage() != null) {
-                    modele.getCurrentTache().setImage(image.getImage().getUrl());
-                }
                 modele.setCurrentTache(null);
                 modele.notifierObservateur();
             }
@@ -150,7 +146,14 @@ public class VueTache implements Observateur {
         description.setWrapText(true);
         description.getStyleClass().add("description");
 
-        // ### Image ###
+        description.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                modele.getCurrentTache().setDescription(description.getText());
+                modele.notifierObservateur();
+            }
+        });
+
+            // ### Image ###
         imageBox.setSpacing(10);
         imageBox.setAlignment(Pos.CENTER);
         GridPane.setHalignment(imageBox, HPos.CENTER);
@@ -175,10 +178,6 @@ public class VueTache implements Observateur {
                     new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
             );
             File selectedFile = fileChooser.showOpenDialog(null);
-            image.setImage(new Image(selectedFile.toURI().toString()));
-            image.setFitHeight(300);
-            image.setFitWidth(300);
-            image.setPreserveRatio(true);
             modele.getCurrentTache().setImage(selectedFile.toURI().toString());
             modele.notifierObservateur();
         });

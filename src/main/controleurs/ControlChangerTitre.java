@@ -50,7 +50,6 @@ public class ControlChangerTitre implements EventHandler<MouseEvent> {
             parent.add(titre, 0, 0);
             // On met a jour le nom du composant et l'affichage
             composant.setNom(tf.getText());
-            modele.getStackPane().getChildren().remove(1);
             modele.notifierObservateur();
         });
         // On remplace le titre par le TextField
