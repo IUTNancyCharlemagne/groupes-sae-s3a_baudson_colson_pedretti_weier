@@ -176,8 +176,10 @@ public class VueTache implements Observateur {
                     new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
             );
             File selectedFile = fileChooser.showOpenDialog(null);
-            modele.getCurrentTache().setImage(selectedFile.toURI().toString());
-            modele.notifierObservateur();
+            if(selectedFile != null){
+                modele.getCurrentTache().setImage(selectedFile.toURI().toString());
+                modele.notifierObservateur();
+            }
         });
 
         // ### Bouton supprimer tache ###

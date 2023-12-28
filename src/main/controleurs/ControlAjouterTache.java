@@ -197,6 +197,7 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
                     Tache tache = new Tache(nom.getText(), imgUrl, Integer.parseInt(duree.getText()));
 
                     tache.setDateDebut(dateDebPicker.getValue());
+                    tache.setDateFin(dateFinPicker.getValue());
 
                     modele.getProjet().getListeTaches(nomListe).ajouterComposant(tache);
 
