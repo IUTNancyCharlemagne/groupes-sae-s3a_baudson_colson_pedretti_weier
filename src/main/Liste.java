@@ -2,13 +2,17 @@ package main;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import main.composite.Composant;
 import main.composite.Tache;
+import main.controleurs.ControlAjouterTache;
 import main.controleurs.ControlChangerTitreListe;
 import main.controleurs.ControlOnDragDropped;
 import main.controleurs.ControlOnDragOver;
@@ -81,22 +85,50 @@ public class Liste implements Serializable {
 
         paneListe.setId(this.nom);
         Text textNom = new Text(this.nom);
-        Button suppListe = new Button();
-        ImageView imgSupp = new ImageView(new Image("file:icons/trash.png"));
-        imgSupp.setFitHeight(20);
-        imgSupp.setFitWidth(20);
-        suppListe.setGraphic(imgSupp);
-        suppListe.getStyleClass().add("quitter");
-        suppListe.setOnAction(e -> {
-            modele.getProjet().supprimerListeTaches(this);
-            modele.notifierObservateur();
-        });
-        hbox.getChildren().addAll(textNom, suppListe);
+        Button more = new Button();
+        ImageView imgMore = new ImageView(new Image("file:icons/more.png"));
+        imgMore.setFitHeight(20);
+        imgMore.setFitWidth(20);
+        more.setGraphic(imgMore);
+        more.getStyleClass().add("button");
+        hbox.getChildren().addAll(textNom, more);
         paneListe.getChildren().add(hbox);
 
         for (Composant c : composants) {
             if(!c.getEstArchive()) paneListe.getChildren().add(c.afficher(modele));
         }
+
+        // Menu de Contexte de la liste
+        ContextMenu contextMenu = new ContextMenu();
+
+
+        MenuItem contextMenuRL = new MenuItem("Renommer la liste");
+        ImageView contextMenuRLImage = new ImageView(new Image("file:icons/edit.png"));
+        contextMenuRLImage.setFitHeight(16);
+        contextMenuRLImage.setFitWidth(16);
+        contextMenuRL.setGraphic(contextMenuRLImage);
+
+        contextMenuRL.setOnAction(e -> {
+            textNom.fireEvent(new MouseEvent(MouseEvent.MOUSE_CLICKED, 0, 0, 0, 0, null, 0, false, false, false, false,
+                    false, false, false, false, false, false, null));
+
+        });
+
+        MenuItem contextMenuSL = new MenuItem("Supprimer la liste");
+        ImageView contextMenuSLImage = new ImageView(new Image("file:icons/trash.png"));
+        contextMenuSLImage.setFitHeight(16);
+        contextMenuSLImage.setFitWidth(16);
+        contextMenuSL.setGraphic(contextMenuSLImage);
+        
+        contextMenuSL.setOnAction(e -> {
+            modele.getProjet().supprimerListeTaches(this);
+            modele.notifierObservateur();
+        });
+        contextMenu.getItems().addAll(contextMenuRL, contextMenuSL);
+
+        more.setOnMouseClicked(e -> {
+            contextMenu.show(more, e.getScreenX(), e.getScreenY());
+        });
 
         paneListe.setOnDragDropped(new ControlOnDragDropped(modele));
         paneListe.setOnDragOver(new ControlOnDragOver(modele));

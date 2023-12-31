@@ -82,6 +82,11 @@ public class MenuContext implements EventHandler<ActionEvent> {
 
         });
 
+        layout.setOnMouseClicked(e -> {
+            contextMenu.hide();
+            listContextMenu.hide();
+        });
+
 
         contextMenuItem.setOnAction(new ControlAjouterListe(modele));
     }
