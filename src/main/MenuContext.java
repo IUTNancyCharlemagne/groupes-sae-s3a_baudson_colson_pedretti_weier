@@ -8,12 +8,9 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import main.controleurs.ControlAjouterListe;
 import main.controleurs.ControlChangerFond;
-
-import java.io.File;
 
 public class MenuContext implements EventHandler<ActionEvent> {
 
@@ -52,29 +49,7 @@ public class MenuContext implements EventHandler<ActionEvent> {
 
         contextMenu.getItems().add(contextMenuItem);
         contextMenu.getItems().add(contextMenuItem2);
-
-        ContextMenu listContextMenu = new ContextMenu();
-        MenuItem listContextMenuItem = new MenuItem("Ajouter une tâche");
-        ImageView listContextImage = new ImageView(new Image("file:icons/plus.png"));
-        listContextImage.setFitHeight(16);
-        listContextImage.setFitWidth(16);
-        listContextMenuItem.setGraphic(listContextImage);
-
-        MenuItem listModifier = new MenuItem("Modifier la liste");
-        ImageView listModifierImage = new ImageView(new Image("file:icons/edit.png"));
-        listModifierImage.setFitHeight(16);
-        listModifierImage.setFitWidth(16);
-        listModifier.setGraphic(listModifierImage);
-
-        MenuItem listSupprimer = new MenuItem("Supprimer la liste");
-        ImageView listSupprimerImage = new ImageView(new Image("file:icons/trash.png"));
-        listSupprimerImage.setFitHeight(16);
-        listSupprimerImage.setFitWidth(16);
-        listSupprimer.setGraphic(listSupprimerImage);
-
-        listContextMenu.getItems().addAll(listModifier, listSupprimer,listContextMenuItem);
-
-
+        
         layout.setOnContextMenuRequested(e -> {
             Node Source = (Node) e.getSource();
 
@@ -84,9 +59,7 @@ public class MenuContext implements EventHandler<ActionEvent> {
 
         layout.setOnMouseClicked(e -> {
             contextMenu.hide();
-            listContextMenu.hide();
         });
-
 
         contextMenuItem.setOnAction(new ControlAjouterListe(modele));
     }

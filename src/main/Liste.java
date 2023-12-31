@@ -103,7 +103,7 @@ public class Liste implements Serializable {
 
 
         MenuItem contextMenuRL = new MenuItem("Renommer la liste");
-        ImageView contextMenuRLImage = new ImageView(new Image("file:icons/edit.png"));
+        ImageView contextMenuRLImage = new ImageView(new Image("file:icons/crayon.png"));
         contextMenuRLImage.setFitHeight(16);
         contextMenuRLImage.setFitWidth(16);
         contextMenuRL.setGraphic(contextMenuRLImage);
@@ -119,7 +119,7 @@ public class Liste implements Serializable {
         contextMenuSLImage.setFitHeight(16);
         contextMenuSLImage.setFitWidth(16);
         contextMenuSL.setGraphic(contextMenuSLImage);
-        
+
         contextMenuSL.setOnAction(e -> {
             modele.getProjet().supprimerListeTaches(this);
             modele.notifierObservateur();
