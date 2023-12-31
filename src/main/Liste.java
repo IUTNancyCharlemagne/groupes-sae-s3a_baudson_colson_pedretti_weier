@@ -86,7 +86,7 @@ public class Liste implements Serializable {
         paneListe.setId(this.nom);
         Text textNom = new Text(this.nom);
         Button more = new Button();
-        ImageView imgMore = new ImageView(new Image("file:icons/more.png"));
+        ImageView imgMore = new ImageView(new Image("file:icons/moreW.png"));
         imgMore.setFitHeight(20);
         imgMore.setFitWidth(20);
         more.setGraphic(imgMore);
