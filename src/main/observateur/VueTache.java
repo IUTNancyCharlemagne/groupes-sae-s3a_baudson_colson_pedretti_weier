@@ -39,14 +39,13 @@ public class VueTache implements Observateur {
 
         // ### Déclaration des variables ###
 
-        StackPane   overlayBackground = new StackPane();
-        GridPane    overlay =           new GridPane();
+        StackPane overlayBackground = new StackPane();
+        GridPane overlay = new GridPane();
 
         // ### Box ###
         HBox tagsGeneral = new HBox();
         VBox imageBox = new VBox();
         VBox vBoxSousTaches = new VBox();
-        ComboBox comboBox = new ComboBox();
 
         // ### Boutons ###
         Button quitter = new Button("X");
@@ -151,7 +150,7 @@ public class VueTache implements Observateur {
             }
         });
 
-            // ### Image ###
+        // ### Image ###
         imageBox.setSpacing(10);
         imageBox.setAlignment(Pos.CENTER);
         GridPane.setHalignment(imageBox, HPos.CENTER);
@@ -176,7 +175,7 @@ public class VueTache implements Observateur {
                     new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
             );
             File selectedFile = fileChooser.showOpenDialog(null);
-            if(selectedFile != null){
+            if (selectedFile != null) {
                 modele.getCurrentTache().setImage(selectedFile.toURI().toString());
                 modele.notifierObservateur();
             }
@@ -290,6 +289,9 @@ public class VueTache implements Observateur {
         dureeVBox.getChildren().addAll(dureeText, dureeTextField);
         dateFinVBox.getChildren().addAll(dateFinText, dateFinPicker);
         ganttBox.getChildren().addAll(dateDebVBox, dureeVBox, dateFinVBox);
+        if(dateDebutPicker.getValue() != null){
+            overlay.addRow(4, ganttBox);
+        }
 
         // ### Texte sous-taches ###
         sousTacheText.getStyleClass().add("titre");
@@ -308,6 +310,9 @@ public class VueTache implements Observateur {
         btnAjouterSousTache.setOnAction(new ControlAjouterSousTache(modele, modele.getCurrentTache()));
         btnAjouterSousTache.setId(modele.getCurrentTache().getNom());
 
+        // Dependence
+        ComboBox comboBox = new ComboBox();
+        Text DependenceText = new Text("Dépendances");
         // ### ComboBox ###
         for (Liste liste : modele.getProjet().getListeTaches()) {
             for (Composant composant : liste.getComposants()) {
@@ -316,6 +321,11 @@ public class VueTache implements Observateur {
                 }
             }
         }
+        if(!comboBox.getItems().isEmpty()) {
+            overlay.addRow(7, DependenceText);
+            overlay.addRow(8, comboBox);
+        }
+
 
         // ### Ajout overlay background ###
         modele.getStackPane().getChildren().add(overlayBackground);
@@ -325,11 +335,8 @@ public class VueTache implements Observateur {
         overlay.addRow(1, tagsGeneral);
         overlay.addRow(2, new Text("Description"));
         overlay.addRow(3, description, imageBox);
-        overlay.addRow(4, ganttBox);
         overlay.addRow(5, sousTacheText);
         overlay.addRow(6, vBoxSousTaches);
-        overlay.addRow(7, new Text("Dépendances"));
-        overlay.addRow(8, comboBox);
         overlay.addRow(9, btnAjouterSousTache, btnArchiver, btnSupprimer);
 
         overlayBackground.getChildren().add(overlay);

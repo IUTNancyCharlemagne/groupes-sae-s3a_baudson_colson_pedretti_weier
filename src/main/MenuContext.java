@@ -49,7 +49,7 @@ public class MenuContext implements EventHandler<ActionEvent> {
 
         contextMenu.getItems().add(contextMenuItem);
         contextMenu.getItems().add(contextMenuItem2);
-        
+
         layout.setOnContextMenuRequested(e -> {
             Node Source = (Node) e.getSource();
 
