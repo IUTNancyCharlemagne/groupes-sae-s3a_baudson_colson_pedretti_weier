@@ -9,6 +9,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import main.composite.Composant;
 import main.composite.Tache;
+import main.controleurs.ControlChangerTitreListe;
 import main.controleurs.ControlOnDragDropped;
 import main.controleurs.ControlOnDragOver;
 
@@ -99,6 +100,12 @@ public class Liste implements Serializable {
 
         paneListe.setOnDragDropped(new ControlOnDragDropped(modele));
         paneListe.setOnDragOver(new ControlOnDragOver(modele));
+
+        textNom.setOnMouseClicked(e -> {
+            ControlChangerTitreListe controlChangerTitreListe = new ControlChangerTitreListe(modele, this);
+            controlChangerTitreListe.handle(e);
+        });
+
         return paneListe;
     }
 
@@ -120,7 +127,7 @@ public class Liste implements Serializable {
         return this.nom;
     }
 
-    public void setNom() {
+    public void setNom(String nom) {
         this.nom = nom;
     }
 
