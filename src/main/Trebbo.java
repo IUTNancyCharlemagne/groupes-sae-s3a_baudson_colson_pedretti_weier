@@ -55,7 +55,8 @@ public class Trebbo extends Application {
 
         modele.notifierObservateur();
         layout.setCenter(modele.getPaneBureau());
-        layout.setBackground(new Background(new BackgroundFill(new Color((double) 35 /255, (double) 38 /255, (double) 38 /255,1), CornerRadii.EMPTY, Insets.EMPTY)));
+        //set background image
+        layout.setBackground(new Background(new BackgroundImage(new Image("file:backgrounds/base.png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(1, 1, false, false, true, true))));
         primaryStage.setMaximized(true);
 
         modele.getStackPane().getChildren().add(layout);
