@@ -1,5 +1,6 @@
 package main.composite;
 
+import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -98,16 +99,7 @@ public class Tache extends Composant {
 
     @Override
     public String toString() {
-        return "Tache{" +
-                "enfants=" + sousTaches +
-                ", dependances=" + dependances +
-                ", estTerminee=" + estTerminee +
-                ", nom='" + nom + '\'' +
-                ", description='" + description + '\'' +
-                ", estArchive=" + estArchive +
-                ", tags=" + tags +
-                ", dates=" + dateDebut + " - " + dateFin +
-                '}';
+        return this.nom;
     }
 
     @Override
@@ -125,6 +117,15 @@ public class Tache extends Composant {
         paneTache.setOnMouseClicked(new ControlAfficherTache(modele));
         paneTache.setOnDragDetected(new ControlOnDragDetected(modele));
         return paneTache;
+    }
+
+    public TreeItem<Tache> testAffichage(Modele modele) {
+        TreeItem<Tache> treeItem = new TreeItem<>(this);
+        treeItem.setExpanded(true);
+        for (Composant c : this.sousTaches) {
+            treeItem.getChildren().add(((Tache) c).testAffichage(modele));
+        }
+        return treeItem;
     }
 
     /**
@@ -198,6 +199,56 @@ public class Tache extends Composant {
         Date date1 = sdf.parse(this.dateDebut.toString());
         Date date2 = new Date(date1.getTime() + TimeUnit.DAYS.toMillis(this.duree));
         return LocalDate.parse(sdf.format(date2));
+    }
+
+    public Tache getComposant(String nom) {
+        if (this.nom.equals(nom)) {
+            return this;
+        } else {
+            for (Composant c : this.sousTaches) {
+                if (c.getNom().equals(nom)) {
+                    return (Tache) c;
+                } else {
+                    if (c instanceof Tache) {
+                        return ((Tache) c).getComposant(nom);
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Méthode permettant de savoir si une tâche est une sous-tâche ou non.
+     * @param modele Modèle de l'application
+     * @return true si la tâche est une sous-tâche, false sinon
+     */
+    public boolean estUneSousTache(Modele modele) {
+        for (Liste l : modele.getProjet().getListeTaches()) {
+            for (Composant c : l.getComposants()) {
+                // Si la tache est trouvee dans une liste (donc pas une sous-tache)
+                if (c.getNom().equals(this.nom)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public Tache getParent(Modele modele) {
+        for (Liste l : modele.getProjet().getListeTaches()) {
+            for (Composant c : l.getComposants()) {
+                if (c instanceof Tache) {
+                    Tache t = (Tache) c;
+                    for (Composant sousTache : t.getSousTaches()) {
+                        if (sousTache.getNom().equals(this.nom)) {
+                            return t;
+                        }
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     // #########################

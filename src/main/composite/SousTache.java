@@ -1,5 +1,6 @@
 package main.composite;
 
+import javafx.scene.control.TreeItem;
 import javafx.scene.layout.VBox;
 import main.Modele;
 import main.Tag;
@@ -28,5 +29,15 @@ public class SousTache extends Composant{
     public VBox afficher(Modele modele) {
         VBox s = new VBox();
         return s;
+    }
+
+    @Override
+    public TreeItem<Tache> testAffichage(Modele modele) {
+        return null;
+    }
+
+    @Override
+    public Tache getComposant(String nom) {
+        return null;
     }
 }

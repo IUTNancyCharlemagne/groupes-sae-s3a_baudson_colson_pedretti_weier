@@ -1,21 +1,22 @@
 package main;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.util.Callback;
 import main.composite.Composant;
 import main.composite.Tache;
-import main.controleurs.ControlAjouterTache;
-import main.controleurs.ControlChangerTitreListe;
-import main.controleurs.ControlOnDragDropped;
-import main.controleurs.ControlOnDragOver;
+import main.controleurs.*;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -78,12 +79,15 @@ public class Liste implements Serializable {
      */
     public VBox afficher(Modele modele) {
 
+        // Liste de tâches
         VBox paneListe = new VBox();
-        HBox hbox = new HBox();
-        hbox.setAlignment(Pos.CENTER);
-        hbox.setSpacing(10);
-
         paneListe.setId(this.nom);
+
+        // Informations de la liste
+        HBox infosListe = new HBox();
+        infosListe.setAlignment(Pos.CENTER);
+        infosListe.setSpacing(10);
+
         Text textNom = new Text(this.nom);
         Button more = new Button();
         ImageView imgMore = new ImageView(new Image("file:icons/moreW.png"));
@@ -91,16 +95,26 @@ public class Liste implements Serializable {
         imgMore.setFitWidth(20);
         more.setGraphic(imgMore);
         more.getStyleClass().add("button");
-        hbox.getChildren().addAll(textNom, more);
-        paneListe.getChildren().add(hbox);
+        infosListe.getChildren().addAll(textNom, more);
+        paneListe.getChildren().add(infosListe);
 
         for (Composant c : composants) {
-            if(!c.getEstArchive()) paneListe.getChildren().add(c.afficher(modele));
+            if(!c.getEstArchive() && c instanceof Tache) {
+                TreeView<Tache> treeView = new TreeView<>(c.testAffichage(modele));
+
+                // TODO : à faire dans une classe à part
+                TestTree.addTreeAction(modele, treeView);
+
+                paneListe.getChildren().add(treeView);
+            }
         }
 
+//        for (Composant c : composants) {
+//            if(!c.getEstArchive()) paneListe.getChildren().add(c.afficher(modele));
+//        }
+//
         // Menu de Contexte de la liste
         ContextMenu contextMenu = new ContextMenu();
-
 
         MenuItem contextMenuRL = new MenuItem("Renommer la liste");
         ImageView contextMenuRLImage = new ImageView(new Image("file:icons/crayon.png"));
