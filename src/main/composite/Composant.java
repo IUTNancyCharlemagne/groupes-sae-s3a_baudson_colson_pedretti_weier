@@ -329,5 +329,13 @@ public abstract class Composant implements Serializable {
     }
     public void removeDependance(Composant composant) {
         this.dependances.remove(composant);
+        if (!this.dependances.isEmpty()) {
+            this.dateDebut = this.dependances.get(0).getDateFin();
+            for (Composant c : this.dependances) {
+                if (c.getDateFin().isAfter(this.dateDebut)) {
+                    this.dateDebut = c.getDateFin();
+                }
+            }
+        }
     }
 }
