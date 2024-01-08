@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -89,6 +90,15 @@ public abstract class Composant implements Serializable {
      * Durée de la tâche
      */
     protected int duree;
+
+    public static int calculerDureeEntreDates(LocalDate date1, LocalDate date2) throws ParseException {
+        if (date1 == null || date2 == null) return -1;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date debut = sdf.parse(date1.toString());
+        Date fin = sdf.parse(date2.toString());
+        long diff = debut.getTime() - fin.getTime();
+        return (int) Math.abs(TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
+    }
 
     /**
      * Constructeur de la classe Composant
@@ -239,7 +249,8 @@ public abstract class Composant implements Serializable {
         Date date1 = sdf.parse(this.dateDebut.toString());
         Date date2 = sdf.parse(this.dateFin.toString());
         long diff = date2.getTime() - date1.getTime();
-        return (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+        long jours = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+        return (int) jours;
     }
 
     public LocalDate calculerDateFin() throws ParseException {

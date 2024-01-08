@@ -7,6 +7,7 @@ import main.exceptions.ProjectNotFoundException;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -234,5 +235,57 @@ public class Projet {
             }
         }
         return archives;
+    }
+
+    public void supprimerTache(String nomTache) {
+
+        for (Liste liste : this.getListeTaches()) {
+            Iterator<Composant> composantIterator = liste.getComposants().iterator();
+
+            while (composantIterator.hasNext()) {
+                Composant composant = composantIterator.next();
+
+                if (composant.getNom().equals(nomTache)) {
+                    composantIterator.remove();
+                } else {
+                    if (composant instanceof Tache) {
+
+                        ((Tache) composant).getSousTaches().removeIf(sousTache -> sousTache.getNom().equals(nomTache));
+                    }
+                }
+            }
+        }
+    }
+
+    public ArrayList<Tache> getToutesTaches(){
+        ArrayList<Tache> taches = new ArrayList<Tache>();
+        for(Liste l : this.getListeTaches()){
+            for(Composant c : l.getComposants()){
+                taches.add((Tache)c);
+            }
+        }
+        return taches;
+    }
+
+    public LocalDate getPremiereDateDebut(){
+        ArrayList<Tache> taches = this.getToutesTaches();
+        LocalDate minDate = taches.get(0).getDateDebut();
+
+        for(Tache t : taches){
+            if (t.getDateDebut().isBefore(minDate)) minDate = t.getDateDebut();
+        }
+
+        return minDate;
+    }
+
+    public LocalDate getDerniereDateFin(){
+        ArrayList<Tache> taches = this.getToutesTaches();
+        LocalDate maxDate = taches.get(0).getDateFin();
+
+        for(Tache t : taches){
+            if (t.getDateFin().isAfter(maxDate)) maxDate = t.getDateFin();
+        }
+
+        return maxDate;
     }
 }

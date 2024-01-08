@@ -93,6 +93,10 @@ public class Modele implements Sujet, Serializable {
                 if (o instanceof VueArchives) {
                     o.actualiser(this);
                 }
+            } else if (Objects.equals(vueCourante, Modele.GANTT)) {
+                if (o instanceof VueGantt) {
+                    o.actualiser(this);
+                }
             } else if (Objects.equals(vueCourante, Modele.LISTE)) {
                 if (o instanceof VueListe) {
                     o.actualiser(this);

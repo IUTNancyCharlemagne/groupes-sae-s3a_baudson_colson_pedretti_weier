@@ -13,6 +13,7 @@ import main.controleurs.ControlCharger;
 import main.controleurs.ControlSauvegarde;
 import main.observateur.VueArchives;
 import main.observateur.VueBureau;
+import main.observateur.VueGantt;
 import main.observateur.VueListe;
 import main.observateur.VueTache;
 
@@ -49,6 +50,9 @@ public class Trebbo extends Application {
 
         VueBureau vueBureau = new VueBureau();
         modele.enregistrerObservateur(vueBureau);
+
+        VueGantt vueGantt = new VueGantt(modele);
+        modele.enregistrerObservateur(vueGantt);
 
         VueArchives vueArchives = new VueArchives();
         modele.enregistrerObservateur(vueArchives);
