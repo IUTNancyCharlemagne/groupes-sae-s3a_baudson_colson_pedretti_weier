@@ -4,22 +4,16 @@ import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import main.Liste;
 import main.Modele;
 import main.Sujet;
 import main.composite.Composant;
-import main.composite.Tache;
 
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Locale;
 
 public class VueGantt implements Observateur {
     static public int joursParColonne = 1;
@@ -41,6 +35,7 @@ public class VueGantt implements Observateur {
         modele.getPaneBureau().getStyleClass().add("paneGantt");
 
         GridPane grid = new GridPane();
+        grid.setGridLinesVisible(true);
         grid.setHgap(10);
         grid.setVgap(10);
 
@@ -97,7 +92,7 @@ public class VueGantt implements Observateur {
                 textePane.setPrefWidth(duree);
                 textePane.setPrefHeight(periodeSize);
                 grid.setHgap(0);
-                grid.setGridLinesVisible(true);
+
                 if(duree > 0) GridPane.setColumnSpan(textePane, duree);
             } catch (ParseException e) {
                 throw new RuntimeException(e);
