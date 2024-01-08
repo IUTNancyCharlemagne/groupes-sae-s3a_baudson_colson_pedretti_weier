@@ -1,5 +1,6 @@
 package main;
 
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import main.composite.Composant;
@@ -34,7 +35,7 @@ public class Modele implements Sujet, Serializable {
     /**
      * Panneau principal de l'application
      */
-    private HBox paneBureau = new HBox();
+    private GridPane paneBureau = new GridPane();
 
     /**
      * Panneau principal de l'application
@@ -152,7 +153,7 @@ public class Modele implements Sujet, Serializable {
     public void setProjet(Projet projet) {
         this.projet = projet;
     }
-    public HBox getPaneBureau() {
+    public GridPane getPaneBureau() {
         return paneBureau;
     }
     public StackPane getStackPane() {
