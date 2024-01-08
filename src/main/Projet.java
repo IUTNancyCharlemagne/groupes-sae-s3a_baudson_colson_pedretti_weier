@@ -20,7 +20,12 @@ public class Projet {
      * Liste des listes de tâches
      */
     private final List<Liste> listeTaches;
-    private final List<Composant> listeTouteTaches = new ArrayList<Composant>();
+
+    /**
+     * Liste de toutes les tâches
+     */
+    private final List<Composant> listeTouteTaches;
+
     /**
      * Nom du projet
      */
@@ -36,6 +41,7 @@ public class Projet {
      */
     public Projet() {
         this.listeTaches = new ArrayList<Liste>();
+        this.listeTouteTaches = new ArrayList<Composant>();
     }
 
     /**
@@ -46,6 +52,7 @@ public class Projet {
     public Projet(String nomProjet) {
         this.nomProjet = nomProjet;
         this.listeTaches = new ArrayList<Liste>();
+        this.listeTouteTaches = new ArrayList<Composant>();
     }
 
     /**
@@ -79,7 +86,7 @@ public class Projet {
      * @param nomTache Nom de la tâche
      * @return Tâche
      */
-    public Tache getTache(String nomTache) {
+    public Composant getTache(String nomTache) {
 //        for (Liste liste : this.listeTaches) {
 //            for (Composant composant : liste.getComposants()) {
 //                if (composant.getNom().equals(nomTache)) {
@@ -89,12 +96,19 @@ public class Projet {
 //        }
 //        return null;
 
-        for (Liste liste : this.listeTaches) {
-            for (Composant composant : liste.getComposants()) {
-                return composant.getComposant(nomTache);
+//        for (Liste liste : this.listeTaches) {
+//            for (Composant composant : liste.getComposants()) {
+//                return composant.getComposant(nomTache);
+//            }
+//        }
+//
+//        return null;
+
+        for (Composant composant : this.listeTouteTaches) {
+            if (composant.getNom().equals(nomTache)) {
+                return composant;
             }
         }
-
         return null;
     }
 
@@ -197,6 +211,10 @@ public class Projet {
 
     public List<Liste> getListeTaches() {
         return this.listeTaches;
+    }
+
+    public List<Composant> getListeTouteTaches() {
+        return this.listeTouteTaches;
     }
 
     public String getNomProjet() {

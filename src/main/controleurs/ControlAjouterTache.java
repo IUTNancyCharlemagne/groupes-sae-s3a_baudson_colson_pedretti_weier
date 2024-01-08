@@ -200,6 +200,7 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
                     tache.setDateFin(dateFinPicker.getValue());
 
                     modele.getProjet().getListeTaches(nomListe).ajouterComposant(tache);
+                    modele.getProjet().getListeTouteTaches().add(tache);
 
                     modele.notifierObservateur();
                 }

@@ -1,8 +1,6 @@
 package main.composite;
 
 import javafx.scene.control.TreeItem;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import main.Liste;
@@ -154,6 +152,7 @@ public class Tache extends Composant {
      */
     public void ajouter(Composant c) {
         this.sousTaches.add(c);
+        c.setParent(this);
     }
 
     /**
@@ -163,6 +162,7 @@ public class Tache extends Composant {
      */
     public void retirer(Composant c) {
         this.sousTaches.remove(c);
+        c.setParent(null);
     }
 
     /**
@@ -224,31 +224,7 @@ public class Tache extends Composant {
      * @return true si la tâche est une sous-tâche, false sinon
      */
     public boolean estUneSousTache(Modele modele) {
-        for (Liste l : modele.getProjet().getListeTaches()) {
-            for (Composant c : l.getComposants()) {
-                // Si la tache est trouvee dans une liste (donc pas une sous-tache)
-                if (c.getNom().equals(this.nom)) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    public Tache getParent(Modele modele) {
-        for (Liste l : modele.getProjet().getListeTaches()) {
-            for (Composant c : l.getComposants()) {
-                if (c instanceof Tache) {
-                    Tache t = (Tache) c;
-                    for (Composant sousTache : t.getSousTaches()) {
-                        if (sousTache.getNom().equals(this.nom)) {
-                            return t;
-                        }
-                    }
-                }
-            }
-        }
-        return null;
+        return this.getParent() != null;
     }
 
     // #########################

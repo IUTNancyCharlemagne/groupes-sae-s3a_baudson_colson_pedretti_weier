@@ -59,6 +59,11 @@ public abstract class Composant implements Serializable {
     protected List<Composant> dependances;
 
     /**
+     * Parent du composant
+     */
+    protected Composant parent;
+
+    /**
      * Méthode abstraite permettant d'afficher la tâche
      * @param modele Modèle de l'application
      * @return
@@ -131,5 +136,13 @@ public abstract class Composant implements Serializable {
 
     public void setDependances(List<Composant> dependances) {
         this.dependances = dependances;
+    }
+
+    public Composant getParent() {
+        return parent;
+    }
+
+    public void setParent(Composant parent) {
+        this.parent = parent;
     }
 }

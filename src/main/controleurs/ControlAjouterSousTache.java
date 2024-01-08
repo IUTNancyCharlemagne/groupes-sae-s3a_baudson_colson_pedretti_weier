@@ -94,9 +94,13 @@ public class ControlAjouterSousTache implements EventHandler<ActionEvent> {
                     System.out.println("La tâche existe déjà.");
                 } else {
                     if (tacheImage.getImage() == null) {
-                        ((Tache) composant).ajouter(new Tache(nom.getText(), null, 0));
+                        Tache tache = new Tache(nom.getText(), null, 0);
+                        ((Tache) composant).ajouter(tache);
+                        modele.getProjet().getListeTouteTaches().add(tache);
                     } else {
-                        ((Tache) composant).ajouter(new Tache(nom.getText(), tacheImage.getImage().getUrl(), 0));
+                        Tache tache = new Tache(nom.getText(), tacheImage.getImage().getUrl(), 0);
+                        ((Tache) composant).ajouter(tache);
+                        modele.getProjet().getListeTouteTaches().add(tache);
                     }
                     modele.notifierObservateur();
                     stage.close();

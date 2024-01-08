@@ -9,7 +9,6 @@ import javafx.scene.input.*;
 import javafx.util.Callback;
 import main.composite.Composant;
 import main.composite.Tache;
-import main.controleurs.ControlAfficherTache;
 
 public class TestTree {
 
@@ -115,8 +114,6 @@ public class TestTree {
                         if (item != null) {
                             Dragboard db = cell.startDragAndDrop(TransferMode.MOVE);
                             ClipboardContent content = new ClipboardContent();
-                            System.out.println("----------------------------------------------------");
-                            System.out.println("item : " + item.getValue().getNom());
                             content.putString(item.getValue().getNom());
                             db.setContent(content);
                             mouseEvent.consume();
@@ -129,30 +126,17 @@ public class TestTree {
                         // Réupération de cellule qui a été drag and drop
                         Dragboard db = dragEvent.getDragboard();
 
-                        Tache tache = modele.getProjet().getTache(db.getString());
-
-                        // Affichage de la liste de tâches
-                        System.out.println("listeTaches : " + modele.getProjet().getListeTaches());
-                        System.out.println("sous-tache : " + tache.getSousTaches());
-
-                        System.out.println("tache : " + tache);
-
-                        TreeItem<Tache> draggedItem = new TreeItem<>(tache);
-
-                        System.out.println("draggedItem : " + draggedItem);
-                        System.out.println("Est une sous-tache : " + tache.estUneSousTache(modele));
+                        Tache tache = (Tache) modele.getProjet().getTache(db.getString());
 
                         // Si la tache est une sous-tache
                         if (tache.estUneSousTache(modele)) {
                             // Suppression de la tâche de la tache parent
-                            // TODO
+                            Tache tacheParent = (Tache) tache.getParent();
+                            tacheParent.retirer(tache);
 
                             // Tache dans laquelle on veut ajouter la tâche
                             TreeItem<Tache> item = cell.getTreeItem();
                             Tache tacheCible = item.getValue();
-//                            item.getChildren().add(draggedItem);
-                            System.out.println("item cible : " + item);
-                            System.out.println("tache cible : " + tacheCible);
 
                             // Ajout de la tâche dans la tâche cible
                             tacheCible.ajouter(tache);

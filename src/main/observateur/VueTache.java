@@ -191,6 +191,7 @@ public class VueTache implements Observateur {
             @Override
             public void handle(ActionEvent actionEvent) {
                 modele.getProjet().supprimerTache(modele.getCurrentTache().getNom());
+                modele.getProjet().getListeTouteTaches().remove(modele.getCurrentTache());
                 modele.setCurrentTache(null);
                 modele.notifierObservateur();
             }

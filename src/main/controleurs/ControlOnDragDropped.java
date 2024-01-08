@@ -30,7 +30,7 @@ public class ControlOnDragDropped implements EventHandler<DragEvent> {
     public void handle(DragEvent dragEvent) {
         // Récupération de la tâche qui a été drag and drop
         Dragboard db = dragEvent.getDragboard();
-        Tache tache = modele.getProjet().getTache(db.getString());
+        Tache tache = (Tache) modele.getProjet().getTache(db.getString());
 
         // Récupération de la Liste dans laquelle se trouvait la tâche avant le drag and drop
         Liste listeTachesPrecedente = modele.getProjet().getListeTaches(tache.getCurentListe(modele).getNom());
