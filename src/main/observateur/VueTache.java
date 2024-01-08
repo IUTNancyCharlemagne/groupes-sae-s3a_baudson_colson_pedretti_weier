@@ -240,6 +240,11 @@ public class VueTache implements Observateur {
             Tache tache = (Tache) modele.getCurrentTache();
 
             dateDebutPicker.setValue(tache.getDateDebut());
+            if (!modele.getCurrentTache().getDependances().isEmpty()){
+                dateDebutPicker.setDisable(true);
+            } else{
+                dateDebutPicker.setDisable(false);
+            }
             dureeTextField.setText(String.valueOf(tache.getDuree()));
             dateFinPicker.setValue(tache.getDateFin());
 
@@ -308,12 +313,13 @@ public class VueTache implements Observateur {
                 }
             }
         }
-
         comboBox.setOnAction(new EventHandler<ActionEvent>() {
+
             @Override
             public void handle(ActionEvent actionEvent) {
+                Button btnDependance = null;
                 if (comboBox.getValue() != null) {
-                    Button btnDependance = null;
+
                     for (Composant composant : modele.getProjet().getListeTouteTaches()) {
                         if (composant.getNom().equals(comboBox.getValue())) {
                             if (modele.getCurrentTache().getDependances().contains(composant)) {
@@ -323,24 +329,31 @@ public class VueTache implements Observateur {
                             }
                         }
                     }
-                    btnDependance.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent actionEvent) {
-                            if (comboBox.getValue() != null) {
-                                for (Composant composant : modele.getProjet().getListeTouteTaches()) {
-                                    if (composant.getNom().equals(comboBox.getValue())) {
-                                        if (modele.getCurrentTache().getDependances().contains(composant)) {
-                                            modele.getCurrentTache().removeDependance(composant);
-                                        } else {
-                                            modele.getCurrentTache().addDependance(composant);
+
+                    if(btnDependance != null) {
+                        btnDependance.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                if (comboBox.getValue() != null) {
+                                    for (Composant composant : modele.getProjet().getListeTouteTaches()) {
+                                        if (composant.getNom().equals(comboBox.getValue())) {
+                                            if (modele.getCurrentTache().getDependances().contains(composant)) {
+                                                modele.getCurrentTache().removeDependance(composant);
+                                            } else {
+                                                try {
+                                                    modele.getCurrentTache().addDependance(composant);
+                                                } catch (ParseException e) {
+                                                    throw new RuntimeException(e);
+                                                }
+                                            }
+                                            modele.notifierObservateur();
                                         }
-                                        modele.notifierObservateur();
                                     }
                                 }
                             }
-                        }
-                    });
-                    hBoxDependance.getChildren().add(btnDependance);
+                        });
+                        hBoxDependance.getChildren().add(btnDependance);
+                    }
                 }
             }
         });

@@ -318,8 +318,14 @@ public abstract class Composant implements Serializable {
 
     public abstract TreeItem<Composant> afficher(Modele modele);
 
-    public void addDependance(Composant composant) {
+    public void addDependance(Composant composant) throws ParseException {
         this.dependances.add(composant);
+        for (Composant c : this.dependances) {
+            if (c.getDateFin().isAfter(this.dateDebut)) {
+                this.dateDebut = c.getDateFin();
+            }
+        }
+        this.dateFin = this.calculerDateFin();
     }
     public void removeDependance(Composant composant) {
         this.dependances.remove(composant);

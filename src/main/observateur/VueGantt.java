@@ -32,7 +32,6 @@ public class VueGantt implements Observateur {
         if (!(s instanceof Modele modele)) return;
         modele.getPaneBureau().getChildren().clear();
         modele.getPaneBureau().getStyleClass().clear();
-        modele.getPaneBureau().getStyleClass().add("paneGantt");
 
         GridPane grid = new GridPane();
         grid.setGridLinesVisible(true);
