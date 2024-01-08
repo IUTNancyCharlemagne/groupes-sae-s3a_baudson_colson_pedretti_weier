@@ -4,8 +4,11 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import main.Modele;
 import main.Tag;
+import main.controleurs.ControlAfficherTache;
+import main.controleurs.ControlOnDragDetected;
 
 import java.io.Serializable;
 import java.util.List;
@@ -68,10 +71,23 @@ public abstract class Composant implements Serializable {
      * @param modele Modèle de l'application
      * @return
      */
-    public abstract VBox afficher(Modele modele);
+    public abstract TreeItem<Tache> afficher(Modele modele);
 
     // ### Test d'affichage ###
-    public abstract TreeItem<Tache> testAffichage(Modele modele);
+    public VBox afficherArchive(Modele modele) {
+        // Création du Pane de la tâche
+        VBox paneTache = new VBox();
+        paneTache.setId(this.nom);
+        paneTache.getStyleClass().add("paneTache");
+
+        // Création du texte du nom de la tâche
+        Text textNom = new Text(this.nom);
+        paneTache.getChildren().add(textNom);
+
+        paneTache.setOnMouseClicked(new ControlAfficherTache(modele));
+        paneTache.setOnDragDetected(new ControlOnDragDetected(modele));
+        return paneTache;
+    }
 
     // ### Test Get Composant ###
     public abstract Tache getComposant(String nom);

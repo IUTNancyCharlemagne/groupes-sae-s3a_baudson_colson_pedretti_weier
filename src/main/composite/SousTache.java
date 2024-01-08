@@ -26,13 +26,7 @@ public class SousTache extends Composant{
     }
 
     @Override
-    public VBox afficher(Modele modele) {
-        VBox s = new VBox();
-        return s;
-    }
-
-    @Override
-    public TreeItem<Tache> testAffichage(Modele modele) {
+    public TreeItem<Tache> afficher(Modele modele) {
         return null;
     }
 

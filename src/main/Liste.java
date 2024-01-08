@@ -100,7 +100,7 @@ public class Liste implements Serializable {
 
         for (Composant c : composants) {
             if(!c.getEstArchive() && c instanceof Tache) {
-                TreeView<Tache> treeView = new TreeView<>(c.testAffichage(modele));
+                TreeView<Tache> treeView = new TreeView<>(c.afficher(modele));
 
                 // TODO : à faire dans une classe à part
                 TestTree.addTreeAction(modele, treeView);
@@ -109,10 +109,6 @@ public class Liste implements Serializable {
             }
         }
 
-//        for (Composant c : composants) {
-//            if(!c.getEstArchive()) paneListe.getChildren().add(c.afficher(modele));
-//        }
-//
         // Menu de Contexte de la liste
         ContextMenu contextMenu = new ContextMenu();
 

@@ -87,23 +87,6 @@ public class Projet {
      * @return Tâche
      */
     public Composant getTache(String nomTache) {
-//        for (Liste liste : this.listeTaches) {
-//            for (Composant composant : liste.getComposants()) {
-//                if (composant.getNom().equals(nomTache)) {
-//                    return (Tache) composant;
-//                }
-//            }
-//        }
-//        return null;
-
-//        for (Liste liste : this.listeTaches) {
-//            for (Composant composant : liste.getComposants()) {
-//                return composant.getComposant(nomTache);
-//            }
-//        }
-//
-//        return null;
-
         for (Composant composant : this.listeTouteTaches) {
             if (composant.getNom().equals(nomTache)) {
                 return composant;
@@ -189,8 +172,18 @@ public class Projet {
         }
     }
 
+    /**
+     * Méthode permettant d'archiver une tâche et toutes ses sous-tâches
+     * @param nomTache Nom de la tâche à archiver
+     */
     public void archiverTache(String nomTache) {
         this.getTache(nomTache).setEstArchive(true);
+        // Archiver toutes les sous-tâches
+        if (this.getTache(nomTache) instanceof Tache) {
+            for (Composant composant : ((Tache) this.getTache(nomTache)).getSousTaches()) {
+                archiverTache(composant.getNom());
+            }
+        }
     }
 
     public void desarchiverTache(String nomTache){
@@ -235,12 +228,9 @@ public class Projet {
 
     public ArrayList<Composant> getArchives() {
         ArrayList<Composant> archives = new ArrayList<Composant>();
-        for (Liste l : this.getListeTaches()) {
-            for (Composant composant : l.getComposants()) {
-                if (composant.getEstArchive()) {
-                    archives.add(composant);
-                    System.out.println(composant);
-                }
+        for (Composant composant : this.listeTouteTaches) {
+            if (composant.getEstArchive()) {
+                archives.add(composant);
             }
         }
         return archives;

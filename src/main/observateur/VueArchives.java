@@ -22,7 +22,7 @@ public class VueArchives implements Observateur {
 
         VBox pane = new VBox();
         for (Composant c : modele.getProjet().getArchives()) {
-            pane.getChildren().add(c.afficher(modele));
+            pane.getChildren().add(c.afficherArchive(modele));
             System.out.println(c);
         }
         modele.getPaneBureau().getChildren().add(pane);

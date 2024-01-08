@@ -100,28 +100,11 @@ public class Tache extends Composant {
         return this.nom;
     }
 
-    @Override
-    public VBox afficher(Modele modele) {
-
-        // Création du Pane de la tâche
-        VBox paneTache = new VBox();
-        paneTache.setId(this.nom);
-        paneTache.getStyleClass().add("paneTache");
-
-        // Création du texte du nom de la tâche
-        Text textNom = new Text(this.nom);
-        paneTache.getChildren().add(textNom);
-
-        paneTache.setOnMouseClicked(new ControlAfficherTache(modele));
-        paneTache.setOnDragDetected(new ControlOnDragDetected(modele));
-        return paneTache;
-    }
-
-    public TreeItem<Tache> testAffichage(Modele modele) {
+    public TreeItem<Tache> afficher(Modele modele) {
         TreeItem<Tache> treeItem = new TreeItem<>(this);
         treeItem.setExpanded(true);
         for (Composant c : this.sousTaches) {
-            treeItem.getChildren().add(((Tache) c).testAffichage(modele));
+            treeItem.getChildren().add(((Tache) c).afficher(modele));
         }
         return treeItem;
     }

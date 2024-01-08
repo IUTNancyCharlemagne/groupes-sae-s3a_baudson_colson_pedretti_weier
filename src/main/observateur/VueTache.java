@@ -45,7 +45,6 @@ public class VueTache implements Observateur {
         // ### Box ###
         HBox tagsGeneral = new HBox();
         VBox imageBox = new VBox();
-        VBox vBoxSousTaches = new VBox();
 
         // ### Boutons ###
         Button quitter = new Button("X");
@@ -57,7 +56,6 @@ public class VueTache implements Observateur {
 
         // ### Texte ###
         Text titre = new Text();
-        Text sousTacheText = new Text("Sous-tâches");
         TextArea description = new TextArea();
 
         // ### Image ###
@@ -203,7 +201,7 @@ public class VueTache implements Observateur {
         btnArchiver = new Button(archiverText);
         GridPane.setHalignment(btnArchiver, HPos.RIGHT);
         btnArchiver.getStyleClass().add("quitter");
-        // TODO: Faire un ControlArchiverTache qui archive ou désarchive la tache
+        // TODO : Faire un ControlArchiverTache qui archive ou désarchive la tache
         btnArchiver.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -294,18 +292,6 @@ public class VueTache implements Observateur {
             overlay.addRow(4, ganttBox);
         }
 
-        // ### Texte sous-taches ###
-        sousTacheText.getStyleClass().add("titre");
-
-        // ### Sous-taches ###
-        vBoxSousTaches.getStyleClass().add("sousTaches");
-        if (modele.getCurrentTache() instanceof Tache) {
-            Tache tache = (Tache) modele.getCurrentTache();
-            for (Composant sousTacheComposant : tache.getSousTaches()) {
-                vBoxSousTaches.getChildren().add(sousTacheComposant.afficher(modele));
-            }
-        }
-
         // ### Bouton ajouter sous-tache ###
         btnAjouterSousTache.getStyleClass().add("btn");
         btnAjouterSousTache.setOnAction(new ControlAjouterSousTache(modele, modele.getCurrentTache()));
@@ -336,8 +322,6 @@ public class VueTache implements Observateur {
         overlay.addRow(1, tagsGeneral);
         overlay.addRow(2, new Text("Description"));
         overlay.addRow(3, description, imageBox);
-        overlay.addRow(5, sousTacheText);
-        overlay.addRow(6, vBoxSousTaches);
         overlay.addRow(9, btnAjouterSousTache, btnArchiver, btnSupprimer);
 
         overlayBackground.getChildren().add(overlay);
