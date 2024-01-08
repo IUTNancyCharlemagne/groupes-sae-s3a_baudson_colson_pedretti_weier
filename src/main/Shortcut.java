@@ -40,8 +40,8 @@ public class Shortcut implements EventHandler<ActionEvent> {
         // Raccourcis Clavier
         layout.setOnKeyPressed(e -> {
 
-            // Mode Plein Ecran (F5)
-            if (e.getCode().toString().equals("F5")) {
+            // Mode Plein Ecran (F11)
+            if (e.getCode().toString().equals("F11")) {
                 primaryStage.setFullScreen(!primaryStage.isFullScreen());
             }
 
