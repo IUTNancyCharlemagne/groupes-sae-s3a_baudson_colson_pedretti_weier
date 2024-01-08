@@ -309,26 +309,44 @@ public class VueTache implements Observateur {
             }
         }
 
-        Button btnDependance = new Button("Ajouter / Supprimer");
-        btnDependance.setOnAction(new EventHandler<ActionEvent>() {
+        comboBox.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 if (comboBox.getValue() != null) {
+                    Button btnDependance = null;
                     for (Composant composant : modele.getProjet().getListeTouteTaches()) {
                         if (composant.getNom().equals(comboBox.getValue())) {
                             if (modele.getCurrentTache().getDependances().contains(composant)) {
-                                modele.getCurrentTache().removeDependance(composant);
+                                btnDependance = new Button("Supprimer");
                             } else {
-                                modele.getCurrentTache().addDependance(composant);
+                                btnDependance = new Button("Ajouter");
                             }
-                            modele.notifierObservateur();
                         }
                     }
+                    btnDependance.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent actionEvent) {
+                            if (comboBox.getValue() != null) {
+                                for (Composant composant : modele.getProjet().getListeTouteTaches()) {
+                                    if (composant.getNom().equals(comboBox.getValue())) {
+                                        if (modele.getCurrentTache().getDependances().contains(composant)) {
+                                            modele.getCurrentTache().removeDependance(composant);
+                                        } else {
+                                            modele.getCurrentTache().addDependance(composant);
+                                        }
+                                        modele.notifierObservateur();
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    hBoxDependance.getChildren().add(btnDependance);
                 }
             }
         });
+
         hBoxDependance.setSpacing(10);
-        hBoxDependance.getChildren().addAll(comboBox, btnDependance);
+        hBoxDependance.getChildren().add(comboBox);
 
         // ### Ajout overlay background ###
         modele.getStackPane().getChildren().add(overlayBackground);
