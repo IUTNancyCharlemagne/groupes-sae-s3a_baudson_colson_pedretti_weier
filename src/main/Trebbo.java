@@ -55,13 +55,6 @@ public class Trebbo extends Application {
         VueTache vueTache = new VueTache(modele);
         modele.enregistrerObservateur(vueTache);
 
-        // Sauvegarde automatique à la fermeture de l'application, ne sauvegarde pas si le projet est vierge ou s'il n'existe pas
-        primaryStage.setOnCloseRequest(event -> {
-            if (!modele.getProjet().getListeTaches().isEmpty() || modele.getProjet().getChemin() != null) {
-                controlSauvegarde.handle(new ActionEvent());
-            }
-        });
-
         modele.notifierObservateur();
         layout.setCenter(modele.getPaneBureau());
         //set background image

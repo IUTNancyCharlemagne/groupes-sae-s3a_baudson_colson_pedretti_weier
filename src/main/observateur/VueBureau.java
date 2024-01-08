@@ -1,5 +1,7 @@
 package main.observateur;
 
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import main.Liste;
@@ -22,6 +24,8 @@ public class VueBureau implements Observateur {
 
         modele.getPaneBureau().getStyleClass().add("paneBureau");
 
+        int i = 0;
+
         // Affichage des listes
         for (Liste liste : modele.getProjet().getListeTaches()) {
             VBox pane = liste.afficher(modele);
@@ -31,13 +35,18 @@ public class VueBureau implements Observateur {
             btnAddTache.setOnAction(new ControlAjouterTache(modele));
             btnAddTache.setId(liste.getNom());
             pane.getChildren().add(btnAddTache);
-            modele.getPaneBureau().getChildren().add(pane);
+            modele.getPaneBureau().add(pane, i, 0);
+            i++;
         }
 
         Button btnAddListe = new Button("Ajouter liste");
         btnAddListe.setOnAction(new ControlAjouterListe(modele));
+        modele.getPaneBureau().setValignment(btnAddListe, VPos.TOP);
+        //modele.getPaneBureau().setMargin(btnAddListe, new javafx.geometry.Insets(10, 10, 10, 10));
 
-        modele.getPaneBureau().getChildren().add(btnAddListe);
+        modele.getPaneBureau().setHgap(10);
+
+        modele.getPaneBureau().add(btnAddListe, i, 0);
 
     }
 }
