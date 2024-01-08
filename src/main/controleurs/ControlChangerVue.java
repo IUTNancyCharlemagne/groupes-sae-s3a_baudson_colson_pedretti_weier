@@ -35,8 +35,8 @@ public class ControlChangerVue implements EventHandler<ActionEvent> {
             case "Affichage en colonnes":
                 modele.setVueCourante(Modele.COLONNE);
                 break;
-            case "Affichage en lignes" :
-                modele.setVueCourante(Modele.LIGNE);
+            case "Affichage en listes" :
+                modele.setVueCourante(Modele.LISTE);
                 break;
             case "Afficher le Gantt" :
                 modele.setVueCourante(Modele.GANTT);
@@ -46,8 +46,6 @@ public class ControlChangerVue implements EventHandler<ActionEvent> {
                 break;
             default:
         }
-
-        System.out.println(modele.getVueCourante());
         modele.notifierObservateur();
 
     }

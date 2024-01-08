@@ -6,10 +6,7 @@ import javafx.scene.layout.StackPane;
 import main.composite.Composant;
 import main.composite.Tache;
 import main.exceptions.ProjectNotFoundException;
-import main.observateur.Observateur;
-import main.observateur.VueArchives;
-import main.observateur.VueBureau;
-import main.observateur.VueTache;
+import main.observateur.*;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -24,10 +21,8 @@ import java.util.Objects;
 public class Modele implements Sujet, Serializable {
 
     // Constantes pour le style des vues
-    public static final String BUREAU = "Bureau";
     public static final String LISTE = "Liste";
     public static final String COLONNE = "Colonne";
-    public static final String LIGNE = "Ligne";
     public static final String GANTT = "Gantt";
     public static final String ARCHIVES = "Archives";
     private Composant currentTache;
@@ -96,6 +91,10 @@ public class Modele implements Sujet, Serializable {
                 }
             } else if (Objects.equals(vueCourante, Modele.ARCHIVES)) {
                 if (o instanceof VueArchives) {
+                    o.actualiser(this);
+                }
+            } else if (Objects.equals(vueCourante, Modele.LISTE)) {
+                if (o instanceof VueListe) {
                     o.actualiser(this);
                 }
             }

@@ -2,6 +2,7 @@ package main.observateur;
 
 import javafx.geometry.VPos;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.Liste;
 import main.Modele;
@@ -12,7 +13,7 @@ import main.controleurs.ControlAjouterTache;
 /**
  * Classe VueBureau qui affiche au format bureau (liste en vertical)
  */
-public class VueBureau implements Observateur {
+public class VueListe implements Observateur {
 
     @Override
     public void actualiser(Sujet s) {
@@ -27,14 +28,14 @@ public class VueBureau implements Observateur {
 
         // Affichage des listes
         for (Liste liste : modele.getProjet().getListeTaches()) {
-            VBox pane = liste.afficher(modele);
+            HBox pane = liste.afficherListe(modele);
             pane.getStyleClass().add("paneListe");
 
             Button btnAddTache = new Button("Ajouter tâche");
             btnAddTache.setOnAction(new ControlAjouterTache(modele));
             btnAddTache.setId(liste.getNom());
             pane.getChildren().add(btnAddTache);
-            modele.getPaneBureau().add(pane, i, 0);
+            modele.getPaneBureau().add(pane, 0, i);
             i++;
         }
 
@@ -42,9 +43,9 @@ public class VueBureau implements Observateur {
         btnAddListe.setOnAction(new ControlAjouterListe(modele));
         modele.getPaneBureau().setValignment(btnAddListe, VPos.TOP);
 
-        modele.getPaneBureau().setHgap(10);
+        modele.getPaneBureau().setVgap(10);
 
-        modele.getPaneBureau().add(btnAddListe, i, 0);
+        modele.getPaneBureau().add(btnAddListe, 0, i);
 
     }
 }

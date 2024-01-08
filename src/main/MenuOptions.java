@@ -103,7 +103,7 @@ public class MenuOptions implements EventHandler<ActionEvent> {
         displayColumn.setGraphic(displayColumnImage);
         displayColumn.setOnAction(controlChangerVue);
 
-        RadioMenuItem displayRow = new RadioMenuItem("Affichage en lignes");
+        RadioMenuItem displayRow = new RadioMenuItem("Affichage en listes");
         ImageView displayRowImage = new ImageView("file:icons/row.png");
         displayRowImage.setFitHeight(16);
         displayRowImage.setFitWidth(16);
