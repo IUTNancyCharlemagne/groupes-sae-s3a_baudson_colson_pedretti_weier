@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import main.Liste;
 import main.Modele;
 import main.Sujet;
@@ -74,14 +75,21 @@ public class VueGantt implements Observateur {
                 else{
                     texte = new Label(listeTaches.get(i).getNom() + "(dépendances: " + listeTaches.get(i).getDependances() + ")");
                 }
+                texte.setFont(new Font("Arial", 14));
+                texte.setStyle("-fx-font-weight: bold;");
+                texte.setWrapText(true);
                 texte.prefHeight(periodeSize);
                 Pane textePane = new Pane(texte);
-                if(listeTaches.get(i).getEstTerminee()){
+
+                if(listeTaches.get(i).getEstTerminee() || listeTaches.get(i).estPassee(LocalDate.now())){
                     textePane.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+                } else if(listeTaches.get(i).estDansIntervalle(LocalDate.now())){
+                    textePane.setBackground(new Background(new BackgroundFill(Color.ORANGE, CornerRadii.EMPTY, Insets.EMPTY)));
                 }
                 else{
                     textePane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
                 }
+
                 grid.add(textePane, Composant.calculerDureeEntreDates(debutProjet, listeTaches.get(i).getDateDebut()), i + 1);
                 System.out.println(Composant.calculerDureeEntreDates(debutProjet, listeTaches.get(i).getDateDebut()));
                 System.out.println(i+1);
