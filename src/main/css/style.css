@@ -26,13 +26,13 @@ Text{
 /* ### Classes JavaFX ### */
 
 .paneBureau{
-    /*-fx-background-color: #232626;*/
     -fx-padding: 10;
     -fx-spacing: 10;
 }
 
 .paneListe {
     -fx-background-color: #323636;
+    -fx-opacity: 0.8;
     -fx-padding: 10;
     -fx-spacing: 10;
     -fx-background-radius: 10;
@@ -117,4 +117,37 @@ TextArea .content {
 .btnTag:hover {
     -fx-background-color: transparent;
     -fx-text-fill: white;
+}
+
+/* ### TreeView ### */
+
+.tree-view {
+    -fx-background-color: transparent;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+
+.tree-cell {
+    -fx-background-color: #424848;
+    -fx-border-color: #424848;
+    -fx-text-fill: white;
+    -fx-font-size: 15;
+    -fx-font-family: "Segoe UI";
+}
+
+.tree-cell:hover {
+    -fx-background-color: #323636;
+}
+
+.tree-cell:selected {
+    -fx-background-color: #c379ef;
+}
+
+.tree-cell:expanded > .tree-disclosure-node > .arrow {
+    -fx-background-color: white;
+}
+
+/* Style pour les cellules de réduction (flèche vers la droite) */
+.tree-cell:collapsed > .tree-disclosure-node > .arrow {
+    -fx-background-color: white;
 }

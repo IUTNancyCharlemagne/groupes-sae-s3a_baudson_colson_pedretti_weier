@@ -2,7 +2,6 @@ package main;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
@@ -12,19 +11,21 @@ import main.composite.Tache;
 
 public class TestTree {
 
+    private static final int HEIGHT = 31;
+
     public static void addTreeAction(Modele modele, TreeView<Composant> treeView) {
-        treeView.setPrefHeight(treeView.getExpandedItemCount() * 25);
+        treeView.setPrefHeight(treeView.getExpandedItemCount() * HEIGHT);
         treeView.getRoot().expandedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-                treeView.setPrefHeight(treeView.getExpandedItemCount() * 25);
+                treeView.setPrefHeight(treeView.getExpandedItemCount() * HEIGHT);
             }
         });
         for (Object item : treeView.getRoot().getChildren()) {
             ((TreeItem) item).expandedProperty().addListener(new ChangeListener<Boolean>() {
                 @Override
                 public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-                    treeView.setPrefHeight(treeView.getExpandedItemCount() * 25);
+                    treeView.setPrefHeight(treeView.getExpandedItemCount() * HEIGHT);
                 }
             });
         }

@@ -235,24 +235,4 @@ public class Projet {
         }
         return archives;
     }
-
-    public void supprimerTache(String nomTache) {
-
-        for (Liste liste : this.getListeTaches()) {
-            Iterator<Composant> composantIterator = liste.getComposants().iterator();
-
-            while (composantIterator.hasNext()) {
-                Composant composant = composantIterator.next();
-
-                if (composant.getNom().equals(nomTache)) {
-                    composantIterator.remove();
-                } else {
-                    if (composant instanceof Tache) {
-
-                        ((Tache) composant).getSousTaches().removeIf(sousTache -> sousTache.getNom().equals(nomTache));
-                    }
-                }
-            }
-        }
-    }
 }
