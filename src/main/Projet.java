@@ -20,6 +20,7 @@ public class Projet {
      * Liste des listes de tâches
      */
     private final List<Liste> listeTaches;
+    private final List<Composant> listeTouteTaches = new ArrayList<Composant>();
     /**
      * Nom du projet
      */
