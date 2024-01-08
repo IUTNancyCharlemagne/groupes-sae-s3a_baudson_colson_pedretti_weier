@@ -90,11 +90,7 @@ public class Liste implements Serializable {
         infosListe.setSpacing(10);
 
         Text textNom = new Text(this.nom);
-        Button more = new Button();
-        ImageView imgMore = new ImageView(new Image("file:icons/moreW.png"));
-        imgMore.setFitHeight(20);
-        imgMore.setFitWidth(20);
-        more.setGraphic(imgMore);
+        Button more = new Button("...");
         more.getStyleClass().add("button");
         infosListe.getChildren().addAll(textNom, more);
         paneListe.getChildren().add(infosListe);
@@ -126,7 +122,7 @@ public class Liste implements Serializable {
         });
 
         MenuItem contextMenuSL = new MenuItem("Supprimer la liste");
-        ImageView contextMenuSLImage = new ImageView(new Image("file:icons/trash.png"));
+        ImageView contextMenuSLImage = new ImageView(new Image("file:icons/trashRed.png"));
         contextMenuSLImage.setFitHeight(16);
         contextMenuSLImage.setFitWidth(16);
         contextMenuSL.setGraphic(contextMenuSLImage);

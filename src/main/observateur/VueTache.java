@@ -60,7 +60,7 @@ public class VueTache implements Observateur {
 
         // ### Image ###
         ImageView image = new ImageView();
-        ImageView imgSupp = new ImageView(new Image("file:icons/trashRed.png"));
+        ImageView imgSupp = new ImageView(new Image("file:icons/trashWhite.png"));
 
         String archiverText = "";
 
