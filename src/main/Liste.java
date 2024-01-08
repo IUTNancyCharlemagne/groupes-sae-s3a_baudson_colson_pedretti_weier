@@ -1,11 +1,14 @@
 package main;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import main.composite.Composant;
@@ -80,12 +83,15 @@ public class Liste implements Serializable {
         // Informations de la liste
         HBox infosListe = new HBox();
         infosListe.setAlignment(Pos.CENTER);
-        infosListe.setSpacing(10);
+        Region r = new Region();
+        HBox.setHgrow(r, Priority.ALWAYS);
+        infosListe.setPadding(new Insets(10, 10, 5, 5));
 
         Text textNom = new Text(this.nom);
+        textNom.setStyle("-fx-cursor: hand;");
         Button more = new Button("...");
-        more.getStyleClass().add("button");
-        infosListe.getChildren().addAll(textNom, more);
+        more.getStyleClass().add("btnTransparent");
+        infosListe.getChildren().addAll(textNom, r, more);
         paneListe.getChildren().add(infosListe);
 
         for (Composant c : composants) {

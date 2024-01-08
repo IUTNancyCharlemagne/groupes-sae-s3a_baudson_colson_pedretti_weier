@@ -18,6 +18,16 @@ Button:hover {
     -fx-cursor: hand;
 }
 
+.btnTransparent {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-border-color: transparent;
+}
+
+.btnTransparent:hover {
+    -fx-background-color: #c379ef;
+}
+
 Text{
     -fx-fill: white;
     -fx-font-size: 15;
@@ -31,8 +41,8 @@ Text{
 }
 
 .paneListe {
-    -fx-background-color: #323636;
-    -fx-opacity: 0.8;
+    -fx-background-color: #101204;
+    -fx-opacity: 0.9;
     -fx-padding: 10;
     -fx-spacing: 10;
     -fx-background-radius: 10;
@@ -123,13 +133,11 @@ TextArea .content {
 
 .tree-view {
     -fx-background-color: transparent;
-    -fx-background-radius: 10;
-    -fx-border-radius: 10;
 }
 
 .tree-cell {
-    -fx-background-color: #424848;
-    -fx-border-color: #424848;
+    -fx-background-color: #22272b;
+    -fx-border-color: #22272b;
     -fx-text-fill: white;
     -fx-font-size: 15;
     -fx-font-family: "Segoe UI";
@@ -137,6 +145,8 @@ TextArea .content {
 
 .tree-cell:hover {
     -fx-background-color: #323636;
+    -fx-cursor: hand;
+    -fx-border-color: #c379ef;
 }
 
 .tree-cell:selected {

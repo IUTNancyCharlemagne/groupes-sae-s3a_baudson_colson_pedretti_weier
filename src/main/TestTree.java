@@ -60,24 +60,11 @@ public class TestTree {
                             boolean trouve = false;
 
                             // Recherche de la tache
-                            for (Liste liste : modele.getProjet().getListeTaches()) {
-                                for (Composant composant : liste.getComposants()) {
-                                    // Si la tache est trouvee
-                                    if (composant.getNom().equals(nomTache) && !trouve) {
-                                        composantAfficher = composant;
-                                        trouve = true;
-                                    } else if (!trouve) {
-                                        // Recherche dans les sous-taches
-                                        if (composant instanceof Tache) {
-                                            Tache t = (Tache) composant;
-                                            for (Composant sousTache : t.getSousTaches()) {
-                                                if (sousTache.getNom().equals(nomTache)) {
-                                                    composantAfficher = sousTache;
-                                                    trouve = true;
-                                                }
-                                            }
-                                        }
-                                    }
+                            for (Composant composant : modele.getProjet().getListeTouteTaches()) {
+                                if (composant.getNom().equals(nomTache)) {
+                                    composantAfficher = composant;
+                                    trouve = true;
+                                    break;
                                 }
                             }
 
