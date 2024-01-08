@@ -42,7 +42,6 @@ public class VueBureau implements Observateur {
         Button btnAddListe = new Button("Ajouter liste");
         btnAddListe.setOnAction(new ControlAjouterListe(modele));
         modele.getPaneBureau().setValignment(btnAddListe, VPos.TOP);
-        //modele.getPaneBureau().setMargin(btnAddListe, new javafx.geometry.Insets(10, 10, 10, 10));
 
         modele.getPaneBureau().setHgap(10);
 
