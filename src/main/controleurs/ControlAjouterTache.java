@@ -178,15 +178,8 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
             if (nom.getText().isEmpty()) {
                 System.out.println("Le nom de la tâche ne peut pas être vide.");
             } else {
-                boolean trouve = false;
-                for (Liste liste : modele.getProjet().getListeTaches()) {
-                    for (Composant tache : liste.getComposants()) {
-                        if (tache.getNom().equals(nom.getText())) {
-                            trouve = true;
-                        }
-                    }
-                }
-                if (trouve) {
+                Composant c = modele.getProjet().getTache(nom.getText());
+                if (c != null) {
                     System.out.println("La tâche existe déjà.");
                 } else {
                     String imgUrl = null;
