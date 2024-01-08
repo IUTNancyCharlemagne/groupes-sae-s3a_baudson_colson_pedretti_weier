@@ -79,13 +79,21 @@ public class Projet {
      * @return Tâche
      */
     public Tache getTache(String nomTache) {
+//        for (Liste liste : this.listeTaches) {
+//            for (Composant composant : liste.getComposants()) {
+//                if (composant.getNom().equals(nomTache)) {
+//                    return (Tache) composant;
+//                }
+//            }
+//        }
+//        return null;
+
         for (Liste liste : this.listeTaches) {
             for (Composant composant : liste.getComposants()) {
-                if (composant.getNom().equals(nomTache)) {
-                    return (Tache) composant;
-                }
+                return composant.getComposant(nomTache);
             }
         }
+
         return null;
     }
 

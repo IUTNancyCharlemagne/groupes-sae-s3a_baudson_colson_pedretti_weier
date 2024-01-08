@@ -1,5 +1,6 @@
 package main.composite;
 
+import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -63,6 +64,12 @@ public abstract class Composant implements Serializable {
      * @return
      */
     public abstract VBox afficher(Modele modele);
+
+    // ### Test d'affichage ###
+    public abstract TreeItem<Tache> testAffichage(Modele modele);
+
+    // ### Test Get Composant ###
+    public abstract Tache getComposant(String nom);
 
     /**
      * Méthode permettant d'ajouter un tag à la tâche
