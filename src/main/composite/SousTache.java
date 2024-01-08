@@ -5,6 +5,7 @@ import javafx.scene.layout.VBox;
 import main.Modele;
 import main.Tag;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -15,23 +16,31 @@ import java.util.ArrayList;
 public class SousTache extends Composant{
 
     /**
-     * Constructeur de la classe SousTache
-     * @param nom le nom de la sous-tâche
+     * Constructeur par défaut
+     * @param nom Nom de la sous-tâche
+     * @param image Image de la sous-tâche
+     * @param duree Durée de la sous-tâche
      */
-    public SousTache(String nom){
-        this.nom = nom;
-        this.description = "";
-        this.estArchive = false;
-        this.tags = new ArrayList<Tag>();
+    public SousTache(String nom, String image, int duree) {
+        super(nom, image, duree);
+    }
+
+    /**
+     * Constructeur par défaut
+     * @param nom Nom de la sous-tâche
+     * @param image Image de la sous-tâche
+     * @param dateDebut Date de début de la sous-tâche
+     * @param dateFin Date de fin de la sous-tâche
+     */
+    public SousTache(String nom, String image, LocalDate dateDebut, LocalDate dateFin) {
+        super(nom, image, dateDebut, dateFin);
     }
 
     @Override
-    public TreeItem<Tache> afficher(Modele modele) {
-        return null;
+    public TreeItem<Composant> afficher(Modele modele) {
+        TreeItem<Composant> treeItem = new TreeItem<>(this);
+        treeItem.setExpanded(true);
+        return treeItem;
     }
 
-    @Override
-    public Tache getComposant(String nom) {
-        return null;
-    }
 }

@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 import main.Liste;
 import main.Modele;
 import main.composite.Composant;
+import main.composite.SousTache;
 import main.composite.Tache;
 
 import java.io.File;
@@ -69,30 +70,20 @@ public class ControlAjouterSousTache implements EventHandler<ActionEvent> {
         Button btnValider = new Button("Valider");
         btnValider.getStyleClass().add("btn");
         btnValider.setOnAction(e -> {
-            if (composant instanceof Tache) {
-                boolean trouve = false;
-                if (nom.getText().isEmpty()) {
-                    System.out.println("Le nom de la tâche ne peut pas être vide.");
-                } else {
-                    for (Liste liste : modele.getProjet().getListeTaches()) {
-                        for (Composant composant : liste.getComposants()) {
-                            if (composant.getNom().equals(nom.getText())) {
-                                trouve = true;
-                            } else {
-                                if (composant instanceof Tache) {
-                                    for (Composant sousTache : ((Tache) composant).getSousTaches()) {
-                                        if (sousTache.getNom().equals(nom.getText())) {
-                                            trouve = true;
-                                        }
-                                    }
-                                }
-                            }
-                        }
+            boolean trouve = false;
+            if (nom.getText().isEmpty()) {
+                System.out.println("Le nom de la tâche ne peut pas être vide.");
+            } else {
+                for (Composant composant : modele.getProjet().getListeTouteTaches()) {
+                    if (composant.getNom().equals(nom.getText())) {
+                        trouve = true;
                     }
                 }
-                if (trouve) {
-                    System.out.println("La tâche existe déjà.");
-                } else {
+            }
+            if (trouve) {
+                System.out.println("La tâche existe déjà.");
+            } else {
+                if (composant instanceof Tache) {
                     if (tacheImage.getImage() == null) {
                         Tache tache = new Tache(nom.getText(), null, 0);
                         ((Tache) composant).ajouter(tache);
@@ -127,6 +118,7 @@ public class ControlAjouterSousTache implements EventHandler<ActionEvent> {
 
         Scene scene = new Scene(overlay);
         scene.setOnKeyPressed(e ->
+
         {
             switch (e.getCode()) {
                 case ENTER:
@@ -137,11 +129,14 @@ public class ControlAjouterSousTache implements EventHandler<ActionEvent> {
                     break;
             }
         });
-        scene.getStylesheets().add("file:src/main/css/style.css");
-        stage.getIcons().add(new Image("file:icons/logo.png"));
+        scene.getStylesheets().
+
+                add("file:src/main/css/style.css");
+        stage.getIcons().
+
+                add(new Image("file:icons/logo.png"));
         stage.setScene(scene);
         stage.setTitle("Ajouter une sous-tâche");
         stage.show();
-
     }
 }

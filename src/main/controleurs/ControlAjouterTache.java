@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import main.Liste;
 import main.Modele;
 import main.composite.Composant;
+import main.composite.SousTache;
 import main.composite.Tache;
 
 import java.io.File;
@@ -145,8 +146,6 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
             long diff = date2.getTime() - date1.getTime();
             duree.setText(String.valueOf((int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)));
         });
-
-
 
         // Ajout des éléments à la fenêtre
         ganttBox.getChildren().addAll(dateDebVBox, dureeVBox, dateFinVBox);

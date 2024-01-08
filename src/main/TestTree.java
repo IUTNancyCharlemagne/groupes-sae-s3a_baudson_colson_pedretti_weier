@@ -12,7 +12,7 @@ import main.composite.Tache;
 
 public class TestTree {
 
-    public static void addTreeAction(Modele modele, TreeView<Tache> treeView) {
+    public static void addTreeAction(Modele modele, TreeView<Composant> treeView) {
         treeView.setPrefHeight(treeView.getExpandedItemCount() * 25);
         treeView.getRoot().expandedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -29,12 +29,12 @@ public class TestTree {
             });
         }
 
-        treeView.setCellFactory(new Callback<TreeView<Tache>, TreeCell<Tache>>() {
+        treeView.setCellFactory(new Callback<TreeView<Composant>, TreeCell<Composant>>() {
             @Override
             public TreeCell call(TreeView treeView) {
-                TreeCell<Tache> cell = new TreeCell<Tache>() {
+                TreeCell<Composant> cell = new TreeCell<Composant>() {
                     @Override
-                    protected void updateItem(Tache tache, boolean empty) {
+                    protected void updateItem(Composant tache, boolean empty) {
                         super.updateItem(tache, empty);
                         if (tache != null) {
                             setText(tache.toString());
@@ -48,28 +48,12 @@ public class TestTree {
                 cell.setOnMousePressed(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
-                        // Click droit
-                        if (mouseEvent.getButton() == MouseButton.SECONDARY) {
-                            // Création d'un menu contextuel
-                            ContextMenu contextMenu = new ContextMenu();
-                            MenuItem item1 = new MenuItem("Ajouter sous-tâche");
-                            item1.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent actionEvent) {
-                                    Tache tache = new Tache("Sous-tâche " + modele.getProjet().getListeTaches().size(), "", 0);
-                                    TreeItem<Tache> treeItem = new TreeItem<>(tache);
-                                    cell.getTreeItem().getChildren().add(treeItem);
-                                    treeView.setPrefHeight(treeView.getExpandedItemCount() * 25);
-                                }
-                            });
-                            contextMenu.getItems().add(item1);
-                            cell.setContextMenu(contextMenu);
-                        } else if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                        if (mouseEvent.getButton() == MouseButton.PRIMARY) {
                             // Click gauche
 
                             // Double click
                             if (mouseEvent.getClickCount() != 2) return;
-                            Tache tache = cell.getTreeItem().getValue();
+                            Composant tache = cell.getTreeItem().getValue();
                             String nomTache = tache.getNom();
                             Composant composantAfficher = null;
                             boolean trouve = false;
@@ -108,7 +92,7 @@ public class TestTree {
                 cell.setOnDragDetected(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
-                        TreeItem<Tache> item = cell.getTreeItem();
+                        TreeItem<Composant> item = cell.getTreeItem();
                         // item = TreeItem qui a été drag and drop avec sous-tâches
 
                         if (item != null) {
@@ -135,8 +119,8 @@ public class TestTree {
                             tacheParent.retirer(tache);
 
                             // Tache dans laquelle on veut ajouter la tâche
-                            TreeItem<Tache> item = cell.getTreeItem();
-                            Tache tacheCible = item.getValue();
+                            TreeItem<Composant> item = cell.getTreeItem();
+                            Tache tacheCible = (Tache) item.getValue();
 
                             // Ajout de la tâche dans la tâche cible
                             tacheCible.ajouter(tache);

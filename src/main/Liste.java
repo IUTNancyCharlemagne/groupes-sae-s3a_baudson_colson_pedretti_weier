@@ -99,8 +99,8 @@ public class Liste implements Serializable {
         paneListe.getChildren().add(infosListe);
 
         for (Composant c : composants) {
-            if(!c.getEstArchive() && c instanceof Tache) {
-                TreeView<Tache> treeView = new TreeView<>(c.afficher(modele));
+            if(!c.getEstArchive()) {
+                TreeView<Composant> treeView = new TreeView<>(c.afficher(modele));
 
                 // TODO : à faire dans une classe à part
                 TestTree.addTreeAction(modele, treeView);
