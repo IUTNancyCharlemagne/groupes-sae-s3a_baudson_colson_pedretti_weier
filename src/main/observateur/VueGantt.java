@@ -44,6 +44,8 @@ public class VueGantt implements Observateur {
         grid.setVgap(10);
 
         ScrollPane scrollPane = new ScrollPane(grid);
+        modele.getPaneBureau().setVgrow(scrollPane, Priority.ALWAYS);
+        modele.getPaneBureau().setHgrow(scrollPane, Priority.ALWAYS);
         modele.getPaneBureau().getChildren().add(scrollPane);
 
         LocalDate debutProjet = modele.getProjet().getPremiereDateDebut();
