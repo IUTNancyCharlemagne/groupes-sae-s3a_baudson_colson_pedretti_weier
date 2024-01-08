@@ -287,7 +287,7 @@ public class VueTache implements Observateur {
         dureeVBox.getChildren().addAll(dureeText, dureeTextField);
         dateFinVBox.getChildren().addAll(dateFinText, dateFinPicker);
         ganttBox.getChildren().addAll(dateDebVBox, dureeVBox, dateFinVBox);
-        if(dateDebutPicker.getValue() != null){
+        if (dateDebutPicker.getValue() != null) {
             overlay.addRow(4, ganttBox);
         }
 
@@ -298,6 +298,7 @@ public class VueTache implements Observateur {
 
         // Dependence
         ComboBox comboBox = new ComboBox();
+        HBox hBoxDependance = new HBox();
         Text DependenceText = new Text("Dépendances");
         // ### ComboBox ###
         for (Liste liste : modele.getProjet().getListeTaches()) {
@@ -307,11 +308,27 @@ public class VueTache implements Observateur {
                 }
             }
         }
-        if(!comboBox.getItems().isEmpty()) {
-            overlay.addRow(7, DependenceText);
-            overlay.addRow(8, comboBox);
-        }
 
+        Button btnDependance = new Button("Ajouter / Supprimer");
+        btnDependance.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if (comboBox.getValue() != null) {
+                    for (Composant composant : modele.getProjet().getListeTouteTaches()) {
+                        if (composant.getNom().equals(comboBox.getValue())) {
+                            if (modele.getCurrentTache().getDependances().contains(composant)) {
+                                modele.getCurrentTache().removeDependance(composant);
+                            } else {
+                                modele.getCurrentTache().addDependance(composant);
+                            }
+                            modele.notifierObservateur();
+                        }
+                    }
+                }
+            }
+        });
+        hBoxDependance.setSpacing(10);
+        hBoxDependance.getChildren().addAll(comboBox, btnDependance);
 
         // ### Ajout overlay background ###
         modele.getStackPane().getChildren().add(overlayBackground);
@@ -321,6 +338,10 @@ public class VueTache implements Observateur {
         overlay.addRow(1, tagsGeneral);
         overlay.addRow(2, new Text("Description"));
         overlay.addRow(3, description, imageBox);
+        if (modele.getCurrentTache().getParent() == null) {
+            overlay.addRow(7, DependenceText);
+            overlay.addRow(8, hBoxDependance);
+        }
         overlay.addRow(9, btnAjouterSousTache, btnArchiver, btnSupprimer);
 
         overlayBackground.getChildren().add(overlay);

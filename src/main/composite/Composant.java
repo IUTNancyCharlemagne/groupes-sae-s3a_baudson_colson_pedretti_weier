@@ -102,6 +102,7 @@ public abstract class Composant implements Serializable {
         this.estTerminee = false;
         this.nbTags = 0;
         this.duree = duree;
+        this.dependances = new ArrayList<>();
     }
 
     /**
@@ -297,4 +298,11 @@ public abstract class Composant implements Serializable {
     }
 
     public abstract TreeItem<Composant> afficher(Modele modele);
+
+    public void addDependance(Composant composant) {
+        this.dependances.add(composant);
+    }
+    public void removeDependance(Composant composant) {
+        this.dependances.remove(composant);
+    }
 }
