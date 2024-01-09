@@ -8,12 +8,31 @@ import javafx.scene.input.*;
 import javafx.util.Callback;
 import main.composite.Composant;
 import main.composite.Tache;
+import main.controleurs.ControlOnDragOver;
 
-public class TestTree {
+/**
+ * Classe TreeViewActions qui ajoute les actions au TreeView
+ */
+public class TreeViewActions {
 
+    /**
+     * Hauteur d'une cellule
+     */
     private static final int HEIGHT = 31;
 
+    /**
+     * Méthode qui ajoute les actions au TreeView
+     * <ul>
+     *     <li>Adapte la taille du TreeView en fonction du nombre de cellules</li>
+     *     <li>Double click sur une tâche pour l'afficher</li>
+     *     <li>Drag and drop d'une tâche dans une autre tâche</li>
+     * </ul>
+     *
+     * @param modele   Modèle de l'application
+     * @param treeView TreeView à modifier
+     */
     public static void addTreeAction(Modele modele, TreeView<Composant> treeView) {
+        // ### Adaptation de la taille du TreeView ###
         treeView.setPrefHeight(treeView.getExpandedItemCount() * HEIGHT);
         treeView.getRoot().expandedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -30,6 +49,7 @@ public class TestTree {
             });
         }
 
+        // Ajout des actions sur les cellules
         treeView.setCellFactory(new Callback<TreeView<Composant>, TreeCell<Composant>>() {
             @Override
             public TreeCell call(TreeView treeView) {
@@ -46,12 +66,12 @@ public class TestTree {
                     }
                 };
 
+                // ### Double click pour afficher une tâche ###
                 cell.setOnMousePressed(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
+                        // Click gauche
                         if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-                            // Click gauche
-
                             // Double click
                             if (mouseEvent.getClickCount() != 2) return;
                             Composant tache = cell.getTreeItem().getValue();
@@ -122,13 +142,7 @@ public class TestTree {
                         }
                     }
                 });
-                cell.setOnDragOver(new EventHandler<DragEvent>() {
-                    @Override
-                    public void handle(DragEvent dragEvent) {
-                        dragEvent.acceptTransferModes(TransferMode.MOVE);
-                        dragEvent.consume();
-                    }
-                });
+                cell.setOnDragOver(new ControlOnDragOver(modele));
 
                 return cell;
             }

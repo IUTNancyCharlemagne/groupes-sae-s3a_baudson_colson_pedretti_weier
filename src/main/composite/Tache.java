@@ -1,21 +1,11 @@
 package main.composite;
 
 import javafx.scene.control.TreeItem;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import main.Liste;
 import main.Modele;
-import main.Tag;
-import main.controleurs.ControlAfficherTache;
-import main.controleurs.ControlOnDragDetected;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Classe qui représente une tâche dans le projet <br>
