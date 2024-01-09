@@ -42,7 +42,7 @@ public class VueGantt implements Observateur {
 
 
         HBox ganttHbox = new HBox();
-        ganttHbox.setStyle("-fx-background-color: rgba(255,255,255,0.5);");
+        ganttHbox.setStyle("-fx-background-color: rgba(255,255,255,0.75);");
 
         VBox ganttInfoVbox = new VBox();
         ganttInfoVbox.setMinWidth(225);
@@ -114,26 +114,19 @@ public class VueGantt implements Observateur {
                     }
 
                     grid.add(textePane, Composant.calculerDureeEntreDates(debutProjet, listeTaches.get(i).getDateDebut()), i + 1);
+                    if (!listeTaches.get(i).getDependances().isEmpty()) {
+                        ImageView image = new ImageView();
+                        image.setImage(new Image("file:icons/rightArrow.png"));
+                        image.setFitHeight(periodeSize);
+                        image.setFitWidth(periodeSize);
+                        grid.add(image, Composant.calculerDureeEntreDates(debutProjet, listeTaches.get(i).getDateDebut()) - 1, i + 1);
+                    }
                     System.out.println(Composant.calculerDureeEntreDates(debutProjet, listeTaches.get(i).getDateDebut()));
                     System.out.println(i + 1);
                     int duree = listeTaches.get(i).calculerDureeTache() / joursParColonne;
                     textePane.setPrefWidth(duree);
                     textePane.setPrefHeight(periodeSize);
                     grid.setHgap(0);
-                grid.add(textePane, Composant.calculerDureeEntreDates(debutProjet, listeTaches.get(i).getDateDebut()), i + 1);
-                if(!listeTaches.get(i).getDependances().isEmpty()){
-                    ImageView image = new ImageView();
-                    image.setImage(new Image("file:icons/rightArrow.png"));
-                    image.setFitHeight(periodeSize);
-                    image.setFitWidth(periodeSize);
-                    grid.add(image, Composant.calculerDureeEntreDates(debutProjet, listeTaches.get(i).getDateDebut())-1, i + 1);
-                }
-                System.out.println(Composant.calculerDureeEntreDates(debutProjet, listeTaches.get(i).getDateDebut()));
-                System.out.println(i+1);
-                int duree = listeTaches.get(i).calculerDureeTache()/joursParColonne;
-                textePane.setPrefWidth(duree);
-                textePane.setPrefHeight(periodeSize);
-                grid.setHgap(0);
 
                     if (duree > 0) GridPane.setColumnSpan(textePane, duree);
                 } catch (ParseException e) {
