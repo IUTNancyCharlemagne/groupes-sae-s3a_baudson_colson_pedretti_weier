@@ -112,6 +112,12 @@ public abstract class Composant implements Serializable {
         this.nbTags = 0;
         this.duree = duree;
         this.dependances = new ArrayList<>();
+        this.dateDebut = LocalDate.now();
+        try{
+            this.dateFin = this.calculerDateFin();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -127,7 +133,12 @@ public abstract class Composant implements Serializable {
         if (dateValide(dateDebut) && dateValide(dateFin)) {
             this.dateDebut = dateDebut;
             this.dateFin = dateFin;
+        } else{
+            this.dateDebut = LocalDate.now();
+            this.dateFin = LocalDate.now().plusDays(1);
         }
+        this.duree = 1;
+        this.dependances = new ArrayList<>();
     }
 
     /**
@@ -283,6 +294,7 @@ public abstract class Composant implements Serializable {
     }
 
     public boolean estPassee(LocalDate date) {
+        if (this.dateFin == null) return false;
         return date.isAfter(this.dateFin);
     }
 
