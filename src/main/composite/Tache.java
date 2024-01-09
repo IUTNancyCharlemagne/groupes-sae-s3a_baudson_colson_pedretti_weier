@@ -24,12 +24,14 @@ public class Tache extends Composant {
     public Tache(String nom, String image, int duree) {
         super(nom, image, duree);
         this.sousTaches = new ArrayList<>();
+        this.dependances = new ArrayList<>();
     }
 
     public Tache(String nom, String image, LocalDate dateDebut, LocalDate dateFin) {
         super(nom, image, dateDebut, dateFin);
         this.duree = 0;
         this.sousTaches = new ArrayList<>();
+        this.dependances = new ArrayList<>();
     }
 
     @Override
