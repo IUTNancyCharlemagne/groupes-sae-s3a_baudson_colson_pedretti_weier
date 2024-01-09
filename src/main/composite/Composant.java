@@ -1,8 +1,6 @@
 package main.composite;
 
 import javafx.scene.control.TreeItem;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import main.Liste;
@@ -17,7 +15,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -320,22 +317,22 @@ public abstract class Composant implements Serializable {
 
     public void addDependance(Composant composant) throws ParseException {
         this.dependances.add(composant);
-        for (Composant c : this.dependances) {
-            if (c.getDateFin().isAfter(this.dateDebut)) {
-                this.dateDebut = c.getDateFin();
-            }
-        }
-        this.dateFin = this.calculerDateFin();
+        this.getDateDebutDependance();
     }
-    public void removeDependance(Composant composant) {
+    public void removeDependance(Composant composant) throws ParseException {
         this.dependances.remove(composant);
+        this.getDateDebutDependance();
+    }
+
+    public void getDateDebutDependance() throws ParseException {
         if (!this.dependances.isEmpty()) {
             this.dateDebut = this.dependances.get(0).getDateFin();
-            for (Composant c : this.dependances) {
-                if (c.getDateFin().isAfter(this.dateDebut)) {
-                    this.dateDebut = c.getDateFin();
+            for (Composant composant : this.dependances) {
+                if (composant.getDateFin().isAfter(this.dateDebut)) {
+                    this.dateDebut = composant.getDateFin();
                 }
             }
         }
+        this.dateFin = this.calculerDateFin();
     }
 }

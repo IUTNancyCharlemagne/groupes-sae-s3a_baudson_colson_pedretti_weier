@@ -238,11 +238,16 @@ public class VueTache implements Observateur {
         // On met les valeurs de la tache dans les inputs
         if (modele.getCurrentTache() instanceof Tache) {
             Tache tache = (Tache) modele.getCurrentTache();
-
+            try{
+                tache.getDateDebutDependance();
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
             dateDebutPicker.setValue(tache.getDateDebut());
-            if (!modele.getCurrentTache().getDependances().isEmpty()){
+            if (!modele.getCurrentTache().getDependances().isEmpty()) {
                 dateDebutPicker.setDisable(true);
-            } else{
+                dateDebutPicker.setTooltip(new Tooltip("La date de début est définie par les dépendances"));
+            } else {
                 dateDebutPicker.setDisable(false);
             }
             dureeTextField.setText(String.valueOf(tache.getDuree()));
@@ -330,30 +335,33 @@ public class VueTache implements Observateur {
                         }
                     }
 
-                    if(btnDependance != null) {
-                        btnDependance.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent actionEvent) {
-                                if (comboBox.getValue() != null) {
-                                    for (Composant composant : modele.getProjet().getListeTouteTaches()) {
-                                        if (composant.getNom().equals(comboBox.getValue())) {
-                                            if (modele.getCurrentTache().getDependances().contains(composant)) {
+                    btnDependance.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent actionEvent) {
+                            if (comboBox.getValue() != null) {
+                                for (Composant composant : modele.getProjet().getListeTouteTaches()) {
+                                    if (composant.getNom().equals(comboBox.getValue())) {
+                                        if (modele.getCurrentTache().getDependances().contains(composant)) {
+                                            try {
                                                 modele.getCurrentTache().removeDependance(composant);
-                                            } else {
-                                                try {
-                                                    modele.getCurrentTache().addDependance(composant);
-                                                } catch (ParseException e) {
-                                                    throw new RuntimeException(e);
-                                                }
+                                            } catch (ParseException e) {
+                                                throw new RuntimeException(e);
                                             }
-                                            modele.notifierObservateur();
+
+                                        } else {
+                                            try {
+                                                modele.getCurrentTache().addDependance(composant);
+                                            } catch (ParseException e) {
+                                                throw new RuntimeException(e);
+                                            }
                                         }
+                                        modele.notifierObservateur();
                                     }
                                 }
                             }
-                        });
-                        hBoxDependance.getChildren().add(btnDependance);
-                    }
+                        }
+                    });
+                    hBoxDependance.getChildren().add(btnDependance);
                 }
             }
         });
