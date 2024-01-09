@@ -1,0 +1,10 @@
+Pour cette itération, nous avons les fonctionnalités suivantes :
+
+    - Ajout des TreeView (Loris)
+    - Adaptation du Drag and Drop pour les TreeView (Loris)
+    - Affichage Liste (Dylan)
+    - Affichage Gantt (Zack)
+
+Nous avons découvert que notre système de recherche de tâche n'était pas totalement fonctionnel.
+Nous avons donc créé une liste contenant toutes les tâches pour simplifier la recherche.
+L'affichage n'est pas encore dans sa version définitive, mais il est fonctionnel.

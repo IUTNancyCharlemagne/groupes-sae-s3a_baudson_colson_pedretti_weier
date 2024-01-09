@@ -1,0 +1,9 @@
+Pour cette itération, nous avons ajouté les fonctionnalités suivantes :
+
+    - Ajout des TreeView (Loris)
+    - Adaptation du Drag and Drop pour les TreeView (Loris)
+    - Affichage Liste (Dylan)
+    - Affichage Gantt (Zack)
+
+Nous avons un peu réaranger le code pour que ce soit plus propre et plus facile à comprendre.
+Nous allons continuer de travailler sur le Gantt et l'affichage Liste.
