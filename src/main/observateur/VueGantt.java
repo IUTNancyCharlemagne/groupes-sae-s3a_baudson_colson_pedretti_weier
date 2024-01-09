@@ -63,40 +63,40 @@ public class VueGantt implements Observateur {
 
         List<Composant> listeTaches = modele.getProjet().getListeTouteTaches();
         for (int i = 0; i < listeTaches.size(); i++) {
-            try {
-                Label texte;
-                if(listeTaches.get(i).getDependances().size() == 0) {
-                    texte = new Label(listeTaches.get(i).getNom());
-                }
-                else{
-                    texte = new Label(listeTaches.get(i).getNom() + "(dépendances: " + listeTaches.get(i).getDependances() + ")");
-                }
-                texte.setFont(new Font("Arial", 14));
-                texte.setStyle("-fx-font-weight: bold;");
-                texte.setWrapText(true);
-                texte.prefHeight(periodeSize);
-                Pane textePane = new Pane(texte);
+            if(!listeTaches.get(i).getEstArchive()){
+                try {
+                    Label texte;
+                    if (listeTaches.get(i).getDependances().size() == 0) {
+                        texte = new Label(listeTaches.get(i).getNom());
+                    } else {
+                        texte = new Label(listeTaches.get(i).getNom() + "(dépendances: " + listeTaches.get(i).getDependances() + ")");
+                    }
+                    texte.setFont(new Font("Arial", 14));
+                    texte.setStyle("-fx-font-weight: bold;");
+                    texte.setWrapText(true);
+                    texte.prefHeight(periodeSize);
+                    Pane textePane = new Pane(texte);
 
-                if(listeTaches.get(i).getEstTerminee() || listeTaches.get(i).estPassee(LocalDate.now())){
-                    textePane.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
-                } else if(listeTaches.get(i).estDansIntervalle(LocalDate.now())){
-                    textePane.setBackground(new Background(new BackgroundFill(Color.ORANGE, CornerRadii.EMPTY, Insets.EMPTY)));
-                }
-                else{
-                    textePane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
-                }
+                    if (listeTaches.get(i).getEstTerminee() || listeTaches.get(i).estPassee(LocalDate.now())) {
+                        textePane.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+                    } else if (listeTaches.get(i).estDansIntervalle(LocalDate.now())) {
+                        textePane.setBackground(new Background(new BackgroundFill(Color.ORANGE, CornerRadii.EMPTY, Insets.EMPTY)));
+                    } else {
+                        textePane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+                    }
 
-                grid.add(textePane, Composant.calculerDureeEntreDates(debutProjet, listeTaches.get(i).getDateDebut()), i + 1);
-                System.out.println(Composant.calculerDureeEntreDates(debutProjet, listeTaches.get(i).getDateDebut()));
-                System.out.println(i+1);
-                int duree = listeTaches.get(i).calculerDureeTache()/joursParColonne;
-                textePane.setPrefWidth(duree);
-                textePane.setPrefHeight(periodeSize);
-                grid.setHgap(0);
+                    grid.add(textePane, Composant.calculerDureeEntreDates(debutProjet, listeTaches.get(i).getDateDebut()), i + 1);
+                    System.out.println(Composant.calculerDureeEntreDates(debutProjet, listeTaches.get(i).getDateDebut()));
+                    System.out.println(i + 1);
+                    int duree = listeTaches.get(i).calculerDureeTache() / joursParColonne;
+                    textePane.setPrefWidth(duree);
+                    textePane.setPrefHeight(periodeSize);
+                    grid.setHgap(0);
 
-                if(duree > 0) GridPane.setColumnSpan(textePane, duree);
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
+                    if (duree > 0) GridPane.setColumnSpan(textePane, duree);
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }

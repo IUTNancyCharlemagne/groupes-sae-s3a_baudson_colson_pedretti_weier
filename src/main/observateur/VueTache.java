@@ -213,6 +213,15 @@ public class VueTache implements Observateur {
             public void handle(ActionEvent actionEvent) {
                 if (!modele.getCurrentTache().getEstArchive()) {
                     modele.getProjet().archiverTache(modele.getCurrentTache().getNom());
+                    for(Composant c : modele.getProjet().getListeTouteTaches()){
+                        if(!c.getEstArchive() && c.getDependances().contains(modele.getCurrentTache())){
+                            try {
+                                c.removeDependance(modele.getCurrentTache());
+                            } catch (ParseException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    }
                 } else {
                     modele.getProjet().desarchiverTache(modele.getCurrentTache().getNom());
                 }
@@ -320,7 +329,7 @@ public class VueTache implements Observateur {
         // ### ComboBox ###
         for (Liste liste : modele.getProjet().getListeTaches()) {
             for (Composant composant : liste.getComposants()) {
-                if (!composant.getNom().equals(modele.getCurrentTache().getNom())) {
+                if (!composant.getNom().equals(modele.getCurrentTache().getNom()) && !composant.getEstArchive()) {
                     comboBox.getItems().add(composant.getNom());
                 }
             }
@@ -333,7 +342,7 @@ public class VueTache implements Observateur {
                 if (comboBox.getValue() != null) {
 
                     for (Composant composant : modele.getProjet().getListeTouteTaches()) {
-                        if (composant.getNom().equals(comboBox.getValue())) {
+                        if (composant.getNom().equals(comboBox.getValue()) && !composant.getEstArchive()) {
                             if (modele.getCurrentTache().getDependances().contains(composant)) {
                                 btnDependance = new Button("Supprimer");
                             } else {
@@ -342,7 +351,7 @@ public class VueTache implements Observateur {
                         }
                     }
 
-                    btnDependance.setOnAction(new EventHandler<ActionEvent>() {
+                    if (btnDependance != null) btnDependance.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent actionEvent) {
                             if (comboBox.getValue() != null) {
