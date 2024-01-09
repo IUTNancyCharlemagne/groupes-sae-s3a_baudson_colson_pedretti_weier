@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Classe abstraite représentant un composant (Tâche ou sous-tâche)
+ *
  * @see Tache
  * @see SousTache
  */
@@ -42,6 +43,7 @@ public abstract class Composant implements Serializable {
 
     /**
      * Liste des tags de la tâche
+     *
      * @see Tag
      */
     protected List<Tag> tags;
@@ -166,18 +168,20 @@ public abstract class Composant implements Serializable {
 
     /**
      * Méthode permettant d'ajouter un tag à la tâche
+     *
      * @param tag Tag à ajouter
      */
-    public void addTag(Tag tag){
+    public void addTag(Tag tag) {
         tags.add(tag);
         this.nbTags++;
     }
 
     /**
      * Méthode permettant de supprimer un tag de la tâche
+     *
      * @param tag Tag à supprimer
      */
-    public void removeTag(Tag tag){
+    public void removeTag(Tag tag) {
         tags.remove(tag);
         this.nbTags--;
     }
@@ -189,34 +193,50 @@ public abstract class Composant implements Serializable {
     public String getNom() {
         return nom;
     }
+
     public String getDescription() {
         return description;
     }
+
     public boolean getEstArchive() {
         return estArchive;
     }
+
     public void setNom(String nom) {
         this.nom = nom;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
+
     public void setEstArchive(boolean estArchive) {
         this.estArchive = estArchive;
     }
+
     public List<Tag> getTags() {
         return tags;
     }
-    public int getNbTags(){
+
+    public int getNbTags() {
         return this.nbTags;
     }
-    public boolean getEstTerminee(){return this.estTerminee;}
-    public void setEstTerminee(boolean b){
+
+    public boolean getEstTerminee() {
+        return this.estTerminee;
+    }
+
+    public void setEstTerminee(boolean b) {
         this.estTerminee = b;
     }
 
-    public String getImage() {return image;}
-    public void setImage(String image) {this.image = image;}
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public List<Composant> getDependances() {
         return dependances;
@@ -258,11 +278,11 @@ public abstract class Composant implements Serializable {
         return LocalDate.parse(sdf.format(date2));
     }
 
-    public boolean estDansIntervalle(LocalDate date){
+    public boolean estDansIntervalle(LocalDate date) {
         return (date.isAfter(this.dateDebut) && date.isBefore(this.dateFin)) || date.isEqual(this.dateDebut) || date.isEqual(this.dateFin);
     }
 
-    public boolean estPassee(LocalDate date){
+    public boolean estPassee(LocalDate date) {
         return date.isAfter(this.dateFin);
     }
 
@@ -319,22 +339,21 @@ public abstract class Composant implements Serializable {
         this.dependances.add(composant);
         this.CalcDateDebutDependance();
     }
+
     public void removeDependance(Composant composant) throws ParseException {
         this.dependances.remove(composant);
         this.CalcDateDebutDependance();
     }
 
     public void CalcDateDebutDependance() throws ParseException {
-        if(this.dependances != null) {
-            if (!this.dependances.isEmpty()) {
-                this.dateDebut = this.dependances.get(0).getDateFin();
-                for (Composant composant : this.dependances) {
-                    if (composant.getDateFin().isAfter(this.dateDebut)) {
-                        this.dateDebut = composant.getDateFin();
-                    }
+        if (!this.dependances.isEmpty()) {
+            this.dateDebut = this.dependances.get(0).getDateFin();
+            for (Composant composant : this.dependances) {
+                if (composant.getDateFin().isAfter(this.dateDebut)) {
+                    this.dateDebut = composant.getDateFin();
                 }
             }
-            this.dateFin = this.calculerDateFin();
         }
+        this.dateFin = this.calculerDateFin();
     }
 }
