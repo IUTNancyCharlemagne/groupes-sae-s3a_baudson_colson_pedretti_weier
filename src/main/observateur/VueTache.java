@@ -315,6 +315,8 @@ public class VueTache implements Observateur {
         ganttBox.getChildren().addAll(dateDebVBox, dureeVBox, dateFinVBox);
         if (dateDebutPicker.getValue() != null) {
             overlay.addRow(4, ganttBox);
+        } else {
+            overlay.addRow(4, dureeVBox);
         }
 
         // ### Bouton ajouter sous-tache ###
