@@ -67,6 +67,7 @@ public class Tache extends Composant {
      * @param c sous-tâche
      */
     public void retirer(Composant c) {
+        this.duree -= c.getDuree();
         this.sousTaches.remove(c);
         c.setParent(null);
     }
