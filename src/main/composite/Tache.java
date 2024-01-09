@@ -84,5 +84,7 @@ public class Tache extends Composant {
         } catch (ParseException e) {
             e.printStackTrace();
         };
+        if(this.getParent() != null && this.getParent() instanceof Tache)
+            ((Tache) this.getParent()).fixDuree();
     }
 }
