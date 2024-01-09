@@ -317,14 +317,14 @@ public abstract class Composant implements Serializable {
 
     public void addDependance(Composant composant) throws ParseException {
         this.dependances.add(composant);
-        this.getDateDebutDependance();
+        this.CalcDateDebutDependance();
     }
     public void removeDependance(Composant composant) throws ParseException {
         this.dependances.remove(composant);
-        this.getDateDebutDependance();
+        this.CalcDateDebutDependance();
     }
 
-    public void getDateDebutDependance() throws ParseException {
+    public void CalcDateDebutDependance() throws ParseException {
         if (!this.dependances.isEmpty()) {
             this.dateDebut = this.dependances.get(0).getDateFin();
             for (Composant composant : this.dependances) {

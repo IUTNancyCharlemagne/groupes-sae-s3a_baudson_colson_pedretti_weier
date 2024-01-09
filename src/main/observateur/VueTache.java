@@ -96,6 +96,13 @@ public class VueTache implements Observateur {
             @Override
             public void handle(ActionEvent actionEvent) {
                 modele.setCurrentTache(null);
+                for(Composant composant : modele.getProjet().getListeTouteTaches()){
+                    try{
+                        composant.CalcDateDebutDependance();
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 modele.notifierObservateur();
             }
         });
@@ -239,7 +246,7 @@ public class VueTache implements Observateur {
         if (modele.getCurrentTache() instanceof Tache) {
             Tache tache = (Tache) modele.getCurrentTache();
             try{
-                tache.getDateDebutDependance();
+                tache.CalcDateDebutDependance();
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
@@ -267,6 +274,7 @@ public class VueTache implements Observateur {
                     }
                     dateFinPicker.setValue(tache.getDateFin());
                 }
+
             });
 
             // Quand la valeur de la date de début est changée, on met à jour la date de fin
