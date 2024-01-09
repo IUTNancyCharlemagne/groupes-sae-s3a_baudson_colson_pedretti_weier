@@ -385,10 +385,10 @@ public class VueTache implements Observateur {
         overlay.addRow(2, new Text("Description"));
         overlay.addRow(3, description, imageBox);
         if (modele.getCurrentTache().getParent() == null) {
-            overlay.addRow(7, DependenceText);
-            overlay.addRow(8, hBoxDependance);
+            overlay.addRow(5, DependenceText);
+            overlay.addRow(6, hBoxDependance);
         }
-        overlay.addRow(9, btnAjouterSousTache, btnArchiver, btnSupprimer);
+        overlay.addRow(7, btnAjouterSousTache, btnArchiver, btnSupprimer);
 
         overlayBackground.getChildren().add(overlay);
     }

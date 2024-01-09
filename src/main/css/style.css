@@ -3,7 +3,7 @@
 Button {
     -fx-background-color: rgba(0, 0, 0, 0.5);
     -fx-background-radius: 10;
-    -fx-padding: 5;
+    -fx-padding: 5 10;
     -fx-text-fill: #c379ef;
     -fx-font-size: 15;
     -fx-font-family: "Segoe UI";

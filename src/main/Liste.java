@@ -85,12 +85,13 @@ public class Liste implements Serializable {
         infosListe.setAlignment(Pos.CENTER);
         Region r = new Region();
         HBox.setHgrow(r, Priority.ALWAYS);
-        infosListe.setPadding(new Insets(10, 10, 5, 5));
+        infosListe.setPadding(new Insets(10, 10, 2, 10));
 
         Text textNom = new Text(this.nom);
         textNom.setStyle("-fx-cursor: hand;");
         Button more = new Button("...");
         more.getStyleClass().add("btnTransparent");
+        more.setAlignment(Pos.CENTER);
         infosListe.getChildren().addAll(textNom, r, more);
         paneListe.getChildren().add(infosListe);
 
