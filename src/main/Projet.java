@@ -285,7 +285,7 @@ public class Projet {
         LocalDate maxDate = taches.get(0).getDateFin();
 
         for(Tache t : taches){
-            if (t.getDateFin().isAfter(maxDate)) maxDate = t.getDateFin();
+            if (t.getDateFin() != null && t.getDateFin().isAfter(maxDate)) maxDate = t.getDateFin();
         }
 
         return maxDate;

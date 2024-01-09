@@ -14,6 +14,7 @@ import javafx.scene.text.Font;
 import main.Modele;
 import main.Sujet;
 import main.composite.Composant;
+import main.composite.SousTache;
 
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -91,12 +92,16 @@ public class VueGantt implements Observateur {
 
         joursColonne.setMin(1);
         int dureeProjet;
-        try {
-            dureeProjet = Composant.calculerDureeEntreDates(modele.getProjet().getPremiereDateDebut(), modele.getProjet().getDerniereDateFin());
-            joursColonne.setMax(dureeProjet);
-        } catch (ParseException e) {
+        if (modele.getProjet().getPremiereDateDebut() != null && modele.getProjet().getDerniereDateFin() != null) {
+            try {
+                dureeProjet = Composant.calculerDureeEntreDates(modele.getProjet().getPremiereDateDebut(), modele.getProjet().getDerniereDateFin());
+                joursColonne.setMax(dureeProjet);
+            } catch (ParseException e) {
+                joursColonne.setMax(300);
+                throw new RuntimeException(e);
+            }
+        } else {
             joursColonne.setMax(300);
-            throw new RuntimeException(e);
         }
         joursColonne.setValue(joursParColonne);
         joursColonne.setOrientation(Orientation.VERTICAL);
@@ -120,12 +125,12 @@ public class VueGantt implements Observateur {
 
     }
 
-    public void chargerGANTT(GridPane grid){
+    public void chargerGANTT(GridPane grid) {
 
         grid.getChildren().clear();
         grid.setGridLinesVisible(true);
         grid.setHgap(0);
-        grid.setVgap((int)(0.1*periodeSize));
+        grid.setVgap((int) (0.1 * periodeSize));
 
         LocalDate debutProjet = modele.getProjet().getPremiereDateDebut();
         LocalDate finProjet = modele.getProjet().getDerniereDateFin();
@@ -152,7 +157,7 @@ public class VueGantt implements Observateur {
 
         List<Composant> listeTaches = modele.getProjet().getListeTouteTaches();
         for (int i = 0; i < listeTaches.size(); i++) {
-            if (!listeTaches.get(i).getEstArchive()) {
+            if (!listeTaches.get(i).getEstArchive() && listeTaches.get(i).getParent() == null) {
                 try {
                     Label texte;
                     if (listeTaches.get(i).getDependances().size() == 0) {
@@ -167,7 +172,7 @@ public class VueGantt implements Observateur {
                     texte.prefHeight(periodeSize);
                     Pane textePane = new Pane(texte);
 
-                    if (listeTaches.get(i).getEstTerminee() || listeTaches.get(i).estPassee(LocalDate.now())) {
+                    if (listeTaches.get(i).getDateFin() != null && (listeTaches.get(i).getEstTerminee() || listeTaches.get(i).estPassee(LocalDate.now()))) {
                         textePane.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
                     } else if (listeTaches.get(i).estDansIntervalle(LocalDate.now())) {
                         textePane.setBackground(new Background(new BackgroundFill(Color.ORANGE, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -175,19 +180,23 @@ public class VueGantt implements Observateur {
                         textePane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
                     }
 
-                    grid.add(textePane, Composant.calculerDureeEntreDates(debutProjet, listeTaches.get(i).getDateDebut()), i + 1);
-                    if (!listeTaches.get(i).getDependances().isEmpty()) {
-                        ImageView image = new ImageView();
-                        image.setImage(new Image("file:icons/rightArrow.png"));
-                        image.setFitHeight(periodeSize);
-                        image.setFitWidth(periodeSize);
-                        grid.add(image, Composant.calculerDureeEntreDates(debutProjet, listeTaches.get(i).getDateDebut()) - 1, i + 1);
-                    }
-                    int duree = Math.round(listeTaches.get(i).calculerDureeTache() / (float)joursParColonne);
-                    textePane.setPrefWidth(duree * periodeSize);
-                    textePane.setPrefHeight(periodeSize);
 
-                    if (duree > 0) GridPane.setColumnSpan(textePane, duree*joursParColonne);
+                    int xPos = Composant.calculerDureeEntreDates(debutProjet, listeTaches.get(i).getDateDebut());
+                    if (xPos >= 0) {
+                        grid.add(textePane, xPos, i + 1);
+                        if (!listeTaches.get(i).getDependances().isEmpty()) {
+                            ImageView image = new ImageView();
+                            image.setImage(new Image("file:icons/rightArrow.png"));
+                            image.setFitHeight(periodeSize);
+                            image.setFitWidth(periodeSize);
+                            grid.add(image, xPos - 1, i + 1);
+                        }
+                        int duree = Math.round(listeTaches.get(i).calculerDureeTache() / (float) joursParColonne);
+                        textePane.setPrefWidth(duree * periodeSize);
+                        textePane.setPrefHeight(periodeSize);
+
+                        if (duree > 0) GridPane.setColumnSpan(textePane, duree * joursParColonne);
+                    }
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }

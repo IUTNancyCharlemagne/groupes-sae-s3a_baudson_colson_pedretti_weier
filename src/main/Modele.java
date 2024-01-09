@@ -102,11 +102,9 @@ public class Modele implements Sujet, Serializable {
                     o.actualiser(this);
                 }
             }
-
             if (o instanceof VueTache){
                 o.actualiser(this);
             }
-
         }
     }
 

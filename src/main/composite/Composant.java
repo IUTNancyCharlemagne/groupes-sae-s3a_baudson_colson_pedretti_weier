@@ -289,7 +289,8 @@ public abstract class Composant implements Serializable {
         return LocalDate.parse(sdf.format(date2));
     }
 
-    public boolean estDansIntervalle(LocalDate date) {
+    public boolean estDansIntervalle(LocalDate date){
+        if (date == null || this.dateDebut == null || this.dateFin == null) return false;
         return (date.isAfter(this.dateDebut) && date.isBefore(this.dateFin)) || date.isEqual(this.dateDebut) || date.isEqual(this.dateFin);
     }
 
