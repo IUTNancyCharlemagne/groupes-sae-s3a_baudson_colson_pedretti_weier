@@ -63,5 +63,8 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
             modele.setCurrentTache(composantAfficher);
             modele.notifierObservateur();
         }
+        else{
+            System.out.println("PAS TROUVE");
+        }
     }
 }
