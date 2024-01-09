@@ -78,4 +78,14 @@ public class Tache extends Composant {
     public List<Composant> getSousTaches() {
         return this.sousTaches;
     }
+
+    public void fixDuree(){
+        int duree = 0;
+        for (Composant composant : this.sousTaches) {
+            duree += composant.getDuree();
+        }
+        if(this.duree < duree){
+            this.duree = duree;
+        }
+    }
 }

@@ -96,24 +96,21 @@ public class ControlAjouterSousTache implements EventHandler<ActionEvent> {
                 System.out.println("La tâche existe déjà.");
             } else {
                 if (composant instanceof Tache) {
+                    int outputDuree = 0;
+                    if(!dureeField.getText().isEmpty()){
+                        outputDuree = Integer.parseInt(dureeField.getText());
+                    }
                     if (tacheImage.getImage() == null) {
-                        Tache tache = new Tache(nom.getText(), null, 0);
+                        Tache tache = new Tache(nom.getText(), null, outputDuree);
                         ((Tache) composant).ajouter(tache);
+                        ((Tache) composant).fixDuree();
                         modele.getProjet().getListeTouteTaches().add(tache);
                     } else {
-                        int outputDuree = 0;
-                        if(!dureeField.getText().isEmpty()){
-                            try {
-                                outputDuree = Integer.parseInt(dureeField.getText());
-                            } catch (NumberFormatException ex) {
-                                System.out.println("La durée doit être un nombre. Mise de la durée à la valeur par défaut : 0");
-                            }
-                        }
                         Tache tache = new Tache(nom.getText(), tacheImage.getImage().getUrl(), outputDuree);
                         ((Tache) composant).ajouter(tache);
-                        ((Tache) composant).ajouter(tache);
-                        ((Tache) composant).ajouter(tache);
+                        ((Tache) composant).fixDuree();
                         modele.getProjet().getListeTouteTaches().add(tache);
+                        System.out.println(tache.getDuree());
                     }
                     modele.notifierObservateur();
                     stage.close();
