@@ -278,15 +278,16 @@ public class VueTache implements Observateur {
                     dureeTextField.setText(newValue.replaceAll("[^\\d]", ""));
                 }
                 if (!dureeTextField.getText().isEmpty()) {
-                    tache.setDuree(Integer.parseInt(dureeTextField.getText()));
-                    try {
-                        tache.setDateFin(tache.calculerDateFin());
-                    } catch (ParseException e) {
-                        throw new RuntimeException(e);
+                    if(Integer.parseInt(dureeTextField.getText()) > tache.getDuree()){
+                        tache.setDuree(Integer.parseInt(dureeTextField.getText()));
+                        try {
+                            tache.setDateFin(tache.calculerDateFin());
+                        } catch (ParseException e) {
+                            throw new RuntimeException(e);
+                        }
+                        dateFinPicker.setValue(tache.getDateFin());
                     }
-                    dateFinPicker.setValue(tache.getDateFin());
                 }
-
             });
 
             // Quand la valeur de la date de début est changée, on met à jour la date de fin
