@@ -98,10 +98,7 @@ public class Liste implements Serializable {
         for (Composant c : composants) {
             if(!c.getEstArchive()) {
                 TreeView<Composant> treeView = new TreeView<>(c.afficher(modele));
-
-                // TODO : à faire dans une classe à part
-                TestTree.addTreeAction(modele, treeView);
-
+                TreeViewActions.addTreeAction(modele, treeView);
                 paneListe.getChildren().add(treeView);
             }
         }
@@ -174,7 +171,7 @@ public class Liste implements Serializable {
                 TreeView<Composant> treeView = new TreeView<>(c.afficher(modele));
 
                 // TODO : à faire dans une classe à part
-                TestTree.addTreeAction(modele, treeView);
+                TreeViewActions.addTreeAction(modele, treeView);
 
                 paneListe.getChildren().add(treeView);
             }
