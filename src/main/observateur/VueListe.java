@@ -31,7 +31,7 @@ public class VueListe implements Observateur {
             HBox pane = liste.afficherListe(modele);
             pane.getStyleClass().add("paneListe");
 
-            Button btnAddTache = new Button("Ajouter tâche");
+            Button btnAddTache = new Button("+ Ajouter tâche");
             btnAddTache.setOnAction(new ControlAjouterTache(modele));
             btnAddTache.setId(liste.getNom());
             pane.getChildren().add(btnAddTache);
@@ -39,7 +39,7 @@ public class VueListe implements Observateur {
             i++;
         }
 
-        Button btnAddListe = new Button("Ajouter liste");
+        Button btnAddListe = new Button("+ Ajouter liste");
         btnAddListe.setOnAction(new ControlAjouterListe(modele));
         modele.getPaneBureau().setValignment(btnAddListe, VPos.TOP);
 

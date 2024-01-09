@@ -2,12 +2,11 @@ package main;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import main.controleurs.ControlChangerFond;
 import main.controleurs.ControlChangerVue;
 import main.controleurs.ControlCharger;
 import main.controleurs.ControlSauvegarde;
@@ -17,7 +16,11 @@ import main.observateur.VueGantt;
 import main.observateur.VueListe;
 import main.observateur.VueTache;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Trebbo extends Application {
 
@@ -27,20 +30,22 @@ public class Trebbo extends Application {
 
     /**
      * Méthode qui lance l'application.
+     *
      * @param primaryStage
      */
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException {
         Modele modele = new Modele(new Projet());
         BorderPane layout = new BorderPane();
 
         ControlChangerVue controlChangerVue = new ControlChangerVue(modele);
         ControlSauvegarde controlSauvegarde = new ControlSauvegarde(modele, primaryStage);
         ControlCharger controlCharger = new ControlCharger(modele, primaryStage);
+        ControlChangerFond controlChangerFond = new ControlChangerFond(modele, primaryStage, layout);
 
         MenuOptions menuOptions = new MenuOptions(modele, primaryStage, layout, controlChangerVue, controlSauvegarde, controlCharger);
 
-        MenuContext menuContext = new MenuContext(modele, layout,primaryStage);
+        MenuContext menuContext = new MenuContext(modele, layout, primaryStage);
 
         menuOptions.handle(new ActionEvent());
         menuContext.handle(new ActionEvent());
@@ -65,8 +70,6 @@ public class Trebbo extends Application {
 
         modele.notifierObservateur();
         layout.setCenter(modele.getPaneBureau());
-        //set background image
-        layout.setBackground(new Background(new BackgroundImage(new Image("file:backgrounds/base.png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(1, 1, false, false, true, true))));
         primaryStage.setMaximized(true);
 
         modele.getStackPane().getChildren().add(layout);
@@ -76,6 +79,18 @@ public class Trebbo extends Application {
         primaryStage.getIcons().add(new Image("file:icons/logo.png"));
         primaryStage.setScene(scene);
         primaryStage.setTitle("Trebbo");
+
         primaryStage.show();
+
+        //set background image
+        String bgParamFile = "./params/background.txt";
+        if (Files.exists(Paths.get(bgParamFile))) {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(bgParamFile));
+            String cheminFond = bufferedReader.readLine();
+            if (cheminFond != null && Files.exists(Paths.get(cheminFond))) {
+                controlChangerFond.changerFond(cheminFond);
+            }
+        } else
+            layout.setBackground(new Background(new BackgroundImage(new Image("file:backgrounds/base.png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(1, 1, false, false, true, true))));
     }
 }
