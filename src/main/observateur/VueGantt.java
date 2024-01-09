@@ -18,6 +18,7 @@ import main.Modele;
 import main.Sujet;
 import main.composite.Composant;
 import main.composite.SousTache;
+import main.composite.Tache;
 
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -195,7 +196,28 @@ public class VueGantt implements Observateur {
                     texte.setStyle("-fx-font-weight: bold;");
                     texte.setWrapText(true);
                     texte.prefHeight(periodeSize);
-                    Pane textePane = new Pane(texte);
+                    VBox textePane = new VBox();
+
+                    HBox sousTaches = new HBox();
+                    if(listeTaches.get(i) instanceof Tache){
+                        Tache tache = (Tache) listeTaches.get(i);
+                        if (!tache.getSousTaches().isEmpty()) {
+                            StringBuffer sousTachesTexte = new StringBuffer("Sous-tâches: ");
+                            for (Composant sousTache : tache.getSousTaches()) {
+                                Tache sousTacheRef = (Tache) sousTache;
+                                sousTachesTexte.append(sousTacheRef.getNom() + " (" + sousTacheRef.getDuree() + " jour(s))");
+                                if(tache.getSousTaches().indexOf(sousTache) != tache.getSousTaches().size()-1){
+                                    sousTachesTexte.append(", ");
+                                }
+                            }
+                            Label stLabel = new Label(sousTachesTexte.toString());
+                            stLabel.setFont(new Font("Arial", (0.15*periodeSize)));
+                            stLabel.setPadding(new Insets(periodeSize*0.1));
+                            sousTaches.getChildren().add(stLabel);
+                        }
+                    }
+
+                    textePane.getChildren().addAll(texte,sousTaches);
 
                     StringBuffer tooltipText = new StringBuffer();
 
@@ -219,6 +241,7 @@ public class VueGantt implements Observateur {
                         textePane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
                     }
 
+                    textePane.setStyle("-fx-border-color: BLACK; -fx-border-width: 1px;");
 
                     int xPos = Composant.calculerDureeEntreDates(debutProjet, listeTaches.get(i).getDateDebut());
                     if (xPos >= 0) {
