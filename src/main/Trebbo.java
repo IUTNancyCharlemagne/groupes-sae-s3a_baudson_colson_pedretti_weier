@@ -39,6 +39,8 @@ public class Trebbo extends Application {
         Initialisation.init(modele);
         BorderPane layout = new BorderPane();
 
+        if(!Files.exists(Paths.get("./params"))) Files.createDirectories(Paths.get("./params"));
+
         ControlChangerVue controlChangerVue = new ControlChangerVue(modele);
         ControlSauvegarde controlSauvegarde = new ControlSauvegarde(modele, primaryStage);
         ControlCharger controlCharger = new ControlCharger(modele, primaryStage);
