@@ -33,6 +33,20 @@ Text{
     -fx-font-size: 15;
 }
 
+TextField {
+    -fx-background-color: #424848;
+    -fx-background-radius: 7;
+    -fx-border-width: 2;
+    -fx-border-radius: 7;
+    -fx-border-color: #424848;
+    -fx-font: 15px "Segoe UI";
+    -fx-text-fill: white;
+}
+
+TextField:focused {
+    -fx-border-color: #c379ef;
+}
+
 /* ### Classes JavaFX ### */
 
 .paneBureau{
@@ -46,6 +60,7 @@ Text{
     -fx-padding: 10;
     -fx-spacing: 10;
     -fx-background-radius: 10;
+    -fx-pref-width: 250;
 }
 
 .paneTache {
@@ -86,8 +101,10 @@ Text{
 TextArea {
     -fx-font-size: 15;
     -fx-background-color: #424848;
-    -fx-border-width: 0;
+    -fx-border-width: 2;
+    -fx-border-color: #424848;
     -fx-background-radius: 10;
+    -fx-border-radius: 10;
     -fx-padding: 10;
     -fx-text-fill: white;
     -fx-max-width: 500;
@@ -96,6 +113,10 @@ TextArea {
 TextArea .content {
     -fx-background-color: #424848;
     -fx-background-radius: 0;
+}
+
+TextArea:focused {
+    -fx-border-color: #c379ef;
 }
 
 .quitter {
@@ -133,6 +154,7 @@ TextArea .content {
 
 .tree-view {
     -fx-background-color: transparent;
+    -fx-pref-width: 250;
 }
 
 .tree-cell {

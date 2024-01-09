@@ -88,7 +88,10 @@ public class Liste implements Serializable {
         infosListe.setPadding(new Insets(10, 10, 2, 10));
 
         Text textNom = new Text(this.nom);
-        textNom.setStyle("-fx-cursor: hand;");
+        textNom.setStyle("" +
+                "-fx-cursor: hand;" +
+                "-fx-font-size: 17px;" +
+                "-fx-font-weight: bold;");
         Button more = new Button("...");
         more.getStyleClass().add("btnTransparent");
         more.setAlignment(Pos.CENTER);

@@ -36,6 +36,7 @@ public class Trebbo extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         Modele modele = new Modele(new Projet());
+        Initialisation.init(modele);
         BorderPane layout = new BorderPane();
 
         ControlChangerVue controlChangerVue = new ControlChangerVue(modele);
