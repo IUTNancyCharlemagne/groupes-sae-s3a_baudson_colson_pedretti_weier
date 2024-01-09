@@ -6,6 +6,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -13,6 +14,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import main.Liste;
@@ -67,6 +70,15 @@ public class ControlAjouterSousTache implements EventHandler<ActionEvent> {
 
         });
 
+        HBox dureeHbox = new HBox();
+
+        Text dureeText = new Text("Durée :");
+        dureeText.setFont(new Font("Arial", 20));
+        TextField dureeField = new TextField();
+        dureeField.setPromptText("0");
+
+        dureeHbox.getChildren().addAll(dureeText, dureeField);
+
         Button btnValider = new Button("Valider");
         btnValider.getStyleClass().add("btn");
         btnValider.setOnAction(e -> {
@@ -89,7 +101,17 @@ public class ControlAjouterSousTache implements EventHandler<ActionEvent> {
                         ((Tache) composant).ajouter(tache);
                         modele.getProjet().getListeTouteTaches().add(tache);
                     } else {
-                        Tache tache = new Tache(nom.getText(), tacheImage.getImage().getUrl(), 0);
+                        int outputDuree = 0;
+                        if(!dureeField.getText().isEmpty()){
+                            try {
+                                outputDuree = Integer.parseInt(dureeField.getText());
+                            } catch (NumberFormatException ex) {
+                                System.out.println("La durée doit être un nombre. Mise de la durée à la valeur par défaut : 0");
+                            }
+                        }
+                        Tache tache = new Tache(nom.getText(), tacheImage.getImage().getUrl(), outputDuree);
+                        ((Tache) composant).ajouter(tache);
+                        ((Tache) composant).ajouter(tache);
                         ((Tache) composant).ajouter(tache);
                         modele.getProjet().getListeTouteTaches().add(tache);
                     }
@@ -108,6 +130,9 @@ public class ControlAjouterSousTache implements EventHandler<ActionEvent> {
         overlay.getChildren().
 
                 add(nom);
+        overlay.getChildren().
+
+                add(dureeHbox);
         overlay.getChildren().
 
                 add(imageSelection);
