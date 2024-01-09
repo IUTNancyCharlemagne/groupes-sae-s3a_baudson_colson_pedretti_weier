@@ -53,7 +53,7 @@ public class VueGantt implements Observateur {
 
         Label titreprojet = new Label("");
 
-        if(modele.getProjet().getNomProjet() != null) {
+        if (modele.getProjet().getNomProjet() != null) {
             titreprojet.setText("Projet: " + modele.getProjet().getNomProjet());
         } else {
             titreprojet.setText("Mon Projet");
@@ -79,7 +79,7 @@ public class VueGantt implements Observateur {
         try {
             int dureeProjet = Composant.calculerDureeEntreDates(debutProjet, finProjet);
             LocalDate dateCourante = LocalDate.parse(debutProjet.toString());
-            for(int i = 0; i <= dureeProjet; i+=joursParColonne){
+            for (int i = 0; i <= dureeProjet; i += joursParColonne) {
                 Label date = new Label(dateCourante.toString());
                 dateCourante = dateCourante.plusDays(joursParColonne);
                 grid.add(date, i, 0);
@@ -91,7 +91,7 @@ public class VueGantt implements Observateur {
 
         List<Composant> listeTaches = modele.getProjet().getListeTouteTaches();
         for (int i = 0; i < listeTaches.size(); i++) {
-            if(!listeTaches.get(i).getEstArchive()){
+            if (!listeTaches.get(i).getEstArchive()) {
                 try {
                     Label texte;
                     if (listeTaches.get(i).getDependances().size() == 0) {
