@@ -129,9 +129,9 @@ public class TreeViewActions {
                             // Tache dans laquelle on veut ajouter la tâche
                             TreeItem<Composant> item = cell.getTreeItem();
                             Tache tacheCible = (Tache) item.getValue();
-                            tacheCible.fixDuree();
                             // Ajout de la tâche dans la tâche cible
                             tacheCible.ajouter(tache);
+                            tacheCible.fixDuree();
                             modele.notifierObservateur();
 
                             dragEvent.setDropCompleted(true);
