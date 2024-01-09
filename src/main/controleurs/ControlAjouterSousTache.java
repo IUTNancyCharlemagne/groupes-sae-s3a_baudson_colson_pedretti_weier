@@ -110,7 +110,6 @@ public class ControlAjouterSousTache implements EventHandler<ActionEvent> {
                         ((Tache) composant).ajouter(tache);
                         ((Tache) composant).fixDuree();
                         modele.getProjet().getListeTouteTaches().add(tache);
-                        System.out.println(tache.getDuree());
                     }
                     modele.notifierObservateur();
                     stage.close();
