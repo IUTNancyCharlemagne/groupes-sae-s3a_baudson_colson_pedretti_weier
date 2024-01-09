@@ -95,18 +95,20 @@ public class VueTache implements Observateur {
         quitter.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if(modele.getCurrentTache() instanceof Tache && ((Tache)modele.getCurrentTache()).getParent() != null){
+                if (modele.getCurrentTache() instanceof Tache && ((Tache) modele.getCurrentTache()).getParent() != null) {
                     Tache tache = (Tache) modele.getCurrentTache().getParent();
                     tache.fixDuree();
                 }
+                ((Tache) modele.getCurrentTache()).fixDuree();
                 modele.setCurrentTache(null);
-                for(Composant composant : modele.getProjet().getListeTouteTaches()){
-                    try{
+                for (Composant composant : modele.getProjet().getListeTouteTaches()) {
+                    try {
                         composant.CalcDateDebutDependance();
                     } catch (ParseException e) {
                         throw new RuntimeException(e);
                     }
                 }
+
                 modele.notifierObservateur();
             }
         });
@@ -217,8 +219,8 @@ public class VueTache implements Observateur {
             public void handle(ActionEvent actionEvent) {
                 if (!modele.getCurrentTache().getEstArchive()) {
                     modele.getProjet().archiverTache(modele.getCurrentTache().getNom());
-                    for(Composant c : modele.getProjet().getListeTouteTaches()){
-                        if(!c.getEstArchive() && c.getDependances().contains(modele.getCurrentTache())){
+                    for (Composant c : modele.getProjet().getListeTouteTaches()) {
+                        if (!c.getEstArchive() && c.getDependances().contains(modele.getCurrentTache())) {
                             try {
                                 c.removeDependance(modele.getCurrentTache());
                             } catch (ParseException e) {
@@ -258,7 +260,7 @@ public class VueTache implements Observateur {
         // On met les valeurs de la tache dans les inputs
         if (modele.getCurrentTache() instanceof Tache) {
             Tache tache = (Tache) modele.getCurrentTache();
-            try{
+            try {
                 tache.CalcDateDebutDependance();
             } catch (ParseException e) {
                 throw new RuntimeException(e);
@@ -278,15 +280,13 @@ public class VueTache implements Observateur {
                     dureeTextField.setText(newValue.replaceAll("[^\\d]", ""));
                 }
                 if (!dureeTextField.getText().isEmpty()) {
-                    if(Integer.parseInt(dureeTextField.getText()) > tache.getDuree()){
-                        tache.setDuree(Integer.parseInt(dureeTextField.getText()));
-                        try {
-                            tache.setDateFin(tache.calculerDateFin());
-                        } catch (ParseException e) {
-                            throw new RuntimeException(e);
-                        }
-                        dateFinPicker.setValue(tache.getDateFin());
+                    tache.setDuree(Integer.parseInt(dureeTextField.getText()));
+                    try {
+                        tache.setDateFin(tache.calculerDateFin());
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
                     }
+                    dateFinPicker.setValue(tache.getDateFin());
                 }
             });
 
