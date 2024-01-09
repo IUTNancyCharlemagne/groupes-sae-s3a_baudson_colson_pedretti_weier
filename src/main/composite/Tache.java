@@ -28,6 +28,7 @@ public class Tache extends Composant {
 
     public Tache(String nom, String image, LocalDate dateDebut, LocalDate dateFin) {
         super(nom, image, dateDebut, dateFin);
+        this.duree = 0;
         this.sousTaches = new ArrayList<>();
     }
 

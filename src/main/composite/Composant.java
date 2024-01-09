@@ -325,14 +325,16 @@ public abstract class Composant implements Serializable {
     }
 
     public void CalcDateDebutDependance() throws ParseException {
-        if (!this.dependances.isEmpty()) {
-            this.dateDebut = this.dependances.get(0).getDateFin();
-            for (Composant composant : this.dependances) {
-                if (composant.getDateFin().isAfter(this.dateDebut)) {
-                    this.dateDebut = composant.getDateFin();
+        if(this.dependances != null) {
+            if (!this.dependances.isEmpty()) {
+                this.dateDebut = this.dependances.get(0).getDateFin();
+                for (Composant composant : this.dependances) {
+                    if (composant.getDateFin().isAfter(this.dateDebut)) {
+                        this.dateDebut = composant.getDateFin();
+                    }
                 }
             }
+            this.dateFin = this.calculerDateFin();
         }
-        this.dateFin = this.calculerDateFin();
     }
 }
