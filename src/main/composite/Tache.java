@@ -87,5 +87,10 @@ public class Tache extends Composant {
         if(this.duree < duree){
             this.duree = duree;
         }
+        try{
+            this.dateFin = this.calculerDateFin();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        };
     }
 }
