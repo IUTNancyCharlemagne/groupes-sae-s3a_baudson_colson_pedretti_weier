@@ -95,6 +95,10 @@ public class VueTache implements Observateur {
         quitter.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                if(modele.getCurrentTache() instanceof Tache && ((Tache)modele.getCurrentTache()).getParent() != null){
+                    Tache tache = (Tache) modele.getCurrentTache().getParent();
+                    tache.fixDuree();
+                }
                 modele.setCurrentTache(null);
                 for(Composant composant : modele.getProjet().getListeTouteTaches()){
                     try{
