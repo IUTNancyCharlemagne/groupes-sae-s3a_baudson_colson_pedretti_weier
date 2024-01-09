@@ -84,9 +84,9 @@ public class Trebbo extends Application {
         primaryStage.show();
 
         //set background image
-        String bgParamFile = "./params/background.txt";
-        if (Files.exists(Paths.get(bgParamFile))) {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(bgParamFile));
+        String fondParamFile = "./params/background.txt";
+        if (Files.exists(Paths.get(fondParamFile))) {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(fondParamFile));
             String cheminFond = bufferedReader.readLine();
             if (cheminFond != null && Files.exists(Paths.get(cheminFond))) {
                 controlChangerFond.changerFond(cheminFond);

@@ -35,35 +35,47 @@ public class ControlChangerFond implements EventHandler<ActionEvent> {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Image File");
         fileChooser.setInitialDirectory(new File("./backgrounds/"));
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
-        File selectedFile = fileChooser.showOpenDialog(primaryStage);
-        if (selectedFile != null) {
-            try {
-                changerFond(selectedFile.getPath());
+        if (Files.exists(Paths.get("./params/background.txt"))) {
+            try (BufferedReader bufferedReader = new BufferedReader(new FileReader("./params/background.txt"))) {
+                String cheminFond = bufferedReader.readLine();
+                if (cheminFond != null && Files.exists(Paths.get(cheminFond))) {
+                    File chemin = new File(cheminFond);
+                    while (!chemin.isDirectory()) chemin = new File(chemin.getParent());
+                    fileChooser.setInitialDirectory(chemin);
+                }
             } catch (IOException e) {
                 throw new RuntimeException(e);
+            }
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+            File selectedFile = fileChooser.showOpenDialog(primaryStage);
+            if (selectedFile != null) {
+                try {
+                    changerFond(selectedFile.getPath());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }
 
-    public void changerFond(String pathString) throws IOException {
-        Image image = new Image(pathString);
-        BackgroundImage backgroundImage = new BackgroundImage(image, null, null, null, null);
-        // si l'image est plus grande que la fenêtre, on la redimensionne
-        if (image.getWidth() > layout.getWidth() || image.getHeight() > layout.getHeight()) {
-            backgroundImage = new BackgroundImage(image, null, null, null, new BackgroundSize(1, 1, false, false, true, true));
+        public void changerFond (String pathString) throws IOException {
+            Image image = new Image(pathString);
+            BackgroundImage backgroundImage = new BackgroundImage(image, null, null, null, null);
+            // si l'image est plus grande que la fenêtre, on la redimensionne
+            if (image.getWidth() > layout.getWidth() || image.getHeight() > layout.getHeight()) {
+                backgroundImage = new BackgroundImage(image, null, null, null, new BackgroundSize(1, 1, false, false, true, true));
+            }
+            layout.setBackground(new Background(backgroundImage));
+            changeParam(pathString);
         }
-        layout.setBackground(new Background(backgroundImage));
-        changeParam(pathString);
-    }
 
-    public void changeParam(String stringPath) throws IOException {
-        Path path = Paths.get("./params");
-        if(!Files.exists(path)) {
-            Files.createDirectories(path);
+        public void changeParam (String stringPath) throws IOException {
+            Path path = Paths.get("./params");
+            if (!Files.exists(path)) {
+                Files.createDirectories(path);
+            }
+            PrintWriter out = new PrintWriter("./params/background.txt");
+            out.println(stringPath);
+            out.close();
         }
-        PrintWriter out = new PrintWriter("./params/background.txt");
-        out.println(stringPath);
-        out.close();
     }
-}
