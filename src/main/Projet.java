@@ -269,6 +269,7 @@ public class Projet {
 
     public LocalDate getPremiereDateDebut(){
         ArrayList<Tache> taches = this.getToutesTaches();
+        if(taches.size() == 0) return null;
         LocalDate minDate = taches.get(0).getDateDebut();
 
         for(Tache t : taches){
@@ -280,6 +281,7 @@ public class Projet {
 
     public LocalDate getDerniereDateFin(){
         ArrayList<Tache> taches = this.getToutesTaches();
+        if(taches.size() == 0) return null;
         LocalDate maxDate = taches.get(0).getDateFin();
 
         for(Tache t : taches){

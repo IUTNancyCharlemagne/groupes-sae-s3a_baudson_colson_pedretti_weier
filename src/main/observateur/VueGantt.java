@@ -46,6 +46,8 @@ public class VueGantt implements Observateur {
         LocalDate debutProjet = modele.getProjet().getPremiereDateDebut();
         LocalDate finProjet = modele.getProjet().getDerniereDateFin();
 
+        if (modele.getProjet().getToutesTaches().size() == 0) return;
+
         try {
             int dureeProjet = Composant.calculerDureeEntreDates(debutProjet, finProjet);
             LocalDate dateCourante = LocalDate.parse(debutProjet.toString());
