@@ -132,7 +132,7 @@ public class MenuOptions implements EventHandler<ActionEvent> {
             }
         };
 
-        CheckMenuItem fullScreen = new CheckMenuItem("Plein écran (F5)");
+        CheckMenuItem fullScreen = new CheckMenuItem("Plein écran (F11)");
         ImageView fullScreenImage = new ImageView("file:icons/fullscreen.png");
         fullScreenImage.setFitHeight(16);
         fullScreenImage.setFitWidth(16);
