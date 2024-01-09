@@ -272,7 +272,7 @@ public class VueTache implements Observateur {
                 dateDebutPicker.setDisable(false);
             }
             dureeTextField.setText(String.valueOf(tache.getDuree()));
-            dateFinPicker.setValue(tache.getDateFin());
+            dateFinPicker.setValue(dateDebutPicker.getValue().plusDays(tache.getDuree()));
 
             // Quand la valeur de durée est changée, on met à jour la date de fin
             dureeTextField.textProperty().addListener((observable, oldValue, newValue) -> {

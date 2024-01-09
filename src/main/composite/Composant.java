@@ -113,11 +113,7 @@ public abstract class Composant implements Serializable {
         this.duree = duree;
         this.dependances = new ArrayList<>();
         this.dateDebut = LocalDate.now();
-        try{
-            this.dateFin = this.calculerDateFin();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        this.dateFin = LocalDate.now().plusDays(duree);
     }
 
     /**

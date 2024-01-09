@@ -3,6 +3,7 @@ package main.observateur;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
@@ -10,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import main.Modele;
 import main.Sujet;
@@ -40,7 +42,6 @@ public class VueGantt implements Observateur {
         modele.getPaneBureau().getStyleClass().clear();
 
         HBox ganttHbox = new HBox();
-        ganttHbox.setStyle("-fx-background-color: rgba(255,255,255,0.75);");
 
         VBox ganttInfoVbox = new VBox();
         ganttInfoVbox.setMinWidth(225);
@@ -51,6 +52,7 @@ public class VueGantt implements Observateur {
         modele.getPaneBureau().getChildren().add(ganttHbox);
 
         GridPane grid = new GridPane();
+        grid.setStyle("-fx-background-color: rgba(255,255,255); -fx-border-color: black; -fx-border-width: 2px;");
 
         ScrollPane scrollPane = new ScrollPane(grid);
         scrollPane.getStyleClass().add("scroll-pane");
@@ -128,9 +130,8 @@ public class VueGantt implements Observateur {
     public void chargerGANTT(GridPane grid) {
 
         grid.getChildren().clear();
-        grid.setGridLinesVisible(true);
+
         grid.setHgap(0);
-        grid.setVgap((int) (0.1 * periodeSize));
 
         LocalDate debutProjet = modele.getProjet().getPremiereDateDebut();
         LocalDate finProjet = modele.getProjet().getDerniereDateFin();
@@ -140,14 +141,37 @@ public class VueGantt implements Observateur {
         try {
             int dureeProjet = Composant.calculerDureeEntreDates(debutProjet, finProjet);
             LocalDate dateCourante = LocalDate.parse(debutProjet.toString());
+
+            List<Composant> listeTaches = modele.getProjet().getListeTouteTaches();
+            int ypos = 1;
+                for (int i = 0; i < modele.getProjet().getListeTouteTaches().size(); i++) {
+                    if(!listeTaches.get(i).getEstArchive() && listeTaches.get(i).getParent() == null){
+                        for (int j = 0; j <= dureeProjet; j+=joursParColonne) {
+                            Rectangle rect = new Rectangle(periodeSize, periodeSize);
+                            rect.setFill(Color.WHITE);
+                            rect.setStroke(Color.BLACK);
+                            grid.add(rect, j, ypos);
+                        }
+                        ypos++;
+                    }
+                }
+
             for (int i = 0; i <= dureeProjet; i += joursParColonne) {
                 Pane datePane = new Pane();
                 Label date = new Label(dateCourante.toString());
+                date.setFont(new Font("Arial", (0.18*periodeSize)));
+                date.setStyle("-fx-font-weight: bold;");
+                date.setAlignment(Pos.CENTER);
                 datePane.getChildren().add(date);
-                datePane.setPrefHeight(periodeSize);
+                date.setPrefHeight((int)(periodeSize/2));
+                date.setPrefWidth(periodeSize);
+                datePane.setPrefHeight((int)(periodeSize/2));
                 datePane.setPrefWidth(periodeSize);
-                datePane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
                 dateCourante = dateCourante.plusDays(joursParColonne);
+                Rectangle rect = new Rectangle(periodeSize,(int)(periodeSize/2));
+                rect.setFill(Color.LIGHTGRAY);
+                rect.setStroke(Color.BLACK);
+                grid.add(rect, i, 0);
                 grid.add(datePane, i, 0);
             }
 
@@ -156,19 +180,19 @@ public class VueGantt implements Observateur {
         }
 
         List<Composant> listeTaches = modele.getProjet().getListeTouteTaches();
+        int ypos = 1;
         for (int i = 0; i < listeTaches.size(); i++) {
             if (!listeTaches.get(i).getEstArchive() && listeTaches.get(i).getParent() == null) {
                 try {
                     Label texte;
-                    if (listeTaches.get(i).getDependances().size() == 0) {
+                    if (listeTaches.get(i).getDependances().isEmpty()) {
                         texte = new Label(listeTaches.get(i).getNom());
                     } else {
                         texte = new Label(listeTaches.get(i).getNom() + "(dépendances: " + listeTaches.get(i).getDependances() + ")");
                     }
-                    texte.setFont(new Font("Arial", 14));
+                    texte.setFont(new Font("Arial", (0.18*periodeSize)));
                     texte.setStyle("-fx-font-weight: bold;");
                     texte.setWrapText(true);
-                    texte.prefHeight(periodeSize);
                     texte.prefHeight(periodeSize);
                     Pane textePane = new Pane(texte);
 
@@ -183,14 +207,16 @@ public class VueGantt implements Observateur {
 
                     int xPos = Composant.calculerDureeEntreDates(debutProjet, listeTaches.get(i).getDateDebut());
                     if (xPos >= 0) {
-                        grid.add(textePane, xPos, i + 1);
+                        grid.add(textePane, xPos, ypos);
+
                         if (!listeTaches.get(i).getDependances().isEmpty()) {
                             ImageView image = new ImageView();
                             image.setImage(new Image("file:icons/rightArrow.png"));
                             image.setFitHeight(periodeSize);
                             image.setFitWidth(periodeSize);
-                            grid.add(image, xPos - 1, i + 1);
+                            grid.add(image, xPos - 1, ypos);
                         }
+                        ypos++;
                         int duree = Math.round(listeTaches.get(i).calculerDureeTache() / (float) joursParColonne);
                         textePane.setPrefWidth(duree * periodeSize);
                         textePane.setPrefHeight(periodeSize);
