@@ -317,7 +317,7 @@ public class VueTache implements Observateur {
         dureeVBox.getChildren().addAll(dureeText, dureeTextField);
         dateFinVBox.getChildren().addAll(dateFinText, dateFinPicker);
         ganttBox.getChildren().addAll(dateDebVBox, dureeVBox, dateFinVBox);
-        if (dateDebutPicker.getValue() != null) {
+        if (modele.getCurrentTache().getParent() == null) {
             overlay.addRow(4, ganttBox);
         } else {
             overlay.addRow(4, dureeVBox);
