@@ -42,7 +42,7 @@ public class VueGantt implements Observateur {
 
 
         HBox ganttHbox = new HBox();
-        ganttHbox.setStyle("-fx-background-color: rgba(255,255,255,0.5);");
+        ganttHbox.setStyle("-fx-background-color: rgba(255,255,255,0.75);");
 
         VBox ganttInfoVbox = new VBox();
         ganttInfoVbox.setMinWidth(225);
