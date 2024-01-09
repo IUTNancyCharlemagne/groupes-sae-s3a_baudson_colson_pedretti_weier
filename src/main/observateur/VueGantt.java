@@ -7,6 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -195,6 +196,20 @@ public class VueGantt implements Observateur {
                     texte.setWrapText(true);
                     texte.prefHeight(periodeSize);
                     Pane textePane = new Pane(texte);
+
+                    StringBuffer tooltipText = new StringBuffer();
+
+                    if((listeTaches.get(i).getDateDebut().isBefore(LocalDate.now()) || listeTaches.get(i).getDateDebut().equals(LocalDate.now())) && listeTaches.get(i).getDateFin().isAfter(LocalDate.now())){
+                        tooltipText.append("Durée : "+listeTaches.get(i).getDuree()+" jours ("+(Composant.calculerDureeEntreDates(LocalDate.now(), listeTaches.get(i).getDateFin()))+" jours restant(s))");
+                    } else if(listeTaches.get(i).getDateDebut().isAfter(LocalDate.now())){
+                        tooltipText.append("Durée : "+listeTaches.get(i).getDuree()+" jours (tâche pas encore commencée)");
+                    } else if(listeTaches.get(i).getDateFin().isBefore(LocalDate.now())){
+                        tooltipText.append("Durée : "+listeTaches.get(i).getDuree()+" jours (tâche terminée)");
+                    }
+
+                    Tooltip tooltip = new Tooltip(tooltipText.toString());
+                    tooltip.setStyle("-fx-font-size: 14px;");
+                    Tooltip.install(textePane, tooltip);
 
                     if (listeTaches.get(i).getDateFin() != null && (listeTaches.get(i).getEstTerminee() || listeTaches.get(i).estPassee(LocalDate.now()))) {
                         textePane.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
