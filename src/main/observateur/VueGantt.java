@@ -4,6 +4,8 @@ import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -38,10 +40,36 @@ public class VueGantt implements Observateur {
         grid.setHgap(10);
         grid.setVgap(10);
 
+
+        HBox ganttHbox = new HBox();
+        ganttHbox.setStyle("-fx-background-color: rgba(255,255,255,0.5);");
+
+        VBox ganttInfoVbox = new VBox();
+        ganttInfoVbox.setMinWidth(225);
+        ganttInfoVbox.setStyle("-fx-background-color: rgba(255,255,255); -fx-border-color: black; -fx-border-width: 2px;");
+
+        Label ganttInfoLabel = new Label("Diagramme de Gantt");
+        ganttInfoLabel.setFont(new Font("Arial", 20));
+
+        Label titreprojet = new Label("");
+
+        if(modele.getProjet().getNomProjet() != null) {
+            titreprojet.setText("Projet: " + modele.getProjet().getNomProjet());
+        } else {
+            titreprojet.setText("Mon Projet");
+        }
+        titreprojet.setFont(new Font("Arial", 16));
+
+        ganttInfoVbox.getChildren().addAll(ganttInfoLabel, titreprojet);
+        ganttInfoVbox.setPadding(new Insets(10));
+
+
         ScrollPane scrollPane = new ScrollPane(grid);
-        modele.getPaneBureau().setVgrow(scrollPane, Priority.ALWAYS);
-        modele.getPaneBureau().setHgrow(scrollPane, Priority.ALWAYS);
-        modele.getPaneBureau().getChildren().add(scrollPane);
+        scrollPane.getStyleClass().add("scroll-pane");
+        ganttHbox.getChildren().addAll(ganttInfoVbox, scrollPane);
+        modele.getPaneBureau().setHgrow(ganttHbox, Priority.ALWAYS);
+        modele.getPaneBureau().setVgrow(ganttHbox, Priority.ALWAYS);
+        modele.getPaneBureau().getChildren().add(ganttHbox);
 
         LocalDate debutProjet = modele.getProjet().getPremiereDateDebut();
         LocalDate finProjet = modele.getProjet().getDerniereDateFin();
@@ -92,6 +120,20 @@ public class VueGantt implements Observateur {
                     textePane.setPrefWidth(duree);
                     textePane.setPrefHeight(periodeSize);
                     grid.setHgap(0);
+                grid.add(textePane, Composant.calculerDureeEntreDates(debutProjet, listeTaches.get(i).getDateDebut()), i + 1);
+                if(!listeTaches.get(i).getDependances().isEmpty()){
+                    ImageView image = new ImageView();
+                    image.setImage(new Image("file:icons/rightArrow.png"));
+                    image.setFitHeight(periodeSize);
+                    image.setFitWidth(periodeSize);
+                    grid.add(image, Composant.calculerDureeEntreDates(debutProjet, listeTaches.get(i).getDateDebut())-1, i + 1);
+                }
+                System.out.println(Composant.calculerDureeEntreDates(debutProjet, listeTaches.get(i).getDateDebut()));
+                System.out.println(i+1);
+                int duree = listeTaches.get(i).calculerDureeTache()/joursParColonne;
+                textePane.setPrefWidth(duree);
+                textePane.setPrefHeight(periodeSize);
+                grid.setHgap(0);
 
                     if (duree > 0) GridPane.setColumnSpan(textePane, duree);
                 } catch (ParseException e) {

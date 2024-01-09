@@ -161,3 +161,12 @@ TextArea .content {
 .tree-cell:collapsed > .tree-disclosure-node > .arrow {
     -fx-background-color: white;
 }
+
+/* Style pour le scrollPane */
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+}
