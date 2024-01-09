@@ -80,7 +80,7 @@ TextField:focused {
 
 .overlayBackground {
     -fx-background-color: rgba(0, 0, 0, 0.5);
-    -fx-padding: 20 270;
+    -fx-padding: 50 300;
 }
 
 .overlay {
@@ -96,6 +96,7 @@ TextField:focused {
     -fx-font-weight: bold;
     -fx-text-fill: white;
     -fx-text-alignment: left;
+    -fx-cursor: hand;
 }
 
 TextArea {
