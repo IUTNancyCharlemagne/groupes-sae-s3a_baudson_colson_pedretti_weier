@@ -253,7 +253,6 @@ public class VueTache implements Observateur {
             dateDebutPicker.setValue(tache.getDateDebut());
             if (!modele.getCurrentTache().getDependances().isEmpty()) {
                 dateDebutPicker.setDisable(true);
-                dateDebutPicker.setTooltip(new Tooltip("La date de début est définie par les dépendances"));
             } else {
                 dateDebutPicker.setDisable(false);
             }
