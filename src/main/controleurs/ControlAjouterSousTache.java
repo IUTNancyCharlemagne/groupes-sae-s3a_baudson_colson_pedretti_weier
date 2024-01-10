@@ -91,30 +91,32 @@ public class ControlAjouterSousTache implements EventHandler<ActionEvent> {
                         trouve = true;
                     }
                 }
-            }
-            if (trouve) {
-                System.out.println("La tâche existe déjà.");
-            } else {
-                if (composant instanceof Tache) {
-                    int outputDuree = 0;
-                    if(!dureeField.getText().isEmpty()){
-                        outputDuree = Integer.parseInt(dureeField.getText());
+
+                if (trouve) {
+                    System.out.println("La tâche existe déjà.");
+                } else {
+                    if (composant instanceof Tache) {
+                        int outputDuree = 0;
+                        if (!dureeField.getText().isEmpty()) {
+                            outputDuree = Integer.parseInt(dureeField.getText());
+                        }
+                        if (tacheImage.getImage() == null) {
+                            Tache tache = new Tache(nom.getText(), null, outputDuree);
+                            ((Tache) composant).ajouter(tache);
+                            ((Tache) composant).fixDuree();
+                            modele.getProjet().getListeTouteTaches().add(tache);
+                        } else {
+                            Tache tache = new Tache(nom.getText(), tacheImage.getImage().getUrl(), outputDuree);
+                            ((Tache) composant).ajouter(tache);
+                            ((Tache) composant).fixDuree();
+                            modele.getProjet().getListeTouteTaches().add(tache);
+                        }
+                        modele.notifierObservateur();
+                        stage.close();
                     }
-                    if (tacheImage.getImage() == null) {
-                        Tache tache = new Tache(nom.getText(), null, outputDuree);
-                        ((Tache) composant).ajouter(tache);
-                        ((Tache) composant).fixDuree();
-                        modele.getProjet().getListeTouteTaches().add(tache);
-                    } else {
-                        Tache tache = new Tache(nom.getText(), tacheImage.getImage().getUrl(), outputDuree);
-                        ((Tache) composant).ajouter(tache);
-                        ((Tache) composant).fixDuree();
-                        modele.getProjet().getListeTouteTaches().add(tache);
-                    }
-                    modele.notifierObservateur();
-                    stage.close();
                 }
             }
+
         });
 
         imageSelection.setAlignment(Pos.CENTER);
