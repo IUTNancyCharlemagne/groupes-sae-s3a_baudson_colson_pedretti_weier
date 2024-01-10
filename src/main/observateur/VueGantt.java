@@ -4,6 +4,7 @@ import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
@@ -99,14 +100,33 @@ public class VueGantt implements Observateur {
         hauteurCase.setPrefSize(20, 500);
         hauteurCase.setSnapToTicks(true);
 
+        HBox proportionHbox = new HBox();
+        Label proportionLabel = new Label("Garder les proportions");
+        CheckBox proportionCheckBox = new CheckBox();
+        proportionCheckBox.setPadding(new Insets(0, 10, 0, 10));
+        proportionHbox.setPadding(new Insets(10, 0, 10, 0));
+        proportionHbox.getChildren().addAll(proportionLabel, proportionCheckBox);
+
+        proportionCheckBox.setOnAction(e -> {
+            if(proportionCheckBox.isSelected()){
+                hauteurCase.setValue(longueurCase.getValue());
+                hauteurCase.setDisable(true);
+            } else {
+                hauteurCase.setDisable(false);
+            }
+        });
+
         longueurCase.valueProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("px par case (Longueur): " + periodeSizeW);
+            if(proportionCheckBox.isSelected()){
+                hauteurCase.setValue(newValue.intValue());
+            }
+//            System.out.println("px par case (Longueur): " + periodeSizeW);
             periodeSizeW = newValue.intValue();
             chargerGANTT(grid);
         });
 
         hauteurCase.valueProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("px par case (Hauteur): " + periodeSizeH);
+//            System.out.println("px par case (Hauteur): " + periodeSizeH);
             periodeSizeH = newValue.intValue();
             chargerGANTT(grid);
         });
@@ -142,7 +162,7 @@ public class VueGantt implements Observateur {
         });
         VBox sliderVbox = new VBox();
         sliderVbox.setPrefHeight(250);
-        sliderVbox.getChildren().addAll(longueurLabel, longueurCase, hauteurLabel, hauteurCase, nbJoursLabel, joursColonne);
+        sliderVbox.getChildren().addAll(proportionHbox,longueurLabel, longueurCase, hauteurLabel, hauteurCase, nbJoursLabel, joursColonne);
         ganttInfoVbox.getChildren().addAll(ganttInfoLabel, titreprojet, paramLabel, sliderVbox);
         ganttInfoVbox.setPadding(new Insets(10));
 
