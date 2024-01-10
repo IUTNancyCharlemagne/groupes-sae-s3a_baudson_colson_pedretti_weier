@@ -63,6 +63,14 @@ TextField:focused {
     -fx-pref-width: 250;
 }
 
+.paneListe2 {
+    -fx-background-color: #101204;
+    -fx-opacity: 0.9;
+    -fx-padding: 10;
+    -fx-spacing: 10;
+    -fx-background-radius: 10;
+}
+
 .paneTache {
     -fx-background-color: #424848;
     -fx-background-radius: 10;

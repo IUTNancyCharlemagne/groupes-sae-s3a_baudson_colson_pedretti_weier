@@ -1,12 +1,9 @@
 package main.composite;
 
 import javafx.scene.control.TreeItem;
-import javafx.scene.layout.VBox;
 import main.Modele;
-import main.Tag;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 /**
  * Classe qui représente une sous-tâche <br>

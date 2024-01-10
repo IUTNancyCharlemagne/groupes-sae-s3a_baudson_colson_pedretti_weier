@@ -1,5 +1,6 @@
 package main.observateur;
 
+import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -29,9 +30,12 @@ public class VueListe implements Observateur {
         // Affichage des listes
         for (Liste liste : modele.getProjet().getListeTaches()) {
             HBox pane = liste.afficherListe(modele);
-            pane.getStyleClass().add("paneListe");
+            pane.getStyleClass().add("paneListe2");
 
             Button btnAddTache = new Button("+ Ajouter tâche");
+            btnAddTache.getStyleClass().add("btnTransparent");
+            btnAddTache.setMaxWidth(Double.MAX_VALUE);
+            btnAddTache.setAlignment(Pos.CENTER_LEFT);
             btnAddTache.setOnAction(new ControlAjouterTache(modele));
             btnAddTache.setId(liste.getNom());
             pane.getChildren().add(btnAddTache);
@@ -41,7 +45,6 @@ public class VueListe implements Observateur {
 
         Button btnAddListe = new Button("+ Ajouter liste");
         btnAddListe.setOnAction(new ControlAjouterListe(modele));
-        modele.getPaneBureau().setValignment(btnAddListe, VPos.TOP);
 
         modele.getPaneBureau().setVgap(10);
 

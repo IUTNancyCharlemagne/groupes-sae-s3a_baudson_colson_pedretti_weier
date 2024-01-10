@@ -145,6 +145,7 @@ public class Liste implements Serializable {
         // Liste de tâches
         HBox paneListe = new HBox();
         paneListe.setId(this.nom);
+        paneListe.setAlignment(Pos.CENTER_LEFT);
 
         // Informations de la liste
         HBox infosListe = new HBox();
@@ -152,20 +153,20 @@ public class Liste implements Serializable {
         infosListe.setSpacing(10);
 
         Text textNom = new Text(this.nom);
-        Button more = new Button();
-        ImageView imgMore = new ImageView(new Image("file:icons/moreW.png"));
-        imgMore.setFitHeight(20);
-        imgMore.setFitWidth(20);
-        more.setGraphic(imgMore);
-        more.getStyleClass().add("button");
+        textNom.setStyle("" +
+                "-fx-cursor: hand;" +
+                "-fx-font-size: 17px;" +
+                "-fx-font-weight: bold;");
+        Button more = new Button("...");
+        more.getStyleClass().add("btnTransparent");
+        more.setAlignment(Pos.CENTER);
         infosListe.getChildren().addAll(textNom, more);
         paneListe.getChildren().add(infosListe);
 
         for (Composant c : composants) {
             if(!c.getEstArchive()) {
                 TreeView<Composant> treeView = new TreeView<>(c.afficher(modele));
-
-                // TODO : à faire dans une classe à part
+                treeView.setMinWidth(300);
                 TreeViewActions.addTreeAction(modele, treeView);
 
                 paneListe.getChildren().add(treeView);
@@ -188,7 +189,7 @@ public class Liste implements Serializable {
         });
 
         MenuItem contextMenuSL = new MenuItem("Supprimer la liste");
-        ImageView contextMenuSLImage = new ImageView(new Image("file:icons/trash.png"));
+        ImageView contextMenuSLImage = new ImageView(new Image("file:icons/trashRed.png"));
         contextMenuSLImage.setFitHeight(16);
         contextMenuSLImage.setFitWidth(16);
         contextMenuSL.setGraphic(contextMenuSLImage);

@@ -1,8 +1,10 @@
 package main.controleurs;
 
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.Liste;
 import main.Modele;
@@ -39,7 +41,11 @@ public class ControlOnDragDroppedListe implements EventHandler<DragEvent> {
         listeTachesPrecedente.retirerComposant(tache);
 
         // Récupération de la VBox dans laquelle on veut ajouter la tâche
-        VBox liste = (VBox) dragEvent.getGestureTarget();
+        Node liste = null;
+        if (modele.getVueCourante().equals(Modele.LISTE))
+            liste = (HBox) dragEvent.getGestureTarget();
+        else if (modele.getVueCourante().equals(Modele.COLONNE))
+            liste = (VBox) dragEvent.getGestureTarget();
 
         // Récupération de la liste de tâches dans laquelle on veut ajouter la tâche
         Liste listeTaches = modele.getProjet().getListeTaches(liste.getId());
