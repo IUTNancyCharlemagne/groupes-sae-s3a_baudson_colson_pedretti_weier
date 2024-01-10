@@ -89,7 +89,7 @@ public class Trebbo extends Application {
         if (Files.exists(Paths.get(fondParamFile))) {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(fondParamFile));
             String cheminFond = bufferedReader.readLine();
-            if (cheminFond != null && Files.exists(Paths.get(cheminFond))) {
+            if (cheminFond != "" && Files.exists(Paths.get(cheminFond))) {
                 controlChangerFond.changerFond(cheminFond);
             }
         } else
