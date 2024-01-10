@@ -11,7 +11,7 @@ import main.composite.Tache;
 /**
  * Classe ControlOnDragDropped qui permet de gérer le drag and drop
  */
-public class ControlOnDragDropped implements EventHandler<DragEvent> {
+public class ControlOnDragDroppedListe implements EventHandler<DragEvent> {
 
     /**
      * Le modele
@@ -22,7 +22,7 @@ public class ControlOnDragDropped implements EventHandler<DragEvent> {
      * Constructeur de ControlOnDragDropped
      * @param modele Le modele
      */
-    public ControlOnDragDropped(Modele modele) {
+    public ControlOnDragDroppedListe(Modele modele) {
         this.modele = modele;
     }
 
