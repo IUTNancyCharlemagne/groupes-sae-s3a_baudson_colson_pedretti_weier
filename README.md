@@ -9,7 +9,7 @@ Projet réalisé par :
 * PEDRETTI Zack
 * WEIER Loris
 
-Modules nécessaires au fonctionnent de l'application :
+Modules nécessaires au fonctionnent de l'application (Importer avec Maven):
 - org.junit.jupiter:junit-jupiter:5.9.3
 - org.openjfx:javafx-base:17.0.1
 - org.openjfx:javafx-controls:17.0.1
