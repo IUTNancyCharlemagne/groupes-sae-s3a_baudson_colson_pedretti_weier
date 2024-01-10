@@ -33,6 +33,8 @@ public class MenuOptions implements EventHandler<ActionEvent> {
     private ControlSauvegarde controlSauvegarde;
     private ControlCharger controlCharger;
 
+    public static MenuBar menuBar;
+
 
     public MenuOptions(Modele modele, Stage stage, BorderPane layout, ControlChangerVue controlChangerVue, ControlSauvegarde controlSauvegarde, ControlCharger controlCharger) {
         this.modele = modele;
@@ -45,7 +47,7 @@ public class MenuOptions implements EventHandler<ActionEvent> {
 
     @Override
     public void handle(ActionEvent actionEvent) {
-        MenuBar menuBar = new MenuBar();
+        menuBar = new MenuBar();
         Menu fileMenu = new Menu("Fichier");
         ImageView fileImage = new ImageView("file:icons/file.png");
         fileImage.setFitHeight(16);

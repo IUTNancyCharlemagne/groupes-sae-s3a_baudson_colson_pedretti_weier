@@ -1,23 +1,29 @@
 package main.observateur;
-
+import java.awt.image.BufferedImage;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Slider;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javax.imageio.ImageIO;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.stage.FileChooser;
+import main.MenuOptions;
 import main.Modele;
 import main.Sujet;
 import main.composite.Composant;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.List;
@@ -160,18 +166,50 @@ public class VueGantt implements Observateur {
             joursParColonne = newValue.intValue();
             chargerGANTT(grid);
         });
+
+        // Prendre une Capture d'écran
+        Button screenshotButton = new Button("Capture d'écran");
+
+        screenshotButton.setOnAction(e -> {
+            MenuOptions.menuBar.setManaged(false);
+            MenuOptions.menuBar.setStyle("-fx-opacity: 0;");
+            ganttInfoVbox.setStyle("-fx-opacity: 0;");
+            ganttInfoVbox.setManaged(false);
+            WritableImage screenshot = new WritableImage((int) modele.getPaneBureau().getWidth(), (int) modele.getPaneBureau().getHeight());
+            modele.getPaneBureau().getScene().snapshot(screenshot);
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Enregistrer la capture d'écran");
+            fileChooser.setInitialDirectory(new File("./screenshots/"));
+            if (modele.getProjet().getNomProjet() != null)
+                fileChooser.setInitialFileName(modele.getProjet().getNomProjet() + ".png");
+            else fileChooser.setInitialFileName("untitled.png");
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG Files", "*.png"));
+            File selectedFile = fileChooser.showSaveDialog(modele.getPaneBureau().getScene().getWindow());
+            if (selectedFile != null) {
+                try {
+                    ImageIO.write(SwingFXUtils.fromFXImage(screenshot, null), "png", selectedFile);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+            ganttInfoVbox.setManaged(true);
+            MenuOptions.menuBar.setManaged(true);
+            MenuOptions.menuBar.setStyle("-fx-opacity: 1;");
+            ganttInfoVbox.setStyle("-fx-opacity: 1;");
+            ganttInfoVbox.setStyle("-fx-background-color: rgba(255,255,255); -fx-border-color: black; -fx-border-width: 2px;");
+        });
+
         VBox sliderVbox = new VBox();
         sliderVbox.setPrefHeight(250);
         sliderVbox.getChildren().addAll(proportionHbox,longueurLabel, longueurCase, hauteurLabel, hauteurCase, nbJoursLabel, joursColonne);
-        ganttInfoVbox.getChildren().addAll(ganttInfoLabel, titreprojet, paramLabel, sliderVbox);
+        ganttInfoVbox.getChildren().addAll(ganttInfoLabel, titreprojet, paramLabel, sliderVbox,screenshotButton);
         ganttInfoVbox.setPadding(new Insets(10));
-
+        ganttHbox.setHgrow(scrollPane, Priority.ALWAYS);
         chargerGANTT(grid);
 
     }
 
     public void chargerGANTT(GridPane grid) {
-
         grid.getChildren().clear();
 
         grid.setHgap(0);
