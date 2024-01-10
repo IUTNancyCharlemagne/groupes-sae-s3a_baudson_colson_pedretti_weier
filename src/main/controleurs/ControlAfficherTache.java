@@ -4,13 +4,8 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.text.Text;
-import main.Liste;
 import main.Modele;
-import main.composite.Composant;
-import main.composite.Tache;
-
-import java.io.File;
+import main.objet.composite.Composant;
 
 /**
  * ControlAfficherTache est la classe qui represente le controleur qui affiche une tache en detail

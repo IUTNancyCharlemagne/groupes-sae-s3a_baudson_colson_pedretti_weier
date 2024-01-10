@@ -4,7 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.*;
 import javafx.util.Callback;
-import main.composite.Composant;
+import main.objet.composite.Composant;
 import main.controleurs.ControlAfficherTacheCell;
 import main.controleurs.ControlOnDragDetectedCell;
 import main.controleurs.ControlOnDragDroppedCell;

@@ -1,4 +1,4 @@
-package main.composite;
+package main.objet.composite;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;

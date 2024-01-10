@@ -1,7 +1,7 @@
 package test;
 
-import main.Liste;
-import main.composite.Tache;
+import main.objet.Liste;
+import main.objet.composite.Tache;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;

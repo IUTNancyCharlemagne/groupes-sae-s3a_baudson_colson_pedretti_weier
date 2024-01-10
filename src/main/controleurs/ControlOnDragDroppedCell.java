@@ -5,10 +5,9 @@ import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseEvent;
 import main.Modele;
-import main.composite.Composant;
-import main.composite.Tache;
+import main.objet.composite.Composant;
+import main.objet.composite.Tache;
 
 /**
  * Classe ControlOnDragDroppedCell qui permet de gérer le drag and drop d'une cellule

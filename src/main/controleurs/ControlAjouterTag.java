@@ -12,11 +12,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import main.Liste;
 import main.Modele;
-import main.Tag;
-import main.composite.Composant;
-import main.composite.Tache;
+import main.objet.Tag;
+import main.objet.composite.Composant;
 
 /**
  * ControlAjouterListe est la classe qui represente le controleur qui ajoute une liste au projet

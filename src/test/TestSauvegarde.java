@@ -1,9 +1,9 @@
 package test;
 
-import main.Liste;
+import main.objet.Liste;
 import main.Modele;
 import main.Projet;
-import main.composite.Tache;
+import main.objet.composite.Tache;
 import main.controleurs.ControlCharger;
 import main.controleurs.ControlSauvegarde;
 import main.exceptions.ProjectNotFoundException;

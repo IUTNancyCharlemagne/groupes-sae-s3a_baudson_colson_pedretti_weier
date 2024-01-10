@@ -1,7 +1,7 @@
-package main;
+package main.objet;
 
 import javafx.scene.paint.Color;
-import main.composite.Tache;
+import main.objet.composite.Tache;
 
 import java.io.Serializable;
 

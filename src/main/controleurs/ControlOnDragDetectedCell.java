@@ -7,7 +7,7 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
-import main.composite.Composant;
+import main.objet.composite.Composant;
 
 /**
  * Classe ControlOnDragDetectedCell qui permet de gérer le drag and drop d'une cellule

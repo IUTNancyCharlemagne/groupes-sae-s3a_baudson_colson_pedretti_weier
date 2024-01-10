@@ -1,12 +1,10 @@
 package main;
 
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import main.composite.Composant;
-import main.composite.SousTache;
-import main.composite.Tache;
-import main.exceptions.ProjectNotFoundException;
+import main.objet.composite.Composant;
+import main.objet.composite.Tache;
+import main.objet.Liste;
 import main.observateur.*;
 
 import java.io.*;

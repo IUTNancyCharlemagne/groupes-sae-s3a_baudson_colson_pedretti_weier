@@ -1,4 +1,4 @@
-package main;
+package main.menu;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import main.Modele;
 import main.controleurs.ControlAjouterListe;
 import main.controleurs.ControlChangerFond;
 

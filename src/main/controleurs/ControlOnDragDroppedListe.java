@@ -6,9 +6,9 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import main.Liste;
+import main.objet.Liste;
 import main.Modele;
-import main.composite.Tache;
+import main.objet.composite.Tache;
 
 /**
  * Classe ControlOnDragDropped qui permet de gérer le drag and drop

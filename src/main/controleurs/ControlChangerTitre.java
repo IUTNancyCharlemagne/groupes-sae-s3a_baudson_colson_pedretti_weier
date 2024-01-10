@@ -6,7 +6,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import main.Modele;
-import main.composite.Composant;
+import main.objet.composite.Composant;
 
 /**
  * Classe ControlChangerTitre qui permet de changer le titre d'un composant

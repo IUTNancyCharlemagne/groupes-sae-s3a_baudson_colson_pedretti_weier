@@ -1,8 +1,8 @@
 package test;
 
-import main.Tag;
-import main.composite.SousTache;
-import main.composite.Tache;
+import main.objet.Tag;
+import main.objet.composite.SousTache;
+import main.objet.composite.Tache;
 import org.junit.Test;
 
 import java.text.ParseException;

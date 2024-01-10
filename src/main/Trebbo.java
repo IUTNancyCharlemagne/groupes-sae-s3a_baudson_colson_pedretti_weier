@@ -10,6 +10,8 @@ import main.controleurs.ControlChangerFond;
 import main.controleurs.ControlChangerVue;
 import main.controleurs.ControlCharger;
 import main.controleurs.ControlSauvegarde;
+import main.menu.MenuContext;
+import main.menu.MenuOptions;
 import main.observateur.VueArchives;
 import main.observateur.VueBureau;
 import main.observateur.VueGantt;

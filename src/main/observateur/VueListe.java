@@ -1,11 +1,9 @@
 package main.observateur;
 
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import main.Liste;
+import main.objet.Liste;
 import main.Modele;
 import main.Sujet;
 import main.controleurs.ControlAjouterListe;

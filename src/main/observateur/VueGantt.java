@@ -1,14 +1,11 @@
 package main.observateur;
-import java.awt.image.BufferedImage;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -17,10 +14,10 @@ import javafx.scene.text.Font;
 import javax.imageio.ImageIO;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.stage.FileChooser;
-import main.MenuOptions;
+import main.menu.MenuOptions;
 import main.Modele;
 import main.Sujet;
-import main.composite.Composant;
+import main.objet.composite.Composant;
 
 import java.io.File;
 import java.io.IOException;

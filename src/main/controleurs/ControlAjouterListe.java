@@ -2,22 +2,16 @@ package main.controleurs;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import main.Liste;
+import main.objet.Liste;
 import main.Modele;
-import main.composite.Composant;
-import main.composite.Tache;
 
 /**
  * ControlAjouterListe est la classe qui represente le controleur qui ajoute une liste au projet

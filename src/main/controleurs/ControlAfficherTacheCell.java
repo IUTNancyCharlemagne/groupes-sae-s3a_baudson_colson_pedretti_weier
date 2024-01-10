@@ -5,7 +5,7 @@ import javafx.scene.control.TreeCell;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import main.Modele;
-import main.composite.Composant;
+import main.objet.composite.Composant;
 
 /**
  * ControlAfficherTacheCell est la classe qui represente le controleur qui affiche une tache en detail (cellule)

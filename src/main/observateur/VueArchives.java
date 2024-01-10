@@ -1,15 +1,9 @@
 package main.observateur;
 
-import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import main.Liste;
 import main.Modele;
 import main.Sujet;
-import main.composite.Composant;
-import main.composite.Tache;
-import main.controleurs.ControlAjouterListe;
-import main.controleurs.ControlAjouterTache;
+import main.objet.composite.Composant;
 
 public class VueArchives implements Observateur {
 

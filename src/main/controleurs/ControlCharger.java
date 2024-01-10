@@ -4,11 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import main.Liste;
 import main.Modele;
 import main.Projet;
-import main.Tag;
-import main.composite.Tache;
 import main.exceptions.ProjectNotFoundException;
 
 import java.io.File;

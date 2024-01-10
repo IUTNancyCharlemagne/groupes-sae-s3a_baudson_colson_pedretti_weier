@@ -1,4 +1,4 @@
-package main.composite;
+package main.objet.composite;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -8,9 +8,9 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import main.Liste;
+import main.objet.Liste;
 import main.Modele;
-import main.Tag;
+import main.objet.Tag;
 import main.controleurs.ControlAfficherTache;
 import main.controleurs.ControlOnDragDetectedListe;
 import main.observateur.VueGantt;

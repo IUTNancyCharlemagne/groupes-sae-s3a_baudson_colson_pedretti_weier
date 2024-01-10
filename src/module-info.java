@@ -8,6 +8,8 @@ module groupes_sae_s3a_baudson_colson_pedretti_weier {
 
     exports main;
     exports main.observateur;
-    exports main.composite;
+    exports main.objet.composite;
     exports test;
+    exports main.menu;
+    exports main.objet;
 }

@@ -1,16 +1,12 @@
 package main.controleurs;
 
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import main.Liste;
+import main.objet.Liste;
 import main.Modele;
-import main.composite.Composant;
 
 /**
  * Classe ControlChangerTitre qui permet de changer le titre d'un composant

@@ -1,4 +1,4 @@
-package main.composite;
+package main.objet.composite;
 
 import javafx.scene.control.TreeItem;
 import main.Modele;
