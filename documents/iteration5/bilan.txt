@@ -1,3 +1,7 @@
 Pour cette itération, nous avons les fonctionnalités suivantes :
 
     - Ajout des controlleurs (Loris, Lenny)
+    - Modification de la génération de la grille (Lenny, Zack)
+    - Ajout d'une capture d'écran (Lenny)
+    - Modification de la logique de génération de la grille (Lenny)
+    - Tests unitaires (Dylan)
