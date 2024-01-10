@@ -171,8 +171,8 @@ public class Tache extends Composant {
         for (Composant composant : modele.getProjet().getListeTouteTaches()) {
             if (composant instanceof Tache) {
                 Tache tache = (Tache) composant;
-                for (Composant sousTache : tache.getSousTaches()) {
-                    if (sousTache.equals(this)) {
+                for (Composant tacheDep : tache.getDependances()) {
+                    if (tacheDep.equals(this)) {
                         dependances.add(tache);
                     }
                 }
