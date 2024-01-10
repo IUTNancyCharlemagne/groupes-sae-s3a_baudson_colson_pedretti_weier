@@ -100,9 +100,10 @@ public abstract class Composant implements Serializable {
         this.description = "";
         this.estArchive = false;
         this.tags = new ArrayList<Tag>();
-        this.estTerminee = false;
-        this.duree = duree;
+        this.estTerminee = false;;
         this.dependances = new ArrayList<>();
+        if(duree == 0) this.duree = 1;
+        else this.duree = duree;
         this.dateDebut = LocalDate.now();
         this.dateFin = LocalDate.now().plusDays(duree);
     }
