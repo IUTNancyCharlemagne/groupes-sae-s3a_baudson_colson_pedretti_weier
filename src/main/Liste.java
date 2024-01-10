@@ -215,8 +215,6 @@ public class Liste implements Serializable {
         return paneListe;
     }
 
-    public boolean contient(Tache t){return this.getComposants().contains(t);}
-
     @Override
     public String toString() {
         return "Liste{" +

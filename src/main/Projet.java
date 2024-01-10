@@ -23,7 +23,7 @@ public class Projet implements Serializable{
     private final List<Liste> listeTaches;
 
     /**
-     * Liste de toutes les tâches
+     * Liste de toutes les tâches sans arborescence
      */
     private final List<Composant> listeTouteTaches;
 

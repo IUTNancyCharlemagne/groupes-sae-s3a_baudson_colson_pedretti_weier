@@ -150,7 +150,7 @@ public class Tache extends Composant {
         tooltip.setStyle("-fx-font-size: 14px;");
         Tooltip.install(textePane, tooltip);
 
-        if (getDateFin() != null && (getEstTerminee() || estPassee(LocalDate.now()))) {
+        if (getDateFin() != null || estPassee(LocalDate.now())) {
             textePane.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
         } else if (estDansIntervalle(LocalDate.now())) {
             textePane.setBackground(new Background(new BackgroundFill(Color.ORANGE, CornerRadii.EMPTY, Insets.EMPTY)));

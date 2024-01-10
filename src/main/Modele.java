@@ -26,6 +26,10 @@ public class Modele implements Sujet, Serializable {
     public static final String COLONNE = "Colonne";
     public static final String GANTT = "Gantt";
     public static final String ARCHIVES = "Archives";
+
+    /**
+     * Tâche courante
+     */
     private Composant currentTache;
 
     /**
@@ -64,6 +68,7 @@ public class Modele implements Sujet, Serializable {
 
     /**
      * Constructeur avec paramètre
+     *
      * @param projet Projet courant
      */
     public Modele(Projet projet) {
@@ -73,22 +78,35 @@ public class Modele implements Sujet, Serializable {
         init();
     }
 
+    /**
+     * Méthode qui ajoute un observateur à la liste des observateurs
+     *
+     * @param o Observateur à ajouter
+     */
     @Override
     public void enregistrerObservateur(Observateur o) {
         this.observateurs.add(o);
     }
 
+    /**
+     * Méthode qui supprime un observateur de la liste des observateurs
+     *
+     * @param o Observateur à supprimer
+     */
     @Override
     public void supprimerObservateur(Observateur o) {
         this.observateurs.remove(o);
     }
 
+    /**
+     * Méthode qui notifie les observateurs
+     */
     @Override
     public void notifierObservateur() {
         for (Observateur o : this.observateurs) {
 
-            if (Objects.equals(vueCourante, Modele.COLONNE)){
-                if (o instanceof VueBureau){
+            if (Objects.equals(vueCourante, Modele.COLONNE)) {
+                if (o instanceof VueBureau) {
                     o.actualiser(this);
                 }
             } else if (Objects.equals(vueCourante, Modele.ARCHIVES)) {
@@ -104,7 +122,7 @@ public class Modele implements Sujet, Serializable {
                     o.actualiser(this);
                 }
             }
-            if (o instanceof VueTache){
+            if (o instanceof VueTache) {
                 o.actualiser(this);
             }
         }
@@ -112,10 +130,8 @@ public class Modele implements Sujet, Serializable {
 
     /**
      * Méthode qui initialise le projet
-     * <ul>
-     *     <li>Ajoute la liste "A faire" avec une tâche et une sous-tâche</li>
-     *     <li>Ajoute les listes "En cours" et "Terminé"</li>
-     * </ul>
+     * Ajoute la liste "A faire" avec une tâche et une sous-tâche
+     * Ajoute les listes "En cours" et "Terminé"
      */
     public void init() {
         Projet projet = this.getProjet();
@@ -135,6 +151,10 @@ public class Modele implements Sujet, Serializable {
         this.notifierObservateur();
     }
 
+    /**
+     * Méthode qui renvoie la liste des observateurs et la vue courante
+     * @return String
+     */
     @Override
     public String toString() {
         return "Modele{" +
@@ -150,24 +170,31 @@ public class Modele implements Sujet, Serializable {
     public String getVueCourante() {
         return this.vueCourante;
     }
+
     public void setVueCourante(String vueCourante) {
         this.vueCourante = vueCourante;
     }
+
     public Projet getProjet() {
         return projet;
     }
+
     public void setProjet(Projet projet) {
         this.projet = projet;
     }
+
     public GridPane getPaneBureau() {
         return paneBureau;
     }
+
     public StackPane getStackPane() {
         return stackPane;
     }
+
     public Composant getCurrentTache() {
         return currentTache;
     }
+
     public void setCurrentTache(Composant currentTache) {
         this.currentTache = currentTache;
     }

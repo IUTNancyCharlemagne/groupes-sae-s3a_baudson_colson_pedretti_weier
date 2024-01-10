@@ -21,21 +21,45 @@ import java.nio.file.Paths;
 
 public class MenuOptions implements EventHandler<ActionEvent> {
 
+    /**
+     * Modele
+     */
     private Modele modele;
+
+    /**
+     * Stage
+     */
     private Stage primaryStage;
-
-    private CheckMenuItem fullScreen;
-
+    /**
+     * Layout
+     */
     private BorderPane layout;
-
+    /**
+     * Controleur pour changer la vue
+     */
     private ControlChangerVue controlChangerVue;
-
+    /**
+     * Controleur pour sauvegarder
+     */
     private ControlSauvegarde controlSauvegarde;
+    /**
+     * Controleur pour charger
+     */
     private ControlCharger controlCharger;
-
+    /**
+     * MenuBar
+     */
     public static MenuBar menuBar;
 
-
+    /**
+     * Constructeur
+     * @param modele Modele
+     * @param stage Stage
+     * @param layout Layout
+     * @param controlChangerVue Controleur pour changer la vue
+     * @param controlSauvegarde Controleur pour sauvegarder
+     * @param controlCharger Controleur pour charger
+     */
     public MenuOptions(Modele modele, Stage stage, BorderPane layout, ControlChangerVue controlChangerVue, ControlSauvegarde controlSauvegarde, ControlCharger controlCharger) {
         this.modele = modele;
         this.primaryStage = stage;
@@ -45,6 +69,10 @@ public class MenuOptions implements EventHandler<ActionEvent> {
         this.controlCharger = controlCharger;
     }
 
+    /**
+     * Gestion des raccourcis clavier
+     * @param actionEvent ActionEvent
+     */
     @Override
     public void handle(ActionEvent actionEvent) {
         menuBar = new MenuBar();
