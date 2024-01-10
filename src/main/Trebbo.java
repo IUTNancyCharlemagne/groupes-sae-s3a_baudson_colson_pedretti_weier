@@ -22,7 +22,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 public class Trebbo extends Application {
 
@@ -40,7 +42,8 @@ public class Trebbo extends Application {
         Modele modele = new Modele(new Projet());
         BorderPane layout = new BorderPane();
 
-        if (!Files.exists(Paths.get("./params"))) Files.createDirectories(Paths.get("./params"));
+        Path path = Paths.get("./params");
+        if (!Files.exists(path)) Files.createDirectories(path);
 
         ControlChangerVue controlChangerVue = new ControlChangerVue(modele);
         ControlSauvegarde controlSauvegarde = new ControlSauvegarde(modele, primaryStage);
@@ -91,7 +94,7 @@ public class Trebbo extends Application {
         if (Files.exists(Paths.get(fondParamFile))) {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(fondParamFile));
             String cheminFond = bufferedReader.readLine();
-            if (cheminFond != "" && Files.exists(Paths.get(cheminFond))) {
+            if (!Objects.equals(cheminFond, "") && Files.exists(Paths.get(cheminFond))) {
                 controlChangerFond.changerFond(cheminFond);
             }
         } else

@@ -3,6 +3,9 @@ package main.controleurs;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import main.Modele;
+import main.objet.composite.Composant;
+
+import java.text.ParseException;
 
 public class ControlSupprimerTache implements EventHandler<ActionEvent> {
 
@@ -14,9 +17,17 @@ public class ControlSupprimerTache implements EventHandler<ActionEvent> {
 
     @Override
     public void handle(ActionEvent actionEvent) {
-        modele.getProjet().getListeTouteTaches().remove(modele.getCurrentTache());
+        for (Composant c : modele.getProjet().getListeTouteTaches()) {
+            if (!c.getEstArchive() && c.getDependances().contains(modele.getCurrentTache())) {
+                try {
+                    c.removeDependance(modele.getCurrentTache());
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        modele.getProjet().supprimerTache(modele.getCurrentTache().getNom());
         modele.setCurrentTache(null);
         modele.notifierObservateur();
-        System.out.println(modele.getProjet().getListeTouteTaches());
     }
 }
