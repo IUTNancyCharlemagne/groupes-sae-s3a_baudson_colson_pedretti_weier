@@ -161,7 +161,23 @@ public class Tache extends Composant {
         textePane.setStyle("-fx-border-color: BLACK; -fx-border-width: 1px;");
 
         textePane.setOnMouseClicked(new ControlAfficherTache(modele));
+        
 
         return textePane;
+    }
+
+    public List<Composant> getTachesDependantes(Modele modele) {
+        List<Composant> dependances = new ArrayList<>();
+        for (Composant composant : modele.getProjet().getListeTouteTaches()) {
+            if (composant instanceof Tache) {
+                Tache tache = (Tache) composant;
+                for (Composant sousTache : tache.getSousTaches()) {
+                    if (sousTache.equals(this)) {
+                        dependances.add(tache);
+                    }
+                }
+            }
+        }
+        return dependances;
     }
 }
