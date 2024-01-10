@@ -3,6 +3,7 @@ package main.observateur;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.control.Button;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import main.Liste;
 import main.Modele;
@@ -45,7 +46,7 @@ public class VueBureau implements Observateur {
         Button btnAddListe = new Button("+ Ajouter liste");
         btnAddListe.getStyleClass().add("btnAddListe");
         btnAddListe.setOnAction(new ControlAjouterListe(modele));
-        modele.getPaneBureau().setValignment(btnAddListe, VPos.TOP);
+        GridPane.setValignment(btnAddListe, VPos.TOP);
 
         modele.getPaneBureau().setHgap(10);
 
