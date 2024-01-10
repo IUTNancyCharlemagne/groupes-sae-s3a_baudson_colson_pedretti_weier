@@ -22,6 +22,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -90,6 +91,19 @@ public abstract class Composant implements Serializable {
      * Durée de la tâche
      */
     protected int duree;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Composant composant = (Composant) o;
+        return estArchive == composant.estArchive && estTerminee == composant.estTerminee && duree == composant.duree && Objects.equals(nom, composant.nom) && Objects.equals(description, composant.description) && Objects.equals(tags, composant.tags) && Objects.equals(image, composant.image) && Objects.equals(dependances, composant.dependances) && Objects.equals(parent, composant.parent) && Objects.equals(dateDebut, composant.dateDebut) && Objects.equals(dateFin, composant.dateFin);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nom, description, estArchive, tags, image, estTerminee, dependances, parent, dateDebut, dateFin, duree);
+    }
 
     /**
      * Constructeur de la classe Composant

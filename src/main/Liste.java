@@ -18,6 +18,7 @@ import main.controleurs.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Classe Liste qui permet de créer une liste de tâches
@@ -228,6 +229,28 @@ public class Liste implements Serializable {
     // #########################
     // ### GETTERS & SETTERS ###
     // #########################
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Liste liste = (Liste) o;
+        boolean res = true;
+        for(int i = 0; i < Math.max(getComposants().size(), liste.getComposants().size()); i++) {
+            try{
+                res = res && getComposants().get(i).equals(liste.getComposants().get(i));
+            }
+            catch (IndexOutOfBoundsException e){
+                return false;
+            }
+        }
+        return Objects.equals(nom, liste.nom) && res;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nom);
+    }
 
     public String getNom() {
         return this.nom;
