@@ -55,7 +55,7 @@ public class VueGantt implements Observateur {
         modele.getPaneBureau().getChildren().add(ganttHbox);
 
         GridPane grid = new GridPane();
-        grid.setStyle("-fx-background-color: rgba(255,255,255); -fx-border-color: black; -fx-border-width: 2px;");
+
 
         ScrollPane scrollPane = new ScrollPane(grid);
         scrollPane.getStyleClass().add("scroll-pane");
