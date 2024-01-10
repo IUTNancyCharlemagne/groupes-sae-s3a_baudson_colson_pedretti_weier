@@ -122,7 +122,7 @@ public class Modele implements Sujet, Serializable {
 
         Liste liste = new Liste("À faire");
         Tache tache = new Tache("Tâche 1", null, 1);
-        SousTache sousTache = new SousTache("Sous-tâche 1", null, 1);
+        Tache sousTache = new Tache("Sous-tâche 1", null, 1);
 
         projet.getListeTouteTaches().add(tache);
         projet.getListeTouteTaches().add(sousTache);
