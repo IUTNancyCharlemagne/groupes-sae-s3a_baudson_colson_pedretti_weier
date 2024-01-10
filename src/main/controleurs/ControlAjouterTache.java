@@ -186,7 +186,7 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
                         imgUrl = tacheImage.getImage().getUrl();
                     }
 
-                    Tache tache = new Tache(nom.getText(), imgUrl, Integer.parseInt(duree.getText()));
+                    SousTache tache = new SousTache(nom.getText(), imgUrl, Integer.parseInt(duree.getText()));
 
                     tache.setDateDebut(dateDebPicker.getValue());
                     tache.setDateFin(dateFinPicker.getValue());

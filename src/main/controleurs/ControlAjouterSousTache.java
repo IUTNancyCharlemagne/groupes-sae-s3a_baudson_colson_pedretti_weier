@@ -95,25 +95,49 @@ public class ControlAjouterSousTache implements EventHandler<ActionEvent> {
                 if (trouve) {
                     System.out.println("La tâche existe déjà.");
                 } else {
-                    if (composant instanceof Tache) {
-                        int outputDuree = 0;
-                        if (!dureeField.getText().isEmpty()) {
-                            outputDuree = Integer.parseInt(dureeField.getText());
-                        }
-                        if (tacheImage.getImage() == null) {
-                            Tache tache = new Tache(nom.getText(), null, outputDuree);
-                            ((Tache) composant).ajouter(tache);
-                            ((Tache) composant).fixDuree();
-                            modele.getProjet().getListeTouteTaches().add(tache);
+
+                    if (composant instanceof SousTache) {
+                        Tache newTache = new Tache(composant.getNom(), composant.getImage(), composant.getDateDebut(), composant.getDateFin());
+                        if (composant.getParent() == null) {
+                            for (Liste liste : modele.getProjet().getListeTaches()) {
+                                for (Composant composantCherche : liste.getComposants()) {
+                                    if (composantCherche.getNom().equals(composant.getNom())) {
+                                        liste.retirerComposant(composant);
+                                        liste.ajouterComposant(newTache);
+                                    }
+                                }
+                            }
                         } else {
-                            Tache tache = new Tache(nom.getText(), tacheImage.getImage().getUrl(), outputDuree);
-                            ((Tache) composant).ajouter(tache);
-                            ((Tache) composant).fixDuree();
-                            modele.getProjet().getListeTouteTaches().add(tache);
+                            System.out.println("parent : " + composant.getParent().getNom());
+                            newTache.setParent(composant.getParent());
+                            ((Tache) composant.getParent()).ajouter(newTache);
+                            ((Tache) composant.getParent()).retirer(composant);
                         }
-                        modele.notifierObservateur();
-                        stage.close();
+                        modele.getProjet().getListeTouteTaches().remove(composant);
+                        modele.getProjet().getListeTouteTaches().add(newTache);
+                        composant = newTache;
+                        modele.setCurrentTache(newTache);
                     }
+
+
+                    int outputDuree = 0;
+                    if (!dureeField.getText().isEmpty()) {
+                        outputDuree = Integer.parseInt(dureeField.getText());
+                    }
+                    if (tacheImage.getImage() == null) {
+                        SousTache tache = new SousTache(nom.getText(), null, outputDuree);
+                        ((Tache) composant).ajouter(tache);
+                        ((Tache) composant).fixDuree();
+                        modele.getProjet().getListeTouteTaches().add(tache);
+                    } else {
+                        SousTache tache = new SousTache(nom.getText(), tacheImage.getImage().getUrl(), outputDuree);
+                        ((Tache) composant).ajouter(tache);
+                        ((Tache) composant).fixDuree();
+                        modele.getProjet().getListeTouteTaches().add(tache);
+                    }
+                    modele.notifierObservateur();
+                    stage.close();
+
                 }
             }
 

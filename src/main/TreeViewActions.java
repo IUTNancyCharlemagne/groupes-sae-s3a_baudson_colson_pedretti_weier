@@ -18,7 +18,7 @@ public class TreeViewActions {
     /**
      * Hauteur d'une cellule
      */
-    private static final int HEIGHT = 31;
+    private static final double HEIGHT = 29.5;
 
     /**
      * Méthode qui permet au TreeView d'adapter sa taille en fonction du nombre de cellules

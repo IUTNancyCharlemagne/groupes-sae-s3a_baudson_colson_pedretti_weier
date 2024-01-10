@@ -4,6 +4,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import main.composite.Composant;
+import main.composite.SousTache;
 import main.composite.Tache;
 import main.exceptions.ProjectNotFoundException;
 import main.observateur.*;
@@ -121,7 +122,7 @@ public class Modele implements Sujet, Serializable {
 
         Liste liste = new Liste("À faire");
         Tache tache = new Tache("Tâche 1", null, 1);
-        Tache sousTache = new Tache("Sous-tâche 1", null, 1);
+        SousTache sousTache = new SousTache("Sous-tâche 1", null, 1);
 
         projet.getListeTouteTaches().add(tache);
         projet.getListeTouteTaches().add(sousTache);

@@ -99,7 +99,6 @@ public class VueTache implements Observateur {
                     Tache tache = (Tache) modele.getCurrentTache().getParent();
                     tache.fixDuree();
                 }
-                ((Tache) modele.getCurrentTache()).fixDuree();
                 modele.setCurrentTache(null);
                 for (Composant composant : modele.getProjet().getListeTouteTaches()) {
                     try {
