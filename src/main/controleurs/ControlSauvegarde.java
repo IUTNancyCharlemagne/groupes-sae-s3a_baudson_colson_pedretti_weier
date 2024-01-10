@@ -40,24 +40,14 @@ public class ControlSauvegarde implements EventHandler<ActionEvent> {
         if (!Projet.fichierTrebbo(chemin)) chemin += ".trebbo";
         if (modele.getProjet().getChemin() == null) modele.getProjet().setChemin(chemin);
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(modele.getProjet().getChemin()))) {
-            oos.writeObject(modele.getProjet().getNomProjet());
-            oos.writeObject(modele.getProjet().getListeTaches().size());
-            for (Liste l : modele.getProjet().getListeTaches()) {
-                oos.writeObject(l);
-                for (Composant c : l.getComposants()) {
-                    oos.writeObject(c);
-                    if (c.getTags().size() > 0) {
-                        for (Tag t : c.getTags()) oos.writeObject(t);
-                    }
-                }
-            }
+            oos.writeObject(modele.getProjet());
         }
     }
 
     @Override
     public void handle(ActionEvent actionEvent) {
         try {
-            if (modele.getProjet().getChemin() != null) modele.sauvegarderProjet(modele.getProjet().getChemin());
+            if (modele.getProjet().getChemin() != null) sauvegarderProjet(modele.getProjet().getChemin());
             else {
                 if (!Files.exists(Paths.get("./projects/"))) Files.createDirectories(Paths.get("./projects"));
                 FileChooser fileChooser = new FileChooser();
@@ -69,7 +59,7 @@ public class ControlSauvegarde implements EventHandler<ActionEvent> {
                 fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Trebbo Files", "*.trebbo"));
                 File selectedFile = fileChooser.showSaveDialog(this.primaryStage);
                 if (selectedFile != null) {
-                    modele.sauvegarderProjet(selectedFile.getPath());
+                    sauvegarderProjet(selectedFile.getPath());
                     primaryStage.setTitle(selectedFile.getName());
                 }
             }

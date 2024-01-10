@@ -35,11 +35,6 @@ public class Liste implements Serializable {
      */
     private final List<Composant> composants;
 
-    /**
-     * Nombre de tâches dans la liste
-     */
-    private int nbTaches; // SERT POUR LA SAUVEGARDE
-
 
     /**
      * Constructeur de la classe Liste
@@ -48,7 +43,6 @@ public class Liste implements Serializable {
     public Liste(String nom) {
         this.nom = nom;
         composants = new ArrayList<Composant>();
-        this.nbTaches = 0;
     }
 
     /**
@@ -57,7 +51,6 @@ public class Liste implements Serializable {
      */
     public void ajouterComposant(Composant c) {
         this.composants.add(c);
-        this.nbTaches++;
     }
 
     /**
@@ -66,7 +59,6 @@ public class Liste implements Serializable {
      */
     public void retirerComposant(Composant c) {
         this.composants.remove(c);
-        this.nbTaches--;
     }
 
     /**
@@ -246,9 +238,5 @@ public class Liste implements Serializable {
 
     public List<Composant> getComposants() {
         return this.composants;
-    }
-
-    public int getNbTaches(){
-        return this.nbTaches;
     }
 }

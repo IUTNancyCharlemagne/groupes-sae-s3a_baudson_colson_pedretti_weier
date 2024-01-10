@@ -40,21 +40,7 @@ public class ControlCharger implements EventHandler<ActionEvent> {
         if (!Projet.fichierTrebbo(chemin)) chemin += ".trebbo";
         if (!Files.exists(Paths.get(chemin))) throw new ProjectNotFoundException();
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(chemin))) {
-            String nomProjet = (String) ois.readObject();
-            Projet projet = new Projet(nomProjet);
-            projet.setChemin(chemin);
-            int nbListes = (int) ois.readObject();
-            for (int i = 0; i < nbListes; i++) {
-                Liste liste = (Liste) ois.readObject();
-                for (int j = 0; j < liste.getNbTaches(); j++) {
-                    Tache tache = (Tache) ois.readObject();
-                    for (int k = 0; k < tache.getNbTags(); k++) {
-                        tache.addTag((Tag) ois.readObject());
-                    }
-                }
-                projet.ajouterListeTaches(liste);
-            }
-            return projet;
+            return (Projet) ois.readObject();
         }
     }
 
@@ -68,7 +54,7 @@ public class ControlCharger implements EventHandler<ActionEvent> {
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Trebbo Files", "*.trebbo"));
             File selectedFile = fileChooser.showOpenDialog(null);
             if(selectedFile != null){
-                modele.chargerProjet(selectedFile.getPath());
+                modele.setProjet(chargerProjet(selectedFile.getPath()));
                 primaryStage.setTitle(selectedFile.getName());
             }
             modele.notifierObservateur();

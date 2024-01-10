@@ -48,23 +48,11 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
         Text text = (Text) vBox.getChildren().get(0);
         String nomTache = text.getText();
 
-        boolean trouve = false;
+        composantAfficher = modele.getProjet().getTache(nomTache);
 
-        // TODO: Réduire le morceau de code ci-dessous (c'est vraiment pas du tout opti)
-        // Recherche de la tache
-        for (Composant composant : modele.getProjet().getListeTouteTaches()) {
-            if (composant.getNom().equals(nomTache)) {
-                composantAfficher = composant;
-                trouve = true;
-            }
-        }
-
-        if (trouve) {
+        if (composantAfficher != null) {
             modele.setCurrentTache(composantAfficher);
             modele.notifierObservateur();
-        }
-        else{
-            System.out.println("PAS TROUVE");
         }
     }
 }

@@ -116,28 +116,6 @@ public class Modele implements Sujet, Serializable {
                 '}';
     }
 
-    /**
-     * Méthode permettant de sauvegarder un projet.
-     * Le projet est sauvegardé dans un fichier '.trebo' dont le chemin est spécifié dans l'utilisation.
-     * @param chemin chemin du fichier de sauvegarder.
-     * @throws IOException
-     */
-    public void sauvegarderProjet(String chemin) throws IOException {
-        this.getProjet().sauvegarderProjet(chemin);
-    }
-
-    /**
-     * Méthode permettant de charger un projet.
-     * L'attribut Projet de l'objet change pour devenir le projet chargé.
-     * @param chemin Chemin du fichier de sauvegarde '.trebo'
-     * @throws ProjectNotFoundException Si le fichier de sauvegarde n'est pas trouvé
-     * @throws IOException
-     * @throws ClassNotFoundException
-     */
-    public void chargerProjet(String chemin) throws ProjectNotFoundException, IOException, ClassNotFoundException {
-        this.setProjet(this.getProjet().chargerProjet(chemin));
-    }
-
     // #########################
     // ### GETTERS & SETTERS ###
     // #########################

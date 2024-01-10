@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Classe représentant un projet
  */
-public class Projet {
+public class Projet implements Serializable{
 
     /**
      * Liste des listes de tâches
@@ -112,65 +112,6 @@ public class Projet {
      */
     public void supprimerListeTaches(Liste liste) {
         this.listeTaches.remove(liste);
-    }
-
-    /**
-     * Charge un projet à partir d'un fichier de sauvegarde
-     *
-     * @param chemin Chemin du fichier de sauvegarde
-     * @return Projet chargé
-     * @throws IOException
-     * @throws ProjectNotFoundException si le projet spécifié est introuvable.
-     * @throws ClassNotFoundException
-     */
-    public Projet chargerProjet(String chemin) throws IOException, ProjectNotFoundException, ClassNotFoundException {
-        if (!fichierTrebbo(chemin)) chemin += ".trebbo";
-        if (!Files.exists(Paths.get(chemin))) throw new ProjectNotFoundException();
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(chemin))) {
-            String nomProjet = (String) ois.readObject();
-            Projet projet = new Projet(nomProjet);
-            projet.setChemin(chemin);
-            int nbListes = (int) ois.readObject();
-            for (int i = 0; i < nbListes; i++) {
-                Liste liste = (Liste) ois.readObject();
-                for (int j = 0; j < liste.getNbTaches(); j++) {
-                    Tache tache = (Tache) ois.readObject();
-                    for (int k = 0; k < tache.getNbTags(); k++) {
-                        tache.addTag((Tag) ois.readObject());
-                    }
-                }
-                projet.ajouterListeTaches(liste);
-            }
-            return projet;
-        }
-    }
-
-    /**
-     * Crée un fichier de sauvegarde du bureau.
-     * Le fichier est un fichier binaire de format '.trebbo'
-     * Le nom du fichier est nomFichier + '.trebbo'
-     * L'emplacement du fichier se trouve dans le dossier /projects/.
-     *
-     * @param chemin Nom du fichier voulu.
-     *               Peut se terminer par '.trebbo' ou non, la conversion est faite.
-     * @throws IOException
-     */
-    public void sauvegarderProjet(String chemin) throws IOException {
-        if (!fichierTrebbo(chemin)) chemin += ".trebbo";
-        if (this.chemin == null) this.chemin = chemin;
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(this.chemin))) {
-            oos.writeObject(this.nomProjet);
-            oos.writeObject(this.listeTaches.size());
-            for (Liste l : this.listeTaches) {
-                oos.writeObject(l);
-                for (Composant c : l.getComposants()) {
-                    oos.writeObject(c);
-                    if (c.getTags().size() > 0) {
-                        for (Tag t : c.getTags()) oos.writeObject(t);
-                    }
-                }
-            }
-        }
     }
 
     /**

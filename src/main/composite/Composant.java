@@ -54,11 +54,6 @@ public abstract class Composant implements Serializable {
     protected String image;
 
     /**
-     * Nombre de tags de la tâche
-     */
-    protected int nbTags; // SERT POUR LA SAUVEGARDE
-
-    /**
      * Booléen qui indique si la tâche est terminée ou non
      */
     protected boolean estTerminee;
@@ -109,7 +104,6 @@ public abstract class Composant implements Serializable {
         this.estArchive = false;
         this.tags = new ArrayList<Tag>();
         this.estTerminee = false;
-        this.nbTags = 0;
         this.duree = duree;
         this.dependances = new ArrayList<>();
         this.dateDebut = LocalDate.now();
@@ -125,7 +119,6 @@ public abstract class Composant implements Serializable {
         this.estArchive = false;
         this.tags = new ArrayList<Tag>();
         this.estTerminee = false;
-        this.nbTags = 0;
         if (dateValide(dateDebut) && dateValide(dateFin)) {
             this.dateDebut = dateDebut;
             this.dateFin = dateFin;
@@ -180,7 +173,6 @@ public abstract class Composant implements Serializable {
      */
     public void addTag(Tag tag) {
         tags.add(tag);
-        this.nbTags++;
     }
 
     /**
@@ -190,7 +182,6 @@ public abstract class Composant implements Serializable {
      */
     public void removeTag(Tag tag) {
         tags.remove(tag);
-        this.nbTags--;
     }
 
     // #########################
@@ -223,10 +214,6 @@ public abstract class Composant implements Serializable {
 
     public List<Tag> getTags() {
         return tags;
-    }
-
-    public int getNbTags() {
-        return this.nbTags;
     }
 
     public boolean getEstTerminee() {
