@@ -35,4 +35,15 @@ public class TestListe {
 
         assertEquals(l, l2);
     }
+
+    public void test_changerNomOK(){
+        Liste l1 = new Liste("TEST");
+        Liste l2 = new Liste("TEST2");
+
+        assertNotEquals(l1, l2);
+
+        l1.setNom("TEST2");
+
+        assertEquals(l1, l2);
+    }
 }
