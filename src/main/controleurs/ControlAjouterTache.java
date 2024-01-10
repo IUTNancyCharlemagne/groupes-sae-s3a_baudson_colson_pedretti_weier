@@ -91,7 +91,7 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
         // Durée
         Text dureeText = new Text("Durée (jours)");
         TextField duree = new TextField();
-        duree.setText("0");
+        duree.setText("1");
         dureeVBox.getChildren().addAll(dureeText, duree);
 
         // Date de fin
@@ -117,9 +117,9 @@ public class ControlAjouterTache implements EventHandler<ActionEvent> {
         // Quand on modifie la durée
         duree.setOnAction(e -> {
             // Si la durée est négative
-            if (Integer.parseInt(duree.getText()) < 0) {
+            if (Integer.parseInt(duree.getText()) <= 0) {
                 // On met la durée à 0
-                duree.setText("0");
+                duree.setText("1");
             }
             // On ajoute la durée à la date de début
             dateFinPicker.setValue(dateDebPicker.getValue().plusDays(Integer.parseInt(duree.getText())));

@@ -139,11 +139,11 @@ public class Tache extends Composant {
 
         StringBuffer tooltipText = new StringBuffer();
 
-        if ((getDateDebut().isBefore(LocalDate.now()) || getDateDebut().equals(LocalDate.now())) && getDateFin().isAfter(LocalDate.now())) {
+        if ((this.dateDebut.isBefore(LocalDate.now()) || this.dateDebut.equals(LocalDate.now())) && this.dateFin.isAfter(LocalDate.now())) {
             tooltipText.append("Durée : " + getDuree() + " jours (" + (Composant.calculerDureeEntreDates(LocalDate.now(), getDateFin())) + " jours restant(s))");
-        } else if (getDateDebut().isAfter(LocalDate.now())) {
+        } else if (this.dateDebut.isAfter(LocalDate.now())) {
             tooltipText.append("Durée : " + getDuree() + " jours (tâche pas encore commencée)");
-        } else if (getDateFin().isBefore(LocalDate.now())) {
+        } else if (this.dateFin.isBefore(LocalDate.now())) {
             tooltipText.append("Durée : " + getDuree() + " jours (tâche terminée)");
         }
 
