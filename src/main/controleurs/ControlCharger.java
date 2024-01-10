@@ -55,7 +55,9 @@ public class ControlCharger implements EventHandler<ActionEvent> {
             File selectedFile = fileChooser.showOpenDialog(null);
             if(selectedFile != null){
                 modele.setProjet(chargerProjet(selectedFile.getPath()));
-                primaryStage.setTitle(selectedFile.getName());
+                String nomProjet = selectedFile.getName().split("\\.")[0];
+                modele.getProjet().setNomProjet(nomProjet);
+                primaryStage.setTitle(nomProjet);
             }
             modele.notifierObservateur();
         } catch (IOException | ProjectNotFoundException | ClassNotFoundException ex) {

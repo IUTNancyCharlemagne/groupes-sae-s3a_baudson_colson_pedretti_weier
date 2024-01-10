@@ -60,7 +60,9 @@ public class ControlSauvegarde implements EventHandler<ActionEvent> {
                 File selectedFile = fileChooser.showSaveDialog(this.primaryStage);
                 if (selectedFile != null) {
                     sauvegarderProjet(selectedFile.getPath());
-                    primaryStage.setTitle(selectedFile.getName());
+                    String nomProjet = selectedFile.getName().split("\\.")[0];
+                    modele.getProjet().setNomProjet(nomProjet);
+                    primaryStage.setTitle(nomProjet);
                 }
             }
         } catch (IOException ex) {
