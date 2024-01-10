@@ -36,7 +36,6 @@ public class Liste implements Serializable {
      */
     private final List<Composant> composants;
 
-
     /**
      * Constructeur de la classe Liste
      * @param nom Nom de la liste
@@ -141,6 +140,11 @@ public class Liste implements Serializable {
         return paneListe;
     }
 
+    /**
+     * Affiche la liste
+     * @param modele Modèle de l'application
+     * @return HBox contenant la liste
+     */
     public HBox afficherListe(Modele modele) {
 
         // Liste de tâches
@@ -216,6 +220,7 @@ public class Liste implements Serializable {
         return paneListe;
     }
 
+
     @Override
     public String toString() {
         return "Liste{" +
@@ -224,10 +229,10 @@ public class Liste implements Serializable {
                 '}';
     }
 
-    // #########################
-    // ### GETTERS & SETTERS ###
-    // #########################
-
+    /**
+     * Methode equals de la classe Liste
+     * @param o Objet à comparer
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -245,10 +250,18 @@ public class Liste implements Serializable {
         return Objects.equals(nom, liste.nom) && res;
     }
 
+    /**
+     * Methode hashCode de la classe Liste
+     */
     @Override
     public int hashCode() {
         return Objects.hash(nom);
     }
+
+    // #########################
+    // ### GETTERS & SETTERS ###
+    // #########################
+
 
     public String getNom() {
         return this.nom;

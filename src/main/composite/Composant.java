@@ -92,12 +92,12 @@ public abstract class Composant implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Composant composant = (Composant) o;
-        return estArchive == composant.estArchive && estTerminee == composant.estTerminee && duree == composant.duree && Objects.equals(nom, composant.nom) && Objects.equals(description, composant.description) && Objects.equals(tags, composant.tags) && Objects.equals(image, composant.image) && Objects.equals(dependances, composant.dependances) && Objects.equals(parent, composant.parent) && Objects.equals(dateDebut, composant.dateDebut) && Objects.equals(dateFin, composant.dateFin);
+        return estArchive == composant.estArchive && duree == composant.duree && Objects.equals(nom, composant.nom) && Objects.equals(description, composant.description) && Objects.equals(tags, composant.tags) && Objects.equals(image, composant.image) && Objects.equals(dependances, composant.dependances) && Objects.equals(parent, composant.parent) && Objects.equals(dateDebut, composant.dateDebut) && Objects.equals(dateFin, composant.dateFin);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nom, description, estArchive, tags, image, estTerminee, dependances, parent, dateDebut, dateFin, duree);
+        return Objects.hash(nom, description, estArchive, tags, image, dependances, parent, dateDebut, dateFin, duree);
     }
 
     /**
