@@ -156,6 +156,7 @@ public abstract class Composant implements Serializable {
 
     // ### Test d'affichage ###
     public VBox afficherArchive(Modele modele) {
+        if (parent != null) return null;
         // Création du Pane de la tâche
         VBox paneTache = new VBox();
         paneTache.setId(this.nom);
