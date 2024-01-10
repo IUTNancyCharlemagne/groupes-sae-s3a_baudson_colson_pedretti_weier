@@ -19,6 +19,7 @@ import main.Sujet;
 import main.composite.Composant;
 import main.composite.SousTache;
 import main.composite.Tache;
+import main.controleurs.ControlAfficherTache;
 
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -146,31 +147,31 @@ public class VueGantt implements Observateur {
 
             List<Composant> listeTaches = modele.getProjet().getListeTouteTaches();
             int ypos = 1;
-                for (int i = 0; i < modele.getProjet().getListeTouteTaches().size(); i++) {
-                    if(!listeTaches.get(i).getEstArchive() && listeTaches.get(i).getParent() == null){
-                        for (int j = 0; j <= dureeProjet; j+=joursParColonne) {
-                            Rectangle rect = new Rectangle(periodeSize, periodeSize);
-                            rect.setFill(Color.WHITE);
-                            rect.setStroke(Color.BLACK);
-                            grid.add(rect, j, ypos);
-                        }
-                        ypos++;
+            for (int i = 0; i < modele.getProjet().getListeTouteTaches().size(); i++) {
+                if (!listeTaches.get(i).getEstArchive() && listeTaches.get(i).getParent() == null) {
+                    for (int j = 0; j <= dureeProjet; j += joursParColonne) {
+                        Rectangle rect = new Rectangle(periodeSize, periodeSize);
+                        rect.setFill(Color.WHITE);
+                        rect.setStroke(Color.BLACK);
+                        grid.add(rect, j, ypos);
                     }
+                    ypos++;
                 }
+            }
 
             for (int i = 0; i <= dureeProjet; i += joursParColonne) {
                 Pane datePane = new Pane();
                 Label date = new Label(dateCourante.toString());
-                date.setFont(new Font("Arial", (0.18*periodeSize)));
+                date.setFont(new Font("Arial", (0.18 * periodeSize)));
                 date.setStyle("-fx-font-weight: bold;");
                 date.setAlignment(Pos.CENTER);
                 datePane.getChildren().add(date);
-                date.setPrefHeight((int)(periodeSize/2));
+                date.setPrefHeight((int) (periodeSize / 2));
                 date.setPrefWidth(periodeSize);
-                datePane.setPrefHeight((int)(periodeSize/2));
+                datePane.setPrefHeight((int) (periodeSize / 2));
                 datePane.setPrefWidth(periodeSize);
                 dateCourante = dateCourante.plusDays(joursParColonne);
-                Rectangle rect = new Rectangle(periodeSize,(int)(periodeSize/2));
+                Rectangle rect = new Rectangle(periodeSize, (int) (periodeSize / 2));
                 rect.setFill(Color.LIGHTGRAY);
                 rect.setStroke(Color.BLACK);
                 grid.add(rect, i, 0);
@@ -186,63 +187,7 @@ public class VueGantt implements Observateur {
         for (int i = 0; i < listeTaches.size(); i++) {
             if (!listeTaches.get(i).getEstArchive() && listeTaches.get(i).getParent() == null) {
                 try {
-                    Label texte;
-                    if (listeTaches.get(i).getDependances().isEmpty()) {
-                        texte = new Label(listeTaches.get(i).getNom());
-                    } else {
-                        texte = new Label(listeTaches.get(i).getNom() + "(dépendances: " + listeTaches.get(i).getDependances() + ")");
-                    }
-                    texte.setFont(new Font("Arial", (0.18*periodeSize)));
-                    texte.setStyle("-fx-font-weight: bold;");
-                    texte.setWrapText(true);
-                    texte.prefHeight(periodeSize);
-                    VBox textePane = new VBox();
-
-                    HBox sousTaches = new HBox();
-                    if(listeTaches.get(i) instanceof Tache){
-                        Tache tache = (Tache) listeTaches.get(i);
-                        if (!tache.getSousTaches().isEmpty()) {
-                            StringBuffer sousTachesTexte = new StringBuffer("Sous-tâches: ");
-                            for (Composant sousTache : tache.getSousTaches()) {
-                                Tache sousTacheRef = (Tache) sousTache;
-                                sousTachesTexte.append(sousTacheRef.getNom() + " (" + sousTacheRef.getDuree() + " jour(s))");
-                                if(tache.getSousTaches().indexOf(sousTache) != tache.getSousTaches().size()-1){
-                                    sousTachesTexte.append(", ");
-                                }
-                            }
-                            Label stLabel = new Label(sousTachesTexte.toString());
-                            stLabel.setFont(new Font("Arial", (0.15*periodeSize)));
-                            stLabel.setPadding(new Insets(periodeSize*0.1));
-                            sousTaches.getChildren().add(stLabel);
-                        }
-                    }
-
-                    textePane.getChildren().addAll(texte,sousTaches);
-
-                    StringBuffer tooltipText = new StringBuffer();
-
-                    if((listeTaches.get(i).getDateDebut().isBefore(LocalDate.now()) || listeTaches.get(i).getDateDebut().equals(LocalDate.now())) && listeTaches.get(i).getDateFin().isAfter(LocalDate.now())){
-                        tooltipText.append("Durée : "+listeTaches.get(i).getDuree()+" jours ("+(Composant.calculerDureeEntreDates(LocalDate.now(), listeTaches.get(i).getDateFin()))+" jours restant(s))");
-                    } else if(listeTaches.get(i).getDateDebut().isAfter(LocalDate.now())){
-                        tooltipText.append("Durée : "+listeTaches.get(i).getDuree()+" jours (tâche pas encore commencée)");
-                    } else if(listeTaches.get(i).getDateFin().isBefore(LocalDate.now())){
-                        tooltipText.append("Durée : "+listeTaches.get(i).getDuree()+" jours (tâche terminée)");
-                    }
-
-                    Tooltip tooltip = new Tooltip(tooltipText.toString());
-                    tooltip.setStyle("-fx-font-size: 14px;");
-                    Tooltip.install(textePane, tooltip);
-
-                    if (listeTaches.get(i).getDateFin() != null && (listeTaches.get(i).getEstTerminee() || listeTaches.get(i).estPassee(LocalDate.now()))) {
-                        textePane.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
-                    } else if (listeTaches.get(i).estDansIntervalle(LocalDate.now())) {
-                        textePane.setBackground(new Background(new BackgroundFill(Color.ORANGE, CornerRadii.EMPTY, Insets.EMPTY)));
-                    } else {
-                        textePane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
-                    }
-
-                    textePane.setStyle("-fx-border-color: BLACK; -fx-border-width: 1px;");
-
+                    Pane textePane = listeTaches.get(i).afficherGantt(modele);
                     int xPos = Composant.calculerDureeEntreDates(debutProjet, listeTaches.get(i).getDateDebut());
                     if (xPos >= 0) {
                         grid.add(textePane, xPos, ypos);
@@ -250,16 +195,16 @@ public class VueGantt implements Observateur {
                         if (!listeTaches.get(i).getDependances().isEmpty()) {
                             ImageView image = new ImageView();
                             image.setImage(new Image("file:icons/rightArrow.png"));
-                            image.setFitHeight(periodeSize);
-                            image.setFitWidth(periodeSize);
+                            image.setFitHeight(VueGantt.periodeSize);
+                            image.setFitWidth(VueGantt.periodeSize);
                             grid.add(image, xPos - 1, ypos);
                         }
                         ypos++;
-                        int duree = Math.round(listeTaches.get(i).calculerDureeTache() / (float) joursParColonne);
-                        textePane.setPrefWidth(duree * periodeSize);
-                        textePane.setPrefHeight(periodeSize);
+                        int duree = Math.round(listeTaches.get(i).calculerDureeTache() / (float) VueGantt.joursParColonne);
+                        textePane.setPrefWidth(duree * VueGantt.periodeSize);
+                        textePane.setPrefHeight(VueGantt.periodeSize);
 
-                        if (duree > 0) GridPane.setColumnSpan(textePane, duree * joursParColonne);
+                        if (duree > 0) GridPane.setColumnSpan(textePane, duree * VueGantt.joursParColonne);
                     }
                 } catch (ParseException e) {
                     throw new RuntimeException(e);

@@ -1,6 +1,7 @@
 package main.controleurs;
 
 import javafx.event.EventHandler;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
@@ -44,9 +45,12 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
     public void handle(MouseEvent mouseEvent) {
 
         // ### Déclaration des variables ###
-        VBox vBox = (VBox) mouseEvent.getSource();
-        Text text = (Text) vBox.getChildren().get(0);
-        String nomTache = text.getText();
+        Pane pane = (Pane) mouseEvent.getSource();
+        String nomTache;
+        if(pane.getChildren().get(0) instanceof Label){
+            nomTache = ((Label) pane.getChildren().get(0)).getText();
+        }
+        else nomTache = pane.getChildren().get(0).getAccessibleText();
 
         composantAfficher = modele.getProjet().getTache(nomTache);
 

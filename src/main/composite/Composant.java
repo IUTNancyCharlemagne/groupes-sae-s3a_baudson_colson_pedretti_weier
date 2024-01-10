@@ -1,13 +1,21 @@
 package main.composite;
 
+import javafx.geometry.Insets;
+import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeItem;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import main.Liste;
 import main.Modele;
 import main.Tag;
 import main.controleurs.ControlAfficherTache;
 import main.controleurs.ControlOnDragDetected;
+import main.observateur.VueGantt;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -85,15 +93,6 @@ public abstract class Composant implements Serializable {
      */
     protected int duree;
 
-    public static int calculerDureeEntreDates(LocalDate date1, LocalDate date2) throws ParseException {
-        if (date1 == null || date2 == null) return -1;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date debut = sdf.parse(date1.toString());
-        Date fin = sdf.parse(date2.toString());
-        long diff = debut.getTime() - fin.getTime();
-        return (int) Math.abs(TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
-    }
-
     /**
      * Constructeur de la classe Composant
      */
@@ -122,12 +121,21 @@ public abstract class Composant implements Serializable {
         if (dateValide(dateDebut) && dateValide(dateFin)) {
             this.dateDebut = dateDebut;
             this.dateFin = dateFin;
-        } else{
+        } else {
             this.dateDebut = LocalDate.now();
             this.dateFin = LocalDate.now().plusDays(1);
         }
         this.duree = 1;
         this.dependances = new ArrayList<>();
+    }
+
+    public static int calculerDureeEntreDates(LocalDate date1, LocalDate date2) throws ParseException {
+        if (date1 == null || date2 == null) return -1;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date debut = sdf.parse(date1.toString());
+        Date fin = sdf.parse(date2.toString());
+        long diff = debut.getTime() - fin.getTime();
+        return (int) Math.abs(TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
     }
 
     /**
@@ -154,6 +162,54 @@ public abstract class Composant implements Serializable {
         paneTache.setOnMouseClicked(new ControlAfficherTache(modele));
         paneTache.setOnDragDetected(new ControlOnDragDetected(modele));
         return paneTache;
+    }
+
+    public Pane afficherGantt(Modele modele) throws ParseException {
+
+        LocalDate debutProjet = modele.getProjet().getPremiereDateDebut();
+
+        Label texte;
+        List<Composant> listeTaches = modele.getProjet().getListeTouteTaches();
+        if (getDependances().isEmpty()) {
+            texte = new Label(getNom());
+        } else {
+            texte = new Label(getNom() + "(dépendances: " + getDependances() + ")");
+        }
+        texte.setFont(new Font("Arial", (0.18 * VueGantt.periodeSize)));
+        texte.setStyle("-fx-font-weight: bold;");
+        texte.setWrapText(true);
+        texte.prefHeight(VueGantt.periodeSize);
+        VBox textePane = new VBox();
+
+        HBox sousTaches = new HBox();
+
+        textePane.getChildren().addAll(texte, sousTaches);
+
+        StringBuffer tooltipText = new StringBuffer();
+
+        if ((getDateDebut().isBefore(LocalDate.now()) || getDateDebut().equals(LocalDate.now())) && getDateFin().isAfter(LocalDate.now())) {
+            tooltipText.append("Durée : " + getDuree() + " jours (" + (Composant.calculerDureeEntreDates(LocalDate.now(), getDateFin())) + " jours restant(s))");
+        } else if (getDateDebut().isAfter(LocalDate.now())) {
+            tooltipText.append("Durée : " + getDuree() + " jours (tâche pas encore commencée)");
+        } else if (getDateFin().isBefore(LocalDate.now())) {
+            tooltipText.append("Durée : " + getDuree() + " jours (tâche terminée)");
+        }
+
+        Tooltip tooltip = new Tooltip(tooltipText.toString());
+        tooltip.setStyle("-fx-font-size: 14px;");
+        Tooltip.install(textePane, tooltip);
+
+        if (getDateFin() != null && (getEstTerminee() || estPassee(LocalDate.now()))) {
+            textePane.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+        } else if (estDansIntervalle(LocalDate.now())) {
+            textePane.setBackground(new Background(new BackgroundFill(Color.ORANGE, CornerRadii.EMPTY, Insets.EMPTY)));
+        } else {
+            textePane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+        }
+
+        textePane.setStyle("-fx-border-color: BLACK; -fx-border-width: 1px;");
+
+        return textePane;
     }
 
     /**
@@ -192,20 +248,20 @@ public abstract class Composant implements Serializable {
         return nom;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public boolean getEstArchive() {
-        return estArchive;
-    }
-
     public void setNom(String nom) {
         this.nom = nom;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean getEstArchive() {
+        return estArchive;
     }
 
     public void setEstArchive(boolean estArchive) {
@@ -272,7 +328,7 @@ public abstract class Composant implements Serializable {
         return LocalDate.parse(sdf.format(date2));
     }
 
-    public boolean estDansIntervalle(LocalDate date){
+    public boolean estDansIntervalle(LocalDate date) {
         if (date == null || this.dateDebut == null || this.dateFin == null) return false;
         return (date.isAfter(this.dateDebut) && date.isBefore(this.dateFin)) || date.isEqual(this.dateDebut) || date.isEqual(this.dateFin);
     }
@@ -286,12 +342,12 @@ public abstract class Composant implements Serializable {
         return dateDebut;
     }
 
-    public LocalDate getDateFin() {
-        return dateFin;
-    }
-
     public void setDateDebut(LocalDate dateDebut) {
         this.dateDebut = dateDebut;
+    }
+
+    public LocalDate getDateFin() {
+        return dateFin;
     }
 
     public void setDateFin(LocalDate dateFin) {
