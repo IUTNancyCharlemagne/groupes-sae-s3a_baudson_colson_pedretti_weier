@@ -11,15 +11,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import main.controleurs.*;
 import main.objet.Liste;
 import main.Modele;
 import main.Sujet;
 import main.objet.Tag;
 import main.objet.composite.Composant;
 import main.objet.composite.Tache;
-import main.controleurs.ControlAjouterSousTache;
-import main.controleurs.ControlAjouterTag;
-import main.controleurs.ControlChangerTitre;
 
 import java.io.File;
 import java.text.ParseException;
@@ -91,26 +89,7 @@ public class VueTache implements Observateur {
 
         // ### Quitter ###
         quitter.getStyleClass().add("quitter");
-        // TODO: Faire un ControlQuitterTache qui enregistre les modifications
-        quitter.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if (modele.getCurrentTache() instanceof Tache && ((Tache) modele.getCurrentTache()).getParent() != null) {
-                    Tache tache = (Tache) modele.getCurrentTache().getParent();
-                    tache.fixDuree();
-                }
-                modele.setCurrentTache(null);
-                for (Composant composant : modele.getProjet().getListeTouteTaches()) {
-                    try {
-                        composant.CalcDateDebutDependance();
-                    } catch (ParseException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-
-                modele.notifierObservateur();
-            }
-        });
+        quitter.setOnAction(new ControlQuitterTache(modele));
 
         // ### Tags ###
         for (Tag tag : modele.getCurrentTache().getTags()) {
@@ -128,14 +107,7 @@ public class VueTache implements Observateur {
             Button btnSupprimerTag = new Button("x");
             btnSupprimerTag.getStyleClass().add("btnTag");
             tagBox.getChildren().addAll(label, btnSupprimerTag);
-            // TODO: Faire un ControlSupprimerTag qui supprime le tag de la tache
-            btnSupprimerTag.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    modele.getCurrentTache().removeTag(tag);
-                    modele.notifierObservateur();
-                }
-            });
+            btnSupprimerTag.setOnAction(new ControlSupprimerTag(modele, tag));
             tagsGeneral.getChildren().add(tagBox);
         }
 
@@ -176,35 +148,14 @@ public class VueTache implements Observateur {
         } else {
             btnImage.setText("Ajouter une image");
         }
-
-        // TODO: Faire un ControlAjouterImage qui ajoute une image a la tache
-        btnImage.setOnAction(e -> {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Choisir une image");
-            fileChooser.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
-            );
-            File selectedFile = fileChooser.showOpenDialog(null);
-            if (selectedFile != null) {
-                modele.getCurrentTache().setImage(selectedFile.toURI().toString());
-                modele.notifierObservateur();
-            }
-        });
+        btnImage.setOnAction(new ControlAjouterImage(modele));
 
         // ### Bouton supprimer tache ###
         imgSupp.setFitHeight(10);
         imgSupp.setFitWidth(10);
         btnSupprimer.setGraphic(imgSupp);
         btnSupprimer.getStyleClass().add("quitter");
-        // TODO: Faire un ControlSupprimerTache qui supprime la tache
-        btnSupprimer.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                modele.getProjet().getListeTouteTaches().remove(modele.getCurrentTache());
-                modele.setCurrentTache(null);
-                modele.notifierObservateur();
-            }
-        });
+        btnSupprimer.setOnAction(new ControlSupprimerTache(modele));
 
         // ### Bouton archiver tache ###
         // Si la tache est archivee, le bouton affiche "Desarchiver" sinon il affiche "Archiver"
@@ -212,28 +163,7 @@ public class VueTache implements Observateur {
         btnArchiver = new Button(archiverText);
         GridPane.setHalignment(btnArchiver, HPos.RIGHT);
         btnArchiver.getStyleClass().add("quitter");
-        // TODO : Faire un ControlArchiverTache qui archive ou désarchive la tache
-        btnArchiver.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if (!modele.getCurrentTache().getEstArchive()) {
-                    modele.getProjet().archiverTache(modele.getCurrentTache().getNom());
-                    for (Composant c : modele.getProjet().getListeTouteTaches()) {
-                        if (!c.getEstArchive() && c.getDependances().contains(modele.getCurrentTache())) {
-                            try {
-                                c.removeDependance(modele.getCurrentTache());
-                            } catch (ParseException e) {
-                                throw new RuntimeException(e);
-                            }
-                        }
-                    }
-                } else {
-                    modele.getProjet().desarchiverTache(modele.getCurrentTache().getNom());
-                }
-                modele.setCurrentTache(null);
-                modele.notifierObservateur();
-            }
-        });
+        btnArchiver.setOnAction(new ControlArchiverTache(modele));
 
         // Dates
         HBox ganttBox = new HBox();
@@ -383,6 +313,7 @@ public class VueTache implements Observateur {
                             }
                         }
                     });
+                    if (hBoxDependance.getChildren().size() == 2) hBoxDependance.getChildren().remove(1);
                     hBoxDependance.getChildren().add(btnDependance);
                 }
             }
