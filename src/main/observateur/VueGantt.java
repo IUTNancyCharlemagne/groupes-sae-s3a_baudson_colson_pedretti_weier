@@ -179,6 +179,9 @@ public class VueGantt implements Observateur {
             modele.getPaneBureau().getScene().snapshot(screenshot);
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Enregistrer la capture d'écran");
+            if(!new File("./screenshots/").exists()){
+                new File("./screenshots/").mkdir();
+            }
             fileChooser.setInitialDirectory(new File("./screenshots/"));
             if (modele.getProjet().getNomProjet() != null)
                 fileChooser.setInitialFileName(modele.getProjet().getNomProjet() + ".png");
