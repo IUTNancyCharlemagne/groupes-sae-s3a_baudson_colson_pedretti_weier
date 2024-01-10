@@ -9,4 +9,5 @@ module groupes_sae_s3a_baudson_colson_pedretti_weier {
     exports main;
     exports main.observateur;
     exports main.composite;
+    exports test;
 }

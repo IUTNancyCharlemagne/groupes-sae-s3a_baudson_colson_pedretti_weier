@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Classe représentant un projet
@@ -79,6 +80,29 @@ public class Projet implements Serializable{
             }
         }
         return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Projet projet = (Projet) o;
+        boolean res = true;
+        for(int i = 0; i < Math.max(listeTaches.size(), projet.listeTaches.size()); i++) {
+            try{
+                res = res && listeTaches.get(i).equals(projet.listeTaches.get(i));
+            }
+            catch (IndexOutOfBoundsException e){
+                return false;
+            }
+        }
+
+        return Objects.equals(nomProjet, projet.nomProjet) && Objects.equals(chemin, projet.chemin) && res;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(listeTaches, listeTouteTaches, nomProjet, chemin);
     }
 
     /**
