@@ -296,18 +296,24 @@ public class VueGantt implements Observateur {
                         if (duree > 0) GridPane.setColumnSpan(textePane, duree * VueGantt.joursParColonne);
                         if(!tache.getTachesDependantes(modele).isEmpty()){
                             for (Composant composant1 : tache.getTachesDependantes(modele)) {
-                                VueGantt.ypos++;
-                                afficherTacheGantt(composant1, grid, debutProjet, true);
-                                VueGantt.ypos++;
+                                if(composant1 instanceof Tache) {
+                                    Tache tache1 = (Tache) composant1;
+                                    LocalDate dateMax = tache.getDateFin();
+                                    for (Composant composant2 : tache1.getDependances()) {
+                                        if(composant2.getDateFin().isAfter(dateMax)){
+                                            dateMax = composant2.getDateFin();
+                                        }
+                                    }
+                                    if (dateMax.equals(tache.getDateFin())) {
+                                        VueGantt.ypos++;
+                                        afficherTacheGantt(tache1, grid, debutProjet, true);
+                                        VueGantt.ypos++;
+                                    }
+                                }
                             }
                         }
                     } else {
                         if(estTacheDep){
-                            ImageView img = new ImageView();
-                            img.setImage(new Image("file:./images/dependance.png"));
-                            img.setFitHeight(periodeSizeH);
-                            img.setFitWidth(periodeSizeW);
-                            grid.add(img, xPos-1, VueGantt.ypos);
                             grid.add(textePane, xPos, VueGantt.ypos);
                             int duree = Math.round(tache.calculerDureeTache() / (float) VueGantt.joursParColonne);
                             textePane.setPrefWidth(duree * VueGantt.periodeSizeW);
@@ -316,9 +322,20 @@ public class VueGantt implements Observateur {
                             if (duree > 0) GridPane.setColumnSpan(textePane, duree * VueGantt.joursParColonne);
                             if(!tache.getTachesDependantes(modele).isEmpty()){
                                 for (Composant composant1 : tache.getTachesDependantes(modele)) {
-                                    VueGantt.ypos++;
-                                    afficherTacheGantt(composant1, grid, debutProjet, true);
-                                    VueGantt.ypos++;
+                                    if(composant1 instanceof Tache) {
+                                        Tache tache1 = (Tache) composant1;
+                                        LocalDate dateMax = tache.getDateFin();
+                                        for (Composant composant2 : tache1.getDependances()) {
+                                            if(composant2.getDateFin().isAfter(dateMax)){
+                                                dateMax = composant2.getDateFin();
+                                            }
+                                        }
+                                        if (dateMax.equals(tache.getDateFin())) {
+                                            VueGantt.ypos++;
+                                            afficherTacheGantt(tache1, grid, debutProjet, true);
+                                            VueGantt.ypos++;
+                                        }
+                                    }
                                 }
                             }
                         }
