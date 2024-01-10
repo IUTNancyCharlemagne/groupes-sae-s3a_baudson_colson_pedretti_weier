@@ -31,6 +31,8 @@ public class VueGantt implements Observateur {
 
     static public int periodeSizeW = 75;
     static public int periodeSizeH = 75;
+
+    static public int ypos = 1;
     Modele modele;
     Timeline mainTimeLine;
 
@@ -211,6 +213,7 @@ public class VueGantt implements Observateur {
     }
 
     public void chargerGANTT(GridPane grid) {
+        VueGantt.ypos = 1;
         grid.getChildren().clear();
 
         grid.setHgap(0);
@@ -218,7 +221,7 @@ public class VueGantt implements Observateur {
         LocalDate debutProjet = modele.getProjet().getPremiereDateDebut();
         LocalDate finProjet = modele.getProjet().getDerniereDateFin();
 
-        if (modele.getProjet().getToutesTaches().size() == 0) return;
+        if (modele.getProjet().getToutesTaches().isEmpty()) return;
 
         try {
             int dureeProjet = Composant.calculerDureeEntreDates(debutProjet, finProjet);
@@ -262,29 +265,69 @@ public class VueGantt implements Observateur {
         }
 
         List<Composant> listeTaches = modele.getProjet().getListeTouteTaches();
-        int ypos = 1;
         for (int i = 0; i < listeTaches.size(); i++) {
             if (!listeTaches.get(i).getEstArchive() && listeTaches.get(i).getParent() == null) {
-                try {
-                    Pane textePane = listeTaches.get(i).afficherGantt(modele);
-                    int xPos = Composant.calculerDureeEntreDates(debutProjet, listeTaches.get(i).getDateDebut());
-                    if (xPos >= 0) {
-                        grid.add(textePane, xPos, ypos);
+                afficherTacheGantt(listeTaches.get(i),grid,debutProjet,false);
+                VueGantt.ypos++;
+            }
+        }
+    }
 
-                        if(listeTaches.get(i) instanceof Tache){
-                            Tache tache = (Tache) listeTaches.get(i);
-                            if(tache.getTachesDependantes())
-                        }
-                        ypos++;
-                        int duree = Math.round(listeTaches.get(i).calculerDureeTache() / (float) VueGantt.joursParColonne);
+    /**
+     * Affiche une tâche dans le diagramme de Gantt et ses dépandances
+     * @param composant Tâche renseignée
+     * @param grid grille du diagramme de Gantt
+     * @param debutProjet date de début du projet
+     * @param estTacheDep true si la tâche dépend de la tâche précédente
+     */
+    public void afficherTacheGantt(Composant composant, GridPane grid, LocalDate debutProjet, boolean estTacheDep) {
+        if(composant instanceof Tache) {
+            Tache tache = (Tache) composant;
+            try {
+                Pane textePane = tache.afficherGantt(modele);
+                int xPos = Composant.calculerDureeEntreDates(debutProjet, tache.getDateDebut());
+                if (xPos >= 0) {
+                    if (tache.getDependances().isEmpty()) {
+                        grid.add(textePane, xPos, VueGantt.ypos);
+                        int duree = Math.round(tache.calculerDureeTache() / (float) VueGantt.joursParColonne);
                         textePane.setPrefWidth(duree * VueGantt.periodeSizeW);
                         textePane.setPrefHeight(VueGantt.periodeSizeH);
 
                         if (duree > 0) GridPane.setColumnSpan(textePane, duree * VueGantt.joursParColonne);
+                        if(!tache.getTachesDependantes(modele).isEmpty()){
+                            for (Composant composant1 : tache.getTachesDependantes(modele)) {
+                                VueGantt.ypos++;
+                                afficherTacheGantt(composant1, grid, debutProjet, true);
+                                VueGantt.ypos++;
+                            }
+                        }
+                    } else {
+                        if(estTacheDep){
+                            ImageView img = new ImageView();
+                            img.setImage(new Image("file:./images/dependance.png"));
+                            img.setFitHeight(periodeSizeH);
+                            img.setFitWidth(periodeSizeW);
+                            grid.add(img, xPos-1, VueGantt.ypos);
+                            grid.add(textePane, xPos, VueGantt.ypos);
+                            int duree = Math.round(tache.calculerDureeTache() / (float) VueGantt.joursParColonne);
+                            textePane.setPrefWidth(duree * VueGantt.periodeSizeW);
+                            textePane.setPrefHeight(VueGantt.periodeSizeH);
+
+                            if (duree > 0) GridPane.setColumnSpan(textePane, duree * VueGantt.joursParColonne);
+                            if(!tache.getTachesDependantes(modele).isEmpty()){
+                                for (Composant composant1 : tache.getTachesDependantes(modele)) {
+                                    VueGantt.ypos++;
+                                    afficherTacheGantt(composant1, grid, debutProjet, true);
+                                    VueGantt.ypos++;
+                                }
+                            }
+                        }
+                        VueGantt.ypos--;
                     }
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
+
                 }
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
             }
         }
     }
