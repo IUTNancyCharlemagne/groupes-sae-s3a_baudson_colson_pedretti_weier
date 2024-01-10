@@ -101,7 +101,7 @@ public class Tache extends Composant {
     public Pane afficherGantt(Modele modele) throws ParseException {
 
         if(this.getDateDebut() == null) return null;
-
+        calcDateDebutDependance();
         fixDuree();
 
         Label texte;

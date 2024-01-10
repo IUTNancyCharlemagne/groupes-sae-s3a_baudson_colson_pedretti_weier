@@ -10,7 +10,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
 import main.controleurs.*;
 import main.objet.Liste;
 import main.Modele;
@@ -19,7 +18,6 @@ import main.objet.Tag;
 import main.objet.composite.Composant;
 import main.objet.composite.Tache;
 
-import java.io.File;
 import java.text.ParseException;
 
 public class VueTache implements Observateur {
@@ -190,7 +188,7 @@ public class VueTache implements Observateur {
         if (modele.getCurrentTache() instanceof Tache) {
             Tache tache = (Tache) modele.getCurrentTache();
             try {
-                tache.CalcDateDebutDependance();
+                tache.calcDateDebutDependance();
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }

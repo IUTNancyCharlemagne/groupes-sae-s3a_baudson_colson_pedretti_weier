@@ -25,7 +25,7 @@ public class ControlQuitterTache implements EventHandler<ActionEvent> {
         modele.setCurrentTache(null);
         for (Composant composant : modele.getProjet().getListeTouteTaches()) {
             try {
-                composant.CalcDateDebutDependance();
+                composant.calcDateDebutDependance();
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }

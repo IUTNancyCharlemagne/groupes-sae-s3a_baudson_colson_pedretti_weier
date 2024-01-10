@@ -314,11 +314,6 @@ public class VueGantt implements Observateur {
                         }
                     } else {
                         if(estTacheDep){
-                            ImageView img = new ImageView();
-                            img.setImage(new Image("file:./images/rightArrow.png"));
-                            img.setFitHeight(periodeSizeH);
-                            img.setFitWidth(periodeSizeW);
-                            grid.add(img, xPos-1, VueGantt.ypos);
                             grid.add(textePane, xPos, VueGantt.ypos);
                             int duree = Math.round(tache.calculerDureeTache() / (float) VueGantt.joursParColonne);
                             textePane.setPrefWidth(duree * VueGantt.periodeSizeW);
