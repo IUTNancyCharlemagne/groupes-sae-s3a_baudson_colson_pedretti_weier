@@ -18,6 +18,7 @@ import main.menu.MenuOptions;
 import main.Modele;
 import main.Sujet;
 import main.objet.composite.Composant;
+import main.objet.composite.Tache;
 
 import java.io.File;
 import java.io.IOException;
@@ -270,12 +271,9 @@ public class VueGantt implements Observateur {
                     if (xPos >= 0) {
                         grid.add(textePane, xPos, ypos);
 
-                        if (!listeTaches.get(i).getDependances().isEmpty()) {
-                            ImageView image = new ImageView();
-                            image.setImage(new Image("file:icons/rightArrow.png"));
-                            image.setFitHeight(VueGantt.periodeSizeH);
-                            image.setFitWidth(VueGantt.periodeSizeW);
-                            grid.add(image, xPos - 1, ypos);
+                        if(listeTaches.get(i) instanceof Tache){
+                            Tache tache = (Tache) listeTaches.get(i);
+                            if(tache.getTachesDependantes())
                         }
                         ypos++;
                         int duree = Math.round(listeTaches.get(i).calculerDureeTache() / (float) VueGantt.joursParColonne);

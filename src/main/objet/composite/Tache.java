@@ -161,7 +161,7 @@ public class Tache extends Composant {
         textePane.setStyle("-fx-border-color: BLACK; -fx-border-width: 1px;");
 
         textePane.setOnMouseClicked(new ControlAfficherTache(modele));
-        
+
 
         return textePane;
     }
