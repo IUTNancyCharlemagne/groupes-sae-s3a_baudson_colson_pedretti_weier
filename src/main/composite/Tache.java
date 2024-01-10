@@ -113,10 +113,10 @@ public class Tache extends Composant {
         } else {
             texte = new Label(getNom() + "(dépendances: " + getDependances() + ")");
         }
-        texte.setFont(new Font("Arial", (0.18 * VueGantt.periodeSize)));
+        texte.setFont(new Font("Arial", (0.18 * VueGantt.periodeSizeH)));
         texte.setStyle("-fx-font-weight: bold;");
         texte.setWrapText(true);
-        texte.prefHeight(VueGantt.periodeSize);
+        texte.prefHeight(VueGantt.periodeSizeH);
         VBox textePane = new VBox();
 
         HBox sousTaches = new HBox();
@@ -130,8 +130,7 @@ public class Tache extends Composant {
                 }
             }
             Label stLabel = new Label(sousTachesTexte.toString());
-            stLabel.setFont(new Font("Arial", (0.15 * VueGantt.periodeSize)));
-            stLabel.setPadding(new Insets(VueGantt.periodeSize * 0.1));
+            stLabel.setFont(new Font("Arial", (0.15 * VueGantt.periodeSizeH)));
             sousTaches.getChildren().add(stLabel);
         }
 

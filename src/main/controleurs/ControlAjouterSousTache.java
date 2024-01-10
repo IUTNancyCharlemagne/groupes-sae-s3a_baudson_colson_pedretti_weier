@@ -75,7 +75,7 @@ public class ControlAjouterSousTache implements EventHandler<ActionEvent> {
         Text dureeText = new Text("Durée :");
         dureeText.setFont(new Font("Arial", 20));
         TextField dureeField = new TextField();
-        dureeField.setPromptText("0");
+        dureeField.setText("1");
 
         dureeHbox.getChildren().addAll(dureeText, dureeField);
 

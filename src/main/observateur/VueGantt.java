@@ -4,10 +4,10 @@ import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
-import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -17,9 +17,6 @@ import javafx.scene.text.Font;
 import main.Modele;
 import main.Sujet;
 import main.composite.Composant;
-import main.composite.SousTache;
-import main.composite.Tache;
-import main.controleurs.ControlAfficherTache;
 
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -28,7 +25,8 @@ import java.util.List;
 public class VueGantt implements Observateur {
     static public int joursParColonne = 1;
 
-    static public int periodeSize = 75;
+    static public int periodeSizeW = 75;
+    static public int periodeSizeH = 75;
     Modele modele;
     Timeline mainTimeLine;
 
@@ -73,26 +71,67 @@ public class VueGantt implements Observateur {
         }
         titreprojet.setFont(new Font("Arial", 16));
 
-        HBox sliderBox = new HBox();
+        Label paramLabel = new Label("Paramètres");
+        paramLabel.setFont(new Font("Arial", 16));
+        paramLabel.setStyle("-fx-font-weight: bold;");
+        paramLabel.setPadding(new Insets(10, 0, 10, 0));
+        Label longueurLabel = new Label("Longueur des cases");
+        Slider longueurCase = new Slider();
+        Label hauteurLabel = new Label("Hauteur des cases");
+        Slider hauteurCase = new Slider();
 
-        Slider tailleCase = new Slider();
+        longueurCase.setMin(75);
+        longueurCase.setMax(500);
+        longueurCase.setValue(periodeSizeW);
+        longueurCase.setOrientation(Orientation.HORIZONTAL);
+        longueurCase.setShowTickMarks(true);
+        longueurCase.setShowTickLabels(true);
+        longueurCase.setMajorTickUnit(20);
+        longueurCase.setPrefSize(20, 500);
+        longueurCase.setSnapToTicks(true);
 
-        tailleCase.setMin(75);
-        tailleCase.setMax(500);
-        tailleCase.setValue(periodeSize);
-        tailleCase.setOrientation(Orientation.VERTICAL);
-        tailleCase.setShowTickMarks(true);
-        tailleCase.setShowTickLabels(true);
-        tailleCase.setMajorTickUnit(20);
-        tailleCase.setPrefSize(20, 500);
-        tailleCase.setSnapToTicks(true);
+        hauteurCase.setMin(75);
+        hauteurCase.setMax(500);
+        hauteurCase.setValue(periodeSizeH);
+        hauteurCase.setOrientation(Orientation.HORIZONTAL);
+        hauteurCase.setShowTickMarks(true);
+        hauteurCase.setShowTickLabels(true);
+        hauteurCase.setMajorTickUnit(20);
+        hauteurCase.setPrefSize(20, 500);
+        hauteurCase.setSnapToTicks(true);
 
-        tailleCase.valueProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("px par case: " + periodeSize);
-            periodeSize = newValue.intValue();
+        HBox proportionHbox = new HBox();
+        Label proportionLabel = new Label("Garder les proportions");
+        CheckBox proportionCheckBox = new CheckBox();
+        proportionCheckBox.setPadding(new Insets(0, 10, 0, 10));
+        proportionHbox.setPadding(new Insets(10, 0, 10, 0));
+        proportionHbox.getChildren().addAll(proportionLabel, proportionCheckBox);
+
+        proportionCheckBox.setOnAction(e -> {
+            if(proportionCheckBox.isSelected()){
+                hauteurCase.setValue(longueurCase.getValue());
+                hauteurCase.setDisable(true);
+            } else {
+                hauteurCase.setDisable(false);
+            }
+        });
+
+        longueurCase.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if(proportionCheckBox.isSelected()){
+                hauteurCase.setValue(newValue.intValue());
+            }
+//            System.out.println("px par case (Longueur): " + periodeSizeW);
+            periodeSizeW = newValue.intValue();
             chargerGANTT(grid);
         });
 
+        hauteurCase.valueProperty().addListener((observable, oldValue, newValue) -> {
+//            System.out.println("px par case (Hauteur): " + periodeSizeH);
+            periodeSizeH = newValue.intValue();
+            chargerGANTT(grid);
+        });
+
+        Label nbJoursLabel = new Label("Nombre de jours par colonne");
         Slider joursColonne = new Slider();
 
         joursColonne.setMin(1);
@@ -109,7 +148,7 @@ public class VueGantt implements Observateur {
             joursColonne.setMax(300);
         }
         joursColonne.setValue(joursParColonne);
-        joursColonne.setOrientation(Orientation.VERTICAL);
+        joursColonne.setOrientation(Orientation.HORIZONTAL);
         joursColonne.setShowTickMarks(true);
         joursColonne.setShowTickLabels(true);
         joursColonne.setMajorTickUnit(5);
@@ -121,9 +160,10 @@ public class VueGantt implements Observateur {
             joursParColonne = newValue.intValue();
             chargerGANTT(grid);
         });
-
-        sliderBox.getChildren().addAll(tailleCase, joursColonne);
-        ganttInfoVbox.getChildren().addAll(ganttInfoLabel, titreprojet, sliderBox);
+        VBox sliderVbox = new VBox();
+        sliderVbox.setPrefHeight(250);
+        sliderVbox.getChildren().addAll(proportionHbox,longueurLabel, longueurCase, hauteurLabel, hauteurCase, nbJoursLabel, joursColonne);
+        ganttInfoVbox.getChildren().addAll(ganttInfoLabel, titreprojet, paramLabel, sliderVbox);
         ganttInfoVbox.setPadding(new Insets(10));
 
         chargerGANTT(grid);
@@ -150,7 +190,7 @@ public class VueGantt implements Observateur {
             for (int i = 0; i < modele.getProjet().getListeTouteTaches().size(); i++) {
                 if (!listeTaches.get(i).getEstArchive() && listeTaches.get(i).getParent() == null) {
                     for (int j = 0; j <= dureeProjet; j += joursParColonne) {
-                        Rectangle rect = new Rectangle(periodeSize, periodeSize);
+                        Rectangle rect = new Rectangle(periodeSizeW, periodeSizeH);
                         rect.setFill(Color.WHITE);
                         rect.setStroke(Color.BLACK);
                         grid.add(rect, j, ypos);
@@ -162,16 +202,16 @@ public class VueGantt implements Observateur {
             for (int i = 0; i <= dureeProjet; i += joursParColonne) {
                 Pane datePane = new Pane();
                 Label date = new Label(dateCourante.toString());
-                date.setFont(new Font("Arial", (0.18 * periodeSize)));
+                date.setFont(new Font("Arial", (0.18 * periodeSizeH)));
                 date.setStyle("-fx-font-weight: bold;");
                 date.setAlignment(Pos.CENTER);
                 datePane.getChildren().add(date);
-                date.setPrefHeight((int) (periodeSize / 2));
-                date.setPrefWidth(periodeSize);
-                datePane.setPrefHeight((int) (periodeSize / 2));
-                datePane.setPrefWidth(periodeSize);
+                date.setPrefHeight((int) (periodeSizeH / 2));
+                date.setPrefWidth(periodeSizeW);
+                datePane.setPrefHeight((int) (periodeSizeH / 2));
+                datePane.setPrefWidth(periodeSizeW);
                 dateCourante = dateCourante.plusDays(joursParColonne);
-                Rectangle rect = new Rectangle(periodeSize, (int) (periodeSize / 2));
+                Rectangle rect = new Rectangle(periodeSizeW, (int) (periodeSizeH / 2));
                 rect.setFill(Color.LIGHTGRAY);
                 rect.setStroke(Color.BLACK);
                 grid.add(rect, i, 0);
@@ -195,14 +235,14 @@ public class VueGantt implements Observateur {
                         if (!listeTaches.get(i).getDependances().isEmpty()) {
                             ImageView image = new ImageView();
                             image.setImage(new Image("file:icons/rightArrow.png"));
-                            image.setFitHeight(VueGantt.periodeSize);
-                            image.setFitWidth(VueGantt.periodeSize);
+                            image.setFitHeight(VueGantt.periodeSizeH);
+                            image.setFitWidth(VueGantt.periodeSizeW);
                             grid.add(image, xPos - 1, ypos);
                         }
                         ypos++;
                         int duree = Math.round(listeTaches.get(i).calculerDureeTache() / (float) VueGantt.joursParColonne);
-                        textePane.setPrefWidth(duree * VueGantt.periodeSize);
-                        textePane.setPrefHeight(VueGantt.periodeSize);
+                        textePane.setPrefWidth(duree * VueGantt.periodeSizeW);
+                        textePane.setPrefHeight(VueGantt.periodeSizeH);
 
                         if (duree > 0) GridPane.setColumnSpan(textePane, duree * VueGantt.joursParColonne);
                     }
