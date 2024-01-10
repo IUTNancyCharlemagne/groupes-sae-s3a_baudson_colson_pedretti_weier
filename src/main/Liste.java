@@ -129,7 +129,7 @@ public class Liste implements Serializable {
             contextMenu.show(more, e.getScreenX(), e.getScreenY());
         });
 
-        paneListe.setOnDragDropped(new ControlOnDragDropped(modele));
+        paneListe.setOnDragDropped(new ControlOnDragDroppedListe(modele));
         paneListe.setOnDragOver(new ControlOnDragOver(modele));
 
         textNom.setOnMouseClicked(e -> {
@@ -203,7 +203,7 @@ public class Liste implements Serializable {
             contextMenu.show(more, e.getScreenX(), e.getScreenY());
         });
 
-        paneListe.setOnDragDropped(new ControlOnDragDropped(modele));
+        paneListe.setOnDragDropped(new ControlOnDragDroppedListe(modele));
         paneListe.setOnDragOver(new ControlOnDragOver(modele));
 
         textNom.setOnMouseClicked(e -> {

@@ -12,7 +12,7 @@ import main.Modele;
 /**
  * Classe ControlOnDragDetected qui permet de gérer le drag and drop
  */
-public class ControlOnDragDetected implements EventHandler<MouseEvent> {
+public class ControlOnDragDetectedListe implements EventHandler<MouseEvent> {
 
     /**
      * Le modele
@@ -23,7 +23,7 @@ public class ControlOnDragDetected implements EventHandler<MouseEvent> {
      * Constructeur de ControlOnDragDetected
      * @param modele Le modele
      */
-    public ControlOnDragDetected(Modele modele) {
+    public ControlOnDragDetectedListe(Modele modele) {
         this.modele = modele;
     }
 

@@ -4,8 +4,6 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeItem;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -14,7 +12,7 @@ import main.Liste;
 import main.Modele;
 import main.Tag;
 import main.controleurs.ControlAfficherTache;
-import main.controleurs.ControlOnDragDetected;
+import main.controleurs.ControlOnDragDetectedListe;
 import main.observateur.VueGantt;
 
 import java.io.Serializable;
@@ -160,7 +158,7 @@ public abstract class Composant implements Serializable {
         paneTache.getChildren().add(textNom);
 
         paneTache.setOnMouseClicked(new ControlAfficherTache(modele));
-        paneTache.setOnDragDetected(new ControlOnDragDetected(modele));
+        paneTache.setOnDragDetected(new ControlOnDragDetectedListe(modele));
         return paneTache;
     }
 
