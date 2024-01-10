@@ -174,10 +174,10 @@ public abstract class Composant implements Serializable {
         } else {
             texte = new Label(getNom() + "(dépendances: " + getDependances() + ")");
         }
-        texte.setFont(new Font("Arial", (0.18 * VueGantt.periodeSize)));
+        texte.setFont(new Font("Arial", (0.18 * VueGantt.periodeSizeW)));
         texte.setStyle("-fx-font-weight: bold;");
         texte.setWrapText(true);
-        texte.prefHeight(VueGantt.periodeSize);
+        texte.prefHeight(VueGantt.periodeSizeW);
         VBox textePane = new VBox();
 
         HBox sousTaches = new HBox();
