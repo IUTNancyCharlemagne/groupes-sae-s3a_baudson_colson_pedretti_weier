@@ -61,11 +61,6 @@ public abstract class Composant implements Serializable {
     protected String image;
 
     /**
-     * Booléen qui indique si la tâche est terminée ou non
-     */
-    protected boolean estTerminee;
-
-    /**
      * Liste des dépendances de la tâche
      */
     protected List<Composant> dependances;
@@ -114,7 +109,6 @@ public abstract class Composant implements Serializable {
         this.description = "";
         this.estArchive = false;
         this.tags = new ArrayList<Tag>();
-        this.estTerminee = false;;
         this.dependances = new ArrayList<>();
         if(duree == 0) this.duree = 1;
         else this.duree = duree;
@@ -130,7 +124,6 @@ public abstract class Composant implements Serializable {
         this.description = "";
         this.estArchive = false;
         this.tags = new ArrayList<Tag>();
-        this.estTerminee = false;
         if (dateValide(dateDebut) && dateValide(dateFin)) {
             this.dateDebut = dateDebut;
             this.dateFin = dateFin;
@@ -212,7 +205,7 @@ public abstract class Composant implements Serializable {
         tooltip.setStyle("-fx-font-size: 14px;");
         Tooltip.install(textePane, tooltip);
 
-        if (getDateFin() != null && (getEstTerminee() || estPassee(LocalDate.now()))) {
+        if (getDateFin() != null || estPassee(LocalDate.now())) {
             textePane.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
         } else if (estDansIntervalle(LocalDate.now())) {
             textePane.setBackground(new Background(new BackgroundFill(Color.ORANGE, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -283,14 +276,6 @@ public abstract class Composant implements Serializable {
 
     public List<Tag> getTags() {
         return tags;
-    }
-
-    public boolean getEstTerminee() {
-        return this.estTerminee;
-    }
-
-    public void setEstTerminee(boolean b) {
-        this.estTerminee = b;
     }
 
     public String getImage() {

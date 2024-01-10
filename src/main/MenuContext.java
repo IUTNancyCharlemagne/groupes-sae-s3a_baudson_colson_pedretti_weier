@@ -14,18 +14,35 @@ import main.controleurs.ControlChangerFond;
 
 public class MenuContext implements EventHandler<ActionEvent> {
 
+    /**
+     * Modele
+     */
     private Modele modele;
-    private EventHandler<ActionEvent> changeBackgroundEvent;
+    /**
+     * Layout
+     */
     private BorderPane layout;
-
+    /**
+     * Stage
+     */
     private Stage primaryStage;
 
+    /**
+     * Constructeur
+     * @param modele Modele
+     * @param layout Layout
+     * @param primaryStage Stage
+     */
     public MenuContext(Modele modele, BorderPane layout, Stage primaryStage) {
         this.modele = modele;
         this.layout = layout;
         this.primaryStage = primaryStage;
     }
 
+    /**
+     * Gestion du menu contextuel
+     * @param actionEvent ActionEvent
+     */
     @Override
     public void handle(ActionEvent actionEvent) {
         ContextMenu contextMenu = new ContextMenu();

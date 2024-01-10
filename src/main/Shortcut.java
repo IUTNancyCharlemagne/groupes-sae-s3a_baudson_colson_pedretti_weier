@@ -24,17 +24,37 @@ import java.nio.file.Paths;
 
 public class Shortcut implements EventHandler<ActionEvent> {
 
+    /**
+     * Modele
+     */
     private final Modele modele;
+
+    /**
+     * Stage
+     */
     private final Stage primaryStage;
 
+    /**
+     * Layout
+     */
     private final BorderPane layout;
 
+    /**
+     * Constructeur
+     * @param modele Modele
+     * @param primaryStage Stage
+     * @param layout Layout
+     */
     public Shortcut(Modele modele, Stage primaryStage, BorderPane layout) {
         this.modele = modele;
         this.primaryStage = primaryStage;
         this.layout = layout;
     }
 
+    /**
+     * Gestion des raccourcis clavier
+     * @param actionEvent ActionEvent
+     */
     @Override
     public void handle(ActionEvent actionEvent) {
         // Raccourcis Clavier
@@ -62,14 +82,14 @@ public class Shortcut implements EventHandler<ActionEvent> {
             // Sauvegarder (Ctrl + S)
             if (e.getCode().toString().equals("S") && e.isControlDown()) {
                 System.out.println("Sauvegarder Projet");
-                ControlSauvegarde cs = new ControlSauvegarde(modele,primaryStage);
+                ControlSauvegarde cs = new ControlSauvegarde(modele, primaryStage);
                 cs.handle(new ActionEvent());
             }
 
             // Ouvrir (Ctrl + O)
             if (e.getCode().toString().equals("O") && e.isControlDown()) {
                 System.out.println("Ouvrir Projet");
-                ControlCharger cc = new ControlCharger(modele,primaryStage);
+                ControlCharger cc = new ControlCharger(modele, primaryStage);
                 cc.handle(new ActionEvent());
             }
 
