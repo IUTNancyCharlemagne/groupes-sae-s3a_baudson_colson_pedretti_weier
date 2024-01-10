@@ -104,8 +104,6 @@ public class Tache extends Composant {
 
         fixDuree();
 
-        LocalDate debutProjet = modele.getProjet().getPremiereDateDebut();
-
         Label texte;
         List<Composant> listeTaches = modele.getProjet().getListeTouteTaches();
         if (getDependances().isEmpty()) {
@@ -140,23 +138,18 @@ public class Tache extends Composant {
 
         if ((this.dateDebut.isBefore(LocalDate.now()) || this.dateDebut.equals(LocalDate.now())) && this.dateFin.isAfter(LocalDate.now())) {
             tooltipText.append("Durée : " + getDuree() + " jours (" + (Composant.calculerDureeEntreDates(LocalDate.now(), getDateFin())) + " jours restant(s))");
+            textePane.setBackground(new Background(new BackgroundFill(Color.ORANGE, CornerRadii.EMPTY, Insets.EMPTY)));
         } else if (this.dateDebut.isAfter(LocalDate.now())) {
             tooltipText.append("Durée : " + getDuree() + " jours (tâche pas encore commencée)");
+            textePane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
         } else if (this.dateFin.isBefore(LocalDate.now())) {
             tooltipText.append("Durée : " + getDuree() + " jours (tâche terminée)");
+            textePane.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
         }
 
         Tooltip tooltip = new Tooltip(tooltipText.toString());
         tooltip.setStyle("-fx-font-size: 14px;");
         Tooltip.install(textePane, tooltip);
-
-        if (getDateFin() != null || estPassee(LocalDate.now())) {
-            textePane.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
-        } else if (estDansIntervalle(LocalDate.now())) {
-            textePane.setBackground(new Background(new BackgroundFill(Color.ORANGE, CornerRadii.EMPTY, Insets.EMPTY)));
-        } else {
-            textePane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
-        }
 
         textePane.setStyle("-fx-border-color: BLACK; -fx-border-width: 1px;");
 
