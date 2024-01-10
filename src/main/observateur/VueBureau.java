@@ -11,6 +11,7 @@ import main.Sujet;
 import main.controleurs.ControlAjouterListe;
 import main.controleurs.ControlAjouterTache;
 
+
 /**
  * Classe VueBureau qui affiche au format bureau (liste en vertical)
  */
