@@ -38,6 +38,7 @@ public class ControlSupprimerTache implements EventHandler<ActionEvent> {
             }
         }
         modele.getProjet().supprimerTache(modele.getCurrentTache().getNom());
+        modele.getProjet().getListeTouteTaches().remove(modele.getCurrentTache());
         modele.setCurrentTache(null);
         modele.notifierObservateur();
     }
