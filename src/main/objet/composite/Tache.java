@@ -1,6 +1,7 @@
 package main.objet.composite;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeItem;
@@ -9,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import main.Modele;
 import main.controleurs.ControlAfficherTache;
+import main.objet.Tag;
 import main.observateur.VueGantt;
 
 import java.text.ParseException;
@@ -167,6 +169,20 @@ public class Tache extends Composant {
         }
 
         textePane.getChildren().addAll(texte, sousTaches);
+
+        if(!this.getTags().isEmpty()){
+            HBox tags = new HBox();
+            for(Tag tag : this.getTags()){
+                Label tagLabel = new Label(tag.getNom());
+                tagLabel.setFont(new Font("Arial", (0.15 * VueGantt.periodeSizeH)));
+                tagLabel.setPadding(new Insets(0, 5, 0, 5));
+                tagLabel.setBackground(new Background(new BackgroundFill(
+                        tag.getCouleur(), new CornerRadii(10), Insets.EMPTY)));
+                tags.getChildren().add(tagLabel);
+            }
+            textePane.getChildren().add(tags);
+        }
+
 
         StringBuffer tooltipText = new StringBuffer();
 
