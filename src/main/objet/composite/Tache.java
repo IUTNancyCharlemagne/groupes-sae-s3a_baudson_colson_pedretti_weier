@@ -109,7 +109,7 @@ public class Tache extends Composant {
         if (getDependances().isEmpty()) {
             texte = new Label(getNom());
         } else {
-            texte = new Label(getNom() + "(dépendances: " + getDependances() + ")");
+            texte = new Label(getNom() + "→(dépendances: " + getDependances() + ")");
         }
         texte.setFont(new Font("Arial", (0.18 * VueGantt.periodeSizeH)));
         texte.setStyle("-fx-font-weight: bold;");

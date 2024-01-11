@@ -43,14 +43,17 @@ public class ControlAfficherTache implements EventHandler<MouseEvent> {
         Pane pane = (Pane) mouseEvent.getSource();
         String nomTache;
         if (pane.getChildren().get(0) instanceof Label) {
-            nomTache = ((Label) pane.getChildren().get(0)).getText();
+            String texte = ((Label) pane.getChildren().get(0)).getText().split("→")[0];
+            nomTache = texte;
         } else if (pane.getChildren().get(0) instanceof Text) {
             nomTache = ((Text) pane.getChildren().get(0)).getText();
         } else nomTache = pane.getChildren().get(0).getAccessibleText();
 
         composantAfficher = modele.getProjet().getTache(nomTache);
 
-        if (composantAfficher == null || !modele.getProjet().getListeTouteTaches().contains(composantAfficher)) return;
+        if (composantAfficher == null || !modele.getProjet().getListeTouteTaches().contains(composantAfficher)) {
+            return;
+        }
 
         modele.setCurrentTache(composantAfficher);
         modele.notifierObservateur();

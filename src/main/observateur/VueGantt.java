@@ -284,8 +284,9 @@ public class VueGantt implements Observateur {
         if(composant instanceof Tache) {
             Tache tache = (Tache) composant;
             try {
-                Pane textePane = tache.afficherGantt(modele);
+
                 int xPos = Composant.calculerDureeEntreDates(debutProjet, tache.getDateDebut());
+                Pane textePane = tache.afficherGantt(modele);
                 if (xPos >= 0) {
                     if (tache.getDependances().isEmpty()) {
                         grid.add(textePane, xPos, VueGantt.ypos);
@@ -314,6 +315,10 @@ public class VueGantt implements Observateur {
                         }
                     } else {
                         if(estTacheDep){
+                            ImageView fleche = new ImageView(new Image("file:icons/rightArrow.png"));
+                            fleche.setFitHeight(periodeSizeH);
+                            fleche.setFitWidth(periodeSizeW);
+                            grid.add(fleche, xPos-1, VueGantt.ypos);
                             grid.add(textePane, xPos, VueGantt.ypos);
                             int duree = Math.round(tache.calculerDureeTache() / (float) VueGantt.joursParColonne);
                             textePane.setPrefWidth(duree * VueGantt.periodeSizeW);
