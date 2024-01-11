@@ -170,13 +170,13 @@ public class Tache extends Composant {
 
         StringBuffer tooltipText = new StringBuffer();
 
-        if ((this.dateDebut.isBefore(LocalDate.now()) || this.dateDebut.equals(LocalDate.now())) && (this.dateFin.isAfter(LocalDate.now()) || this.dateFin.equals(LocalDate.now()))) {
+        if ((this.dateDebut.isBefore(LocalDate.now()) || this.dateDebut.equals(LocalDate.now())) && this.dateFin.isAfter(LocalDate.now())) {
             tooltipText.append("Durée : " + getDuree() + " jours (" + (Composant.calculerDureeEntreDates(LocalDate.now(), getDateFin())) + " jours restant(s))");
             textePane.setBackground(new Background(new BackgroundFill(Color.ORANGE, CornerRadii.EMPTY, Insets.EMPTY)));
         } else if (this.dateDebut.isAfter(LocalDate.now())) {
             tooltipText.append("Durée : " + getDuree() + " jours (tâche pas encore commencée)");
             textePane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
-        } else if (this.dateFin.isBefore(LocalDate.now())) {
+        } else if ((this.dateFin.isBefore(LocalDate.now())) || this.dateFin.equals(LocalDate.now())) {
             tooltipText.append("Durée : " + getDuree() + " jours (tâche terminée)");
             textePane.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
         }
