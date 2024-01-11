@@ -39,7 +39,7 @@ Projet réalisé par :
     * Si une sous-tâche est créée :
       * Maintenir le clic enfoncé sur une sous-tâche, la déplacer sous une autre tâche et relacher le clic pour déposer la sous-tâche dans la nouvelle tâche
       * Appuyer sur la flèche
-* Quand une tâche est ouverte, vous pouvez :
+* Quand une tâche est ouverte :
   * Changer son nom en cliquant dessus
   * Ajouter des tags
   * Ajouter une description
@@ -50,3 +50,6 @@ Projet réalisé par :
   * Archiver la tâche
   * Supprimer la tâche (bouton avec la corbeille)
   * Fermer l'affichage de la tâche avec la croix
+* Quand vous êtes dans la vue du diagramme de Gantt :
+  * Cocher pour garder les proportions
+  * Déplacer le point de chaque slider pour changer les paramètres
