@@ -1,0 +1,374 @@
+@startuml
+class main.Shortcut {
+- Modele modele
+- Stage primaryStage
+- BorderPane layout
++ void handle(ActionEvent)
+}
+class main.observateur.VueArchives {
++ {static} int maxParLigne
++ void actualiser(Sujet)
++ VBox afficherTreeView(Sujet)
+}
+class main.controleurs.ControlAjouterSousTache {
+- Modele modele
+- Composant composant
++ void handle(ActionEvent)
+}
+class main.exceptions.ProjectNotFoundException {
+}
+class main.controleurs.ControlAjouterImage {
+- Modele modele
++ void handle(ActionEvent)
+}
+class main.controleurs.ControlOnDragDroppedCell {
+- TreeCell<Composant> cell
+- Modele modele
++ void handle(DragEvent)
+}
+class main.Trebbo {
++ {static} void main(String[])
++ void start(Stage)
+}
+class main.controleurs.ControlAjouterListe {
+- Modele modele
++ void handle(ActionEvent)
+}
+class main.controleurs.ControlAjouterTag {
+- Modele modele
+- Composant composant
++ void handle(ActionEvent)
+}
+class main.observateur.VueBureau {
++ void actualiser(Sujet)
+}
+abstract class main.objet.composite.Composant {
+# String nom
+# String description
+# boolean estArchive
+# List<Tag> tags
+# String image
+# List<Composant> dependances
+# Composant parent
+# LocalDate dateDebut
+# LocalDate dateFin
+# int duree
++ boolean equals(Object)
++ int hashCode()
++ {static} int calculerDureeEntreDates(LocalDate,LocalDate)
++ {static} boolean dateValide(LocalDate)
++ VBox afficherArchive(Modele)
++ Pane afficherGantt(Modele)
++ boolean estUneSousTache(Modele)
++ void addTag(Tag)
++ void removeTag(Tag)
++ String getNom()
++ void setNom(String)
++ String getDescription()
++ void setDescription(String)
++ boolean getEstArchive()
++ void setEstArchive(boolean)
++ List<Tag> getTags()
++ String getImage()
++ void setImage(String)
++ List<Composant> getDependances()
++ void setDependances(List<Composant>)
++ Composant getParent()
++ void setParent(Composant)
++ int calculerDureeTache()
++ LocalDate calculerDateFin()
++ boolean estDansIntervalle(LocalDate)
++ boolean estPassee(LocalDate)
++ LocalDate getDateDebut()
++ void setDateDebut(LocalDate)
++ LocalDate getDateFin()
++ void setDateFin(LocalDate)
++ int getDuree()
++ void setDuree(int)
++ Liste getCurentListe(Modele)
++ String toString()
++ {abstract}TreeItem<Composant> afficher(Modele)
++ void addDependance(Composant)
++ void removeDependance(Composant)
++ void calcDateDebutDependance()
+}
+class main.menu.MenuContext {
+- Modele modele
+- BorderPane layout
+- Stage primaryStage
++ void handle(ActionEvent)
+}
+class main.controleurs.ControlOnDragDetectedListe {
+- Modele modele
++ void handle(MouseEvent)
+}
+class main.TreeViewActions {
+- {static} double HEIGHT
+- {static} void heightAdapt(TreeView<Composant>)
++ {static} void addTreeAction(Modele,TreeView<Composant>)
+}
+class main.controleurs.ControlQuitterTache {
+- Modele modele
++ void handle(ActionEvent)
+}
+class main.menu.MenuOptions {
+- Modele modele
+- Stage primaryStage
+- BorderPane layout
+- ControlChangerVue controlChangerVue
+- ControlSauvegarde controlSauvegarde
+- ControlCharger controlCharger
++ {static} MenuBar menuBar
++ void handle(ActionEvent)
+}
+class main.objet.composite.SousTache {
++ TreeItem<Composant> afficher(Modele)
+}
+class test.TestSauvegarde {
++ void testSauvegarde_projetVide()
++ void testSauvegarde_sauvegardeOK()
+}
+class main.objet.Liste {
+- String nom
+- List<Composant> composants
++ void ajouterComposant(Composant)
++ void retirerComposant(Composant)
++ VBox afficher(Modele)
++ HBox afficherListe(Modele)
++ String toString()
++ boolean equals(Object)
++ int hashCode()
++ String getNom()
++ void setNom(String)
++ List<Composant> getComposants()
+}
+class main.controleurs.ControlOnDragDroppedListe {
+- Modele modele
++ void handle(DragEvent)
+}
+class main.controleurs.ControlOnDragDetectedCell {
+- TreeCell<Composant> cell
++ void handle(MouseEvent)
+}
+class main.controleurs.ControlChangerTitreListe {
+- Modele modele
+- Liste liste
++ void handle(MouseEvent)
+}
+class main.Modele {
++ {static} String LISTE
++ {static} String COLONNE
++ {static} String GANTT
++ {static} String ARCHIVES
+- Composant currentTache
+- GridPane paneBureau
+- StackPane stackPane
+- List<Observateur> observateurs
+- String vueCourante
+- Projet projet
++ void enregistrerObservateur(Observateur)
++ void supprimerObservateur(Observateur)
++ void notifierObservateur()
++ void init()
++ String toString()
++ String getVueCourante()
++ void setVueCourante(String)
++ Projet getProjet()
++ void setProjet(Projet)
++ GridPane getPaneBureau()
++ StackPane getStackPane()
++ Composant getCurrentTache()
++ void setCurrentTache(Composant)
+}
+class main.controleurs.ControlSupprimerTag {
+- Modele modele
+- Tag tag
++ void handle(ActionEvent)
+}
+interface main.observateur.Observateur {
++ void actualiser(Sujet)
+}
+class test.TestTache {
++ void testCreerTache()
++ void testModifierTache()
++ void testAjouterTache()
++ void testSupprimerTache()
++ void testAjouterSousTache()
++ void testSupprimerSousTache()
++ void testAjouterDescription()
++ void testAjouterDependance()
++ void testAjouterTag()
++ void testAjouterTacheEnArchive()
++ void testAjouterImage()
+}
+interface main.Sujet {
++ void enregistrerObservateur(Observateur)
++ void supprimerObservateur(Observateur)
++ void notifierObservateur()
+}
+class main.controleurs.ControlSupprimerTache {
+- Modele modele
++ void handle(ActionEvent)
+}
+class main.controleurs.ControlChangerFond {
+~ Modele modele
+~ Stage primaryStage
+~ Pane layout
++ void handle(ActionEvent)
++ void changerFond(String)
++ void changeParam(String)
+}
+class main.observateur.VueListe {
++ void actualiser(Sujet)
+}
+class main.observateur.VueTache {
+~ Modele modele
++ void actualiser(Sujet)
+}
+class test.TestListe {
++ void test_ajouterComposantOK()
++ void test_retirerComposantOK()
++ void test_changerNomOK()
+}
+class main.controleurs.ControlSauvegarde {
+~ Modele modele
+~ Stage primaryStage
++ void sauvegarderProjet(String)
++ void handle(ActionEvent)
+}
+class main.controleurs.ControlAjouterTache {
+- Modele modele
++ void handle(ActionEvent)
+}
+class main.controleurs.ControlChangerVue {
+- Modele modele
++ void handle(ActionEvent)
+}
+class main.controleurs.ControlAfficherTache {
+- Modele modele
+- Composant composantAfficher
++ void handle(MouseEvent)
+}
+class main.controleurs.ControlChangerTitre {
+- Modele modele
+- Composant composant
++ void handle(MouseEvent)
+}
+class main.objet.composite.Tache {
+# List<Composant> sousTaches
++ TreeItem<Composant> afficher(Modele)
++ void ajouter(Composant)
++ void retirer(Composant)
++ List<Composant> getSousTaches()
++ void fixDuree()
++ Pane afficherGantt(Modele)
++ List<Composant> getTachesDependantes(Modele)
+}
+class main.controleurs.ControlCharger {
+- Modele modele
+- Stage primaryStage
++ Projet chargerProjet(String)
++ void handle(ActionEvent)
+}
+class main.objet.Tag {
+- String nom
+- Color couleur
++ String getNom()
++ void setNom(String)
++ Color getCouleur()
++ void setCouleur(Color)
+}
+class main.Projet {
+- List<Liste> listeTaches
+- List<Composant> listeTouteTaches
+- String nomProjet
+- String chemin
++ {static} boolean fichierTrebbo(String)
++ Liste getListeTaches(String)
++ boolean equals(Object)
++ int hashCode()
++ Composant getTache(String)
++ void ajouterListeTaches(Liste)
++ void supprimerListeTaches(Liste)
++ void archiverTache(String)
++ void desarchiverTache(String)
++ String toString()
++ List<Liste> getListeTaches()
++ List<Composant> getListeTouteTaches()
++ String getNomProjet()
++ void setNomProjet(String)
++ String getChemin()
++ void setChemin(String)
++ ArrayList<Composant> getArchives()
++ void supprimerTache(String)
++ ArrayList<Tache> getToutesTaches()
++ LocalDate getPremiereDateDebut()
++ LocalDate getDerniereDateFin()
+}
+class main.controleurs.ControlAfficherTacheCell {
+- Modele modele
+- TreeCell<Composant> cell
++ void handle(MouseEvent)
+}
+class main.controleurs.ControlArchiverTache {
+- Modele modele
++ void handle(ActionEvent)
+}
+class main.controleurs.ControlOnDragOver {
+- Modele modele
++ void handle(DragEvent)
+}
+class main.observateur.VueGantt {
++ {static} int joursParColonne
++ {static} int periodeSizeW
++ {static} int periodeSizeH
++ {static} int ypos
+~ Modele modele
+~ Timeline mainTimeLine
++ void actualiser(Sujet)
++ void chargerGANTT(GridPane)
++ void afficherTacheGantt(Composant,GridPane,LocalDate,boolean)
+}
+
+
+javafx.event.EventHandler <|.. main.Shortcut
+main.observateur.Observateur <|.. main.observateur.VueArchives
+javafx.event.EventHandler <|.. main.controleurs.ControlAjouterSousTache
+main.exceptions.Exception <|-- main.exceptions.ProjectNotFoundException
+javafx.event.EventHandler <|.. main.controleurs.ControlAjouterImage
+javafx.event.EventHandler <|.. main.controleurs.ControlOnDragDroppedCell
+javafx.application.Application <|-- main.Trebbo
+javafx.event.EventHandler <|.. main.controleurs.ControlAjouterListe
+javafx.event.EventHandler <|.. main.controleurs.ControlAjouterTag
+main.observateur.Observateur <|.. main.observateur.VueBureau
+java.io.Serializable <|.. main.objet.composite.Composant
+javafx.event.EventHandler <|.. main.menu.MenuContext
+javafx.event.EventHandler <|.. main.controleurs.ControlOnDragDetectedListe
+javafx.event.EventHandler <|.. main.controleurs.ControlQuitterTache
+javafx.event.EventHandler <|.. main.menu.MenuOptions
+main.objet.composite.Composant <|-- main.objet.composite.SousTache
+main.objet.Serializable <|.. main.objet.Liste
+javafx.event.EventHandler <|.. main.controleurs.ControlOnDragDroppedListe
+javafx.event.EventHandler <|.. main.controleurs.ControlOnDragDetectedCell
+javafx.event.EventHandler <|.. main.controleurs.ControlChangerTitreListe
+main.Sujet <|.. main.Modele
+main.Serializable <|.. main.Modele
+javafx.event.EventHandler <|.. main.controleurs.ControlSupprimerTag
+javafx.event.EventHandler <|.. main.controleurs.ControlSupprimerTache
+javafx.event.EventHandler <|.. main.controleurs.ControlChangerFond
+main.observateur.Observateur <|.. main.observateur.VueListe
+main.observateur.Observateur <|.. main.observateur.VueTache
+javafx.event.EventHandler <|.. main.controleurs.ControlSauvegarde
+javafx.event.EventHandler <|.. main.controleurs.ControlAjouterTache
+javafx.event.EventHandler <|.. main.controleurs.ControlChangerVue
+javafx.event.EventHandler <|.. main.controleurs.ControlAfficherTache
+javafx.event.EventHandler <|.. main.controleurs.ControlChangerTitre
+main.objet.composite.Composant <|-- main.objet.composite.Tache
+javafx.event.EventHandler <|.. main.controleurs.ControlCharger
+java.io.Serializable <|.. main.objet.Tag
+main.Serializable <|.. main.Projet
+javafx.event.EventHandler <|.. main.controleurs.ControlAfficherTacheCell
+javafx.event.EventHandler <|.. main.controleurs.ControlArchiverTache
+javafx.event.EventHandler <|.. main.controleurs.ControlOnDragOver
+main.observateur.Observateur <|.. main.observateur.VueGantt
+@enduml
