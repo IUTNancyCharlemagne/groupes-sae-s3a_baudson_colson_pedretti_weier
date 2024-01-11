@@ -36,18 +36,34 @@ public class Tag implements Serializable {
     // ### GETTERS & SETTERS ###
     // #########################
 
+    /**
+     * Retourne le nom du tag
+     * @return
+     */
     public String getNom(){
         return nom;
     }
 
+    /**
+     * Modifie le nom du tag
+     * @param nom Nouveau nom du tag
+     */
     public void setNom(String nom){
         this.nom = nom;
     }
 
+    /**
+     * Retourne la couleur du tag
+     * @return
+     */
     public Color getCouleur(){
         return couleur;
     }
 
+    /**
+     * Modifie la couleur du tag
+     * @param couleur Nouvelle couleur du tag
+     */
     public void setCouleur(Color couleur) {
         this.couleur = couleur;
     }

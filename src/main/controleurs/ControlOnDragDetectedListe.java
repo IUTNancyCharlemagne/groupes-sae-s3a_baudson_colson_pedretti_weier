@@ -27,6 +27,10 @@ public class ControlOnDragDetectedListe implements EventHandler<MouseEvent> {
         this.modele = modele;
     }
 
+    /**
+     * Methode qui permet de détecter la liste
+     * @param mouseEvent L'evenement de la souris
+     */
     @Override
     public void handle(MouseEvent mouseEvent) {
         Node node = (Node) mouseEvent.getSource();

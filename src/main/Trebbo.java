@@ -28,6 +28,11 @@ import java.util.Objects;
 
 public class Trebbo extends Application {
 
+    /**
+     * Méthode main
+     *
+     * @param args Arguments
+     */
     public static void main(String[] args) {
         launch(args);
     }

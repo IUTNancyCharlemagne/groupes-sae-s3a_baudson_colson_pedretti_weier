@@ -28,6 +28,10 @@ public class ControlOnDragDroppedListe implements EventHandler<DragEvent> {
         this.modele = modele;
     }
 
+    /**
+     * Methode qui permet de gérer le drag and drop
+     * @param dragEvent L'evenement de la souris
+     */
     @Override
     public void handle(DragEvent dragEvent) {
         // Récupération de la tâche qui a été drag and drop

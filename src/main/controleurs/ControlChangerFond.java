@@ -18,18 +18,39 @@ import java.nio.file.Paths;
 
 public class ControlChangerFond implements EventHandler<ActionEvent> {
 
+    /**
+     * Le modele
+     */
     Modele modele;
 
+    /**
+     * Le stage
+     */
     Stage primaryStage;
 
+    /**
+     * Le layout principal
+     */
     Pane layout;
 
+    /**
+     * Constructeur de ControlChangerFond
+     *
+     * @param modele       le modele
+     * @param primaryStage le stage
+     * @param layout       le layout principal
+     */
     public ControlChangerFond(Modele modele, Stage primaryStage, Pane layout) {
         this.modele = modele;
         this.primaryStage = primaryStage;
         this.layout = layout;
     }
 
+    /**
+     * Methode qui permet de changer le fond de la fenetre
+     *
+     * @param actionEvent l'evenement
+     */
     @Override
     public void handle(ActionEvent actionEvent) {
         FileChooser fileChooser = new FileChooser();

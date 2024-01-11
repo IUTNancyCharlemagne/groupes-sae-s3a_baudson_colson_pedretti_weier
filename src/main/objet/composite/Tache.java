@@ -29,16 +29,36 @@ public class Tache extends Composant {
      */
     protected List<Composant> sousTaches;
 
+    /**
+     * Constructeur avec duree
+     * @param nom   Nom de la tâche
+     * @param image Image de la tâche
+     * @param duree Durée de la tâche
+     */
     public Tache(String nom, String image, int duree) {
         super(nom, image, duree);
         this.sousTaches = new ArrayList<>();
     }
 
+    /**
+     * Constructeur avec dates
+     *
+     * @param nom      Nom de la tâche
+     * @param image    Image de la tâche
+     * @param dateDebut Date de début de la tâche
+     * @param dateFin  Date de fin de la tâche
+     */
     public Tache(String nom, String image, LocalDate dateDebut, LocalDate dateFin) {
         super(nom, image, dateDebut, dateFin);
         this.sousTaches = new ArrayList<>();
     }
 
+    /**
+     * Affiche la tâche dans le treeview
+     *
+     * @param modele
+     * @return
+     */
     @Override
     public TreeItem<Composant> afficher(Modele modele) {
         TreeItem<Composant> treeItem = new TreeItem<>(this);
@@ -75,10 +95,18 @@ public class Tache extends Composant {
     // ### GETTERS & SETTERS ###
     // #########################
 
+    /**
+     * Méthode qui permet de récupérer la liste des sous-tâches de la tâche
+     *
+     * @return la liste des sous-tâches de la tâche
+     */
     public List<Composant> getSousTaches() {
         return this.sousTaches;
     }
 
+    /**
+     * Méthode qui recalcule la duree en fonction des sous-tâches
+     */
     public void fixDuree() {
         int duree = 0;
         for (Composant composant : this.sousTaches) {
@@ -97,6 +125,12 @@ public class Tache extends Composant {
             ((Tache) this.getParent()).fixDuree();
     }
 
+    /**
+     * Méthode qui d'afficher la tâche dans le gantt
+     * @param modele
+     * @return
+     * @throws ParseException
+     */
     @Override
     public Pane afficherGantt(Modele modele) throws ParseException {
 
@@ -159,6 +193,11 @@ public class Tache extends Composant {
         return textePane;
     }
 
+    /**
+     * Méthode qui permet de récupérer les tâches dépendantes de la tâche
+     * @param modele
+     * @return
+     */
     public List<Composant> getTachesDependantes(Modele modele) {
         List<Composant> dependances = new ArrayList<>();
         for (Composant composant : modele.getProjet().getListeTouteTaches()) {

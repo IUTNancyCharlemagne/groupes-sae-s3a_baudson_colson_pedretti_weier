@@ -16,9 +16,21 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class ControlCharger implements EventHandler<ActionEvent> {
+    /**
+     * Le modele
+     */
     private final Modele modele;
+
+    /**
+     * Le stage
+     */
     private final Stage primaryStage;
 
+    /**
+     * Constructeur de ControlCharger
+     * @param modele le modele
+     * @param primaryStage le stage
+     */
     public ControlCharger(Modele modele, Stage primaryStage){
         this.modele = modele;
         this.primaryStage = primaryStage;
@@ -41,6 +53,10 @@ public class ControlCharger implements EventHandler<ActionEvent> {
         }
     }
 
+    /**
+     * Methode qui permet de charger un projet
+     * @param actionEvent
+     */
     @Override
     public void handle(ActionEvent actionEvent) {
         try {

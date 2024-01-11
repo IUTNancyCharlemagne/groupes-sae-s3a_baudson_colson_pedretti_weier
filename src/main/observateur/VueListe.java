@@ -14,6 +14,10 @@ import main.controleurs.ControlAjouterTache;
  */
 public class VueListe implements Observateur {
 
+    /**
+     * Actualise la vue
+     * @param s Sujet
+     */
     @Override
     public void actualiser(Sujet s) {
         if (!(s instanceof Modele)) return;

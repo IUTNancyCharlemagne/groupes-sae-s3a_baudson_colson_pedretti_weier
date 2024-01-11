@@ -24,11 +24,20 @@ public class ControlOnDragDroppedCell implements EventHandler<DragEvent> {
      */
     private Modele modele;
 
+    /**
+     * Constructeur de ControlOnDragDroppedCell
+     * @param modele Le modele
+     * @param cell La cellule
+     */
     public ControlOnDragDroppedCell(Modele modele, TreeCell<Composant> cell) {
         this.modele = modele;
         this.cell = cell;
     }
 
+    /**
+     * Methode qui permet de gérer le drag and drop d'une cellule
+     * @param dragEvent L'evenement de la souris
+     */
     @Override
     public void handle(DragEvent dragEvent) {
         // Réupération de cellule qui a été drag and drop

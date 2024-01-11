@@ -15,9 +15,21 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class ControlSauvegarde implements EventHandler<ActionEvent> {
+    /**
+     * Le modele
+     */
     Modele modele;
+
+    /**
+     * Le stage
+     */
     Stage primaryStage;
 
+    /**
+     * Constructeur de ControlCharger
+     * @param modele le modele
+     * @param primaryStage le stage
+     */
     public ControlSauvegarde(Modele modele, Stage primaryStage) {
         this.modele = modele;
         this.primaryStage = primaryStage;
@@ -41,6 +53,10 @@ public class ControlSauvegarde implements EventHandler<ActionEvent> {
         }
     }
 
+    /**
+     * Methode qui permet de sauvegarder un projet
+     * @param actionEvent
+     */
     @Override
     public void handle(ActionEvent actionEvent) {
         try {

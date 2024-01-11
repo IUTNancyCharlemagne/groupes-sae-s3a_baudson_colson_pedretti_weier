@@ -9,12 +9,24 @@ import java.io.File;
 
 public class ControlAjouterImage implements EventHandler<ActionEvent> {
 
+    /*
+     * modele
+     */
     private final Modele modele;
 
+    /**
+     * Constructeur de ControlAjouterImage
+     *
+     * @param modele modele
+     */
     public ControlAjouterImage(Modele modele){
         this.modele = modele;
     }
 
+    /**
+     * Methode qui permet d'ajouter une image a une tache
+     * @param actionEvent
+     */
     @Override
     public void handle(ActionEvent actionEvent){
         FileChooser fileChooser = new FileChooser();

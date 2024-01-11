@@ -9,6 +9,9 @@ import static org.junit.Assert.assertNotEquals;
 
 public class TestListe {
 
+    /**
+     * Teste si on peut ajouter un composant à une liste
+     */
     @Test
     public void test_ajouterComposantOK() {
         Liste l = new Liste("test");
@@ -21,6 +24,9 @@ public class TestListe {
         assertNotEquals(l, l2);
     }
 
+    /**
+     * Teste si on peut retirer un composant à une liste
+     */
     @Test
     public void test_retirerComposantOK(){
         Liste l = new Liste("test");
@@ -36,6 +42,10 @@ public class TestListe {
         assertEquals(l, l2);
     }
 
+    /**
+     * Teste si on peut changer le nom d'une liste
+     */
+    @Test
     public void test_changerNomOK(){
         Liste l1 = new Liste("TEST");
         Liste l2 = new Liste("TEST2");

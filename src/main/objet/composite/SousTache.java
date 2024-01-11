@@ -33,6 +33,11 @@ public class SousTache extends Composant{
         super(nom, image, dateDebut, dateFin);
     }
 
+    /**
+     * Affiche la sous-tâche tâche dans le treeview
+     * @param modele
+     * @return
+     */
     @Override
     public TreeItem<Composant> afficher(Modele modele) {
         TreeItem<Composant> treeItem = new TreeItem<>(this);

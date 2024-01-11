@@ -33,6 +33,10 @@ public class ControlChangerTitre implements EventHandler<MouseEvent> {
         this.composant = composant;
     }
 
+    /**
+     * Methode qui permet de changer le titre d'un composant
+     * @param mouseEvent L'evenement de la souris
+     */
     @Override
     public void handle(MouseEvent mouseEvent) {
         Text titre = (Text) mouseEvent.getSource();

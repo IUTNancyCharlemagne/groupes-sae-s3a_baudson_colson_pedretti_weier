@@ -10,12 +10,23 @@ import java.text.ParseException;
 
 public class ControlQuitterTache implements EventHandler<ActionEvent> {
 
+    /**
+     * Le modele
+     */
     private final Modele modele;
 
+    /**
+     * Constructeur de ControlQuitterTache
+     * @param modele le modele
+     */
     public ControlQuitterTache(Modele modele){
         this.modele = modele;
     }
 
+    /**
+     * Methode qui permet de quitter une tache
+     * @param actionEvent l'evenement
+     */
     @Override
     public void handle(ActionEvent actionEvent) {
         if (modele.getCurrentTache() instanceof Tache && ((Tache) modele.getCurrentTache()).getParent() != null) {

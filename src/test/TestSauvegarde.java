@@ -15,6 +15,10 @@ import static junit.framework.TestCase.*;
 import static org.junit.Assert.assertNotEquals;
 
 public class TestSauvegarde {
+
+    /**
+     * Teste si on peut sauvegarder un projet vide
+     */
     @Test
     public void testSauvegarde_projetVide() {
         Modele test = new Modele(new Projet());
@@ -32,6 +36,9 @@ public class TestSauvegarde {
         }
     }
 
+    /**
+     * Teste si on peut sauvegarder un projet avec des listes et des tâches
+     */
     @Test
     public void testSauvegarde_sauvegardeOK() {
         Projet p = new Projet();

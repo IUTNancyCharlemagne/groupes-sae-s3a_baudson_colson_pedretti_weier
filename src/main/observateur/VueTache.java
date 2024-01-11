@@ -22,12 +22,23 @@ import java.text.ParseException;
 
 public class VueTache implements Observateur {
 
+    /**
+     * Modele
+     */
     Modele modele;
 
+    /**
+     * Constructeur de la classe VueTache
+     * @param modele Modele
+     */
     public VueTache(Modele modele) {
         this.modele = modele;
     }
 
+    /**
+     * Actualise la vue
+     * @param s Sujet
+     */
     @Override
     public void actualiser(Sujet s) {
 

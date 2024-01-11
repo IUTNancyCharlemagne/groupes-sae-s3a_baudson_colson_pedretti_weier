@@ -18,9 +18,15 @@ import main.controleurs.ControlOnDragOver;
 import main.objet.composite.Composant;
 
 public class VueArchives implements Observateur {
-
+    /**
+     * Nombre maximum de tâches par ligne
+     */
     public static int maxParLigne = 15;
 
+    /**
+     * Actualise la vue
+     * @param s Sujet
+     */
     @Override
     public void actualiser(Sujet s) {
         if (!(s instanceof Modele modele)) return;

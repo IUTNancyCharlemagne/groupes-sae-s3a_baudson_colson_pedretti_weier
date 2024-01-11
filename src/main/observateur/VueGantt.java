@@ -41,6 +41,10 @@ public class VueGantt implements Observateur {
         this.mainTimeLine = new Timeline();
     }
 
+    /**
+     * Actualise la vue
+     * @param s Sujet
+     */
     @Override
     public void actualiser(Sujet s) {
 
@@ -212,6 +216,10 @@ public class VueGantt implements Observateur {
 
     }
 
+    /**
+     * Charge le diagramme de Gantt
+     * @param grid grille du diagramme de Gantt
+     */
     public void chargerGANTT(GridPane grid) {
         VueGantt.ypos = 1;
         grid.getChildren().clear();

@@ -221,7 +221,10 @@ public class Liste implements Serializable {
         return paneListe;
     }
 
-
+    /**
+     * Affiche la liste
+     * @return la liste en chaîne de charactères
+     */
     @Override
     public String toString() {
         return "Liste{" +
@@ -263,14 +266,26 @@ public class Liste implements Serializable {
     // ### GETTERS & SETTERS ###
     // #########################
 
+    /**
+     * Méthode qui permet de récupérer le nom de la liste
+     * @return le nom de la liste
+     */
     public String getNom() {
         return this.nom;
     }
 
+    /**
+     * Méthode qui permet de modifier le nom de la liste
+     * @param nom le nouveau nom de la liste
+     */
     public void setNom(String nom) {
         this.nom = nom;
     }
 
+    /**
+     * Méthode qui permet de récupérer la liste des composants de la liste
+     * @return la liste des composants de la liste
+     */
     public List<Composant> getComposants() {
         return this.composants;
     }

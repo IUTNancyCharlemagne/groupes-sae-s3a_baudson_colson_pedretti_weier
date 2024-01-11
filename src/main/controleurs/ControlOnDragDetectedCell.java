@@ -19,10 +19,18 @@ public class ControlOnDragDetectedCell implements EventHandler<MouseEvent> {
      */
     private TreeCell<Composant> cell;
 
+    /**
+     * Constructeur de ControlOnDragDetectedCell
+     * @param cell La cellule
+     */
     public ControlOnDragDetectedCell(TreeCell<Composant> cell) {
         this.cell = cell;
     }
 
+    /**
+     * Methode qui permet de gérer le drag and drop d'une cellule
+     * @param mouseEvent L'evenement de la souris
+     */
     @Override
     public void handle(MouseEvent mouseEvent) {
         TreeItem<Composant> item = cell.getTreeItem();

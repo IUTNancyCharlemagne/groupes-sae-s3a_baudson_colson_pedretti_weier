@@ -22,11 +22,22 @@ public class ControlAfficherTacheCell implements EventHandler<MouseEvent> {
      */
     private TreeCell<Composant> cell;
 
+    /**
+     * Constructeur de ControlAfficherTacheCell
+     *
+     * @param modele Le modele
+     * @param cell La cellule
+     */
     public ControlAfficherTacheCell(Modele modele, TreeCell<Composant> cell) {
         this.modele = modele;
         this.cell = cell;
     }
 
+    /**
+     * Methode qui affiche une tache en detail
+     *
+     * @param mouseEvent L'evenement de la souris
+     */
     @Override
     public void handle(MouseEvent mouseEvent) {
         // Click gauche

@@ -9,12 +9,18 @@ import java.text.ParseException;
 
 public class TestTache {
 
+    /**
+     * Teste si on peut créer une tâche
+     */
     @Test
     public void testCreerTache() {
         Tache tache = new Tache("Tache",null,0);
         assert(tache.getNom().equals("Tache"));
     }
 
+    /**
+     * Teste si on peut modifier une tâche
+     */
     @Test
     public void testModifierTache() {
         Tache tache = new Tache("Tache",null,0);
@@ -22,6 +28,9 @@ public class TestTache {
         assert(tache.getNom().equals("Tache2"));
     }
 
+    /**
+     * Teste si on peut ajouter une tâche
+     */
     @Test
     public void testAjouterTache() {
         Tache tache = new Tache("Tache",null,0);
@@ -33,6 +42,9 @@ public class TestTache {
         assert(tache.getSousTaches().contains(tache2));
     }
 
+    /**
+     * Teste si on peut supprimer une tâche
+     */
     @Test
     public void testSupprimerTache() {
         Tache tache = new Tache("Tache",null,0);
@@ -45,6 +57,9 @@ public class TestTache {
         assert(tache.getSousTaches().contains(tache2));
     }
 
+    /**
+     * Teste si on peut ajouter une sous-tâche à une tâche
+     */
     @Test
     public void testAjouterSousTache(){
         Tache tache = new Tache("Tache",null,0);
@@ -55,6 +70,9 @@ public class TestTache {
         assert(tache.getSousTaches().contains(sousTache1));
     }
 
+    /**
+     * Teste si on peut supprimer une sous-tâche à une tâche
+     */
     @Test
     public void testSupprimerSousTache(){
         Tache tache = new Tache("Tache",null,0);
@@ -66,6 +84,9 @@ public class TestTache {
         assert(!tache.getSousTaches().contains(sousTache1));
     }
 
+    /**
+     * Teste si on peut ajouter une description à une tâche
+     */
     @Test
     public void testAjouterDescription(){
         Tache tache = new Tache("Tache",null,0);
@@ -73,6 +94,9 @@ public class TestTache {
         assert(tache.getDescription().equals("Description"));
     }
 
+    /**
+     * Teste si on peut ajouter une dependance à une tâche
+     */
     @Test
     public void testAjouterDependance() throws ParseException {
         Tache tache = new Tache("Tache",null,0);
@@ -81,6 +105,9 @@ public class TestTache {
         assert(tache.getDependances().contains(tache1));
     }
 
+    /**
+     * Teste si on peut ajouter un tag à une tâche
+     */
     @Test
     public void testAjouterTag(){
         Tache tache = new Tache("Tache",null,0);
@@ -92,6 +119,9 @@ public class TestTache {
         assert(tache.getTags().contains(tag2));
     }
 
+    /**
+     * Teste si on peut archiver une tâche
+     */
     @Test
     public void testAjouterTacheEnArchive(){
         Tache tache = new Tache("Tache",null,0);
@@ -99,6 +129,9 @@ public class TestTache {
         assert(tache.getEstArchive());
     }
 
+    /**
+     * Teste si on peut ajouter une image à une tâche
+     */
     @Test
     public void testAjouterImage(){
         Tache tache = new Tache("Tache",null,0);

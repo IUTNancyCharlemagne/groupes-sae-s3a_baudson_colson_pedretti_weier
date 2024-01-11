@@ -33,6 +33,10 @@ public class ControlChangerTitreListe implements EventHandler<MouseEvent> {
         this.liste = liste;
     }
 
+    /**
+     * Methode qui permet de changer le titre d'une liste
+     * @param mouseEvent L'evenement de la souris
+     */
     @Override
     public void handle(MouseEvent mouseEvent) {
         Text titre = (Text) mouseEvent.getSource();

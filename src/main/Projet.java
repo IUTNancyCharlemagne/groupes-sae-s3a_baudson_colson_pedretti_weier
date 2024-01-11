@@ -80,6 +80,11 @@ public class Projet implements Serializable{
         return null;
     }
 
+    /**
+     * Méthode qui compare deux projets
+     * @param o
+     * @return true si les deux objets sont identiques, false sinon+
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -98,6 +103,10 @@ public class Projet implements Serializable{
         return Objects.equals(nomProjet, projet.nomProjet) && Objects.equals(chemin, projet.chemin) && res;
     }
 
+    /**
+     * Méthode hashCode de la classe Projet
+     * @return
+     */
     @Override
     public int hashCode() {
         return Objects.hash(listeTaches, listeTouteTaches, nomProjet, chemin);
@@ -150,10 +159,18 @@ public class Projet implements Serializable{
         }
     }
 
+    /**
+     * Méthode permettant de désarchiver une tâche et toutes ses sous-tâches
+     * @param nomTache Nom de la tâche à désarchiver
+     */
     public void desarchiverTache(String nomTache){
         this.getTache(nomTache).setEstArchive(false);
     }
 
+    /**
+     * Méthode toString de la classe Projet
+     * @return
+     */
     @Override
     public String toString() {
         return "Projet{" +
@@ -166,30 +183,58 @@ public class Projet implements Serializable{
     // ### GETTERS & SETTERS ###
     // #########################
 
+    /**
+     * Méthode qui permet de récupérer la liste des listes de tâches
+     * @return la liste des listes de tâches
+     */
     public List<Liste> getListeTaches() {
         return this.listeTaches;
     }
 
+    /**
+     * Méthode qui permet de récupérer la liste de toutes les tâches
+     * @return la liste de toutes les tâches
+     */
     public List<Composant> getListeTouteTaches() {
         return this.listeTouteTaches;
     }
 
+    /**
+     * Méthode qui permet de récupérer le nom du projet
+     * @return le nom du projet
+     */
     public String getNomProjet() {
         return this.nomProjet;
     }
 
+    /**
+     * Méthode qui permet de modifier le nom du projet
+     * @param nomProjet le nouveau nom du projet
+     */
     public void setNomProjet(String nomProjet) {
         this.nomProjet = nomProjet;
     }
 
+    /**
+     * Méthode qui permet de récupérer le chemin du fichier de sauvegarde
+     * @return le chemin du fichier de sauvegarde
+     */
     public String getChemin() {
         return chemin;
     }
 
+    /**
+     * Méthode qui permet de modifier le chemin du fichier de sauvegarde
+     * @param chemin le nouveau chemin du fichier de sauvegarde
+     */
     public void setChemin(String chemin) {
         this.chemin = chemin;
     }
 
+    /**
+     * Méthode qui permet de récupérer la liste des tâches archivées
+     * @return la liste des tâches archivées
+     */
     public ArrayList<Composant> getArchives() {
         ArrayList<Composant> archives = new ArrayList<Composant>();
         for (Composant composant : this.listeTouteTaches) {
@@ -200,6 +245,10 @@ public class Projet implements Serializable{
         return archives;
     }
 
+    /**
+     * Permet de supprimer une tâche du projet
+     * @param nomTache
+     */
     public void supprimerTache(String nomTache) {
 
         for (Liste liste : this.getListeTaches()) {
@@ -220,6 +269,10 @@ public class Projet implements Serializable{
         }
     }
 
+    /**
+     * Permet de récupérer toutes les tâches du projet
+     * @return
+     */
     public ArrayList<Tache> getToutesTaches(){
         ArrayList<Tache> taches = new ArrayList<Tache>();
         for(Liste l : this.getListeTaches()){
@@ -230,6 +283,10 @@ public class Projet implements Serializable{
         return taches;
     }
 
+    /**
+     * Permet de récupérer la date de début la plus ancienne de toutes les tâches du projet
+     * @return
+     */
     public LocalDate getPremiereDateDebut(){
         ArrayList<Tache> taches = this.getToutesTaches();
         if(taches.size() == 0) return null;
@@ -242,6 +299,10 @@ public class Projet implements Serializable{
         return minDate;
     }
 
+    /**
+     * Permet de récupérer la date de fin la plus récente de toutes les tâches du projet
+     * @return
+     */
     public LocalDate getDerniereDateFin(){
         ArrayList<Tache> taches = this.getToutesTaches();
         if(taches.size() == 0) return null;

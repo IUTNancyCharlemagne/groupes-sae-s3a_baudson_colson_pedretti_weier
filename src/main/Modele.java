@@ -165,34 +165,66 @@ public class Modele implements Sujet, Serializable {
     // ### GETTERS & SETTERS ###
     // #########################
 
+    /**
+     * Méthode qui permet de récupérer la vue courante
+     * @return la vue courante
+     */
     public String getVueCourante() {
         return this.vueCourante;
     }
 
+    /**
+     * Méthode qui permet de modifier la vue courante
+     * @param vueCourante la nouvelle vue courante
+     */
     public void setVueCourante(String vueCourante) {
         this.vueCourante = vueCourante;
     }
 
+    /**
+     * Méthode qui permet de récupérer le projet courant
+     * @return le projet courant
+     */
     public Projet getProjet() {
         return projet;
     }
 
+    /**
+     * Méthode qui permet de modifier le projet courant
+     * @param projet le nouveau projet courant
+     */
     public void setProjet(Projet projet) {
         this.projet = projet;
     }
 
+    /**
+     * Méthode qui permet de récupérer le panneau principal de l'application
+     * @return le panneau principal de l'application
+     */
     public GridPane getPaneBureau() {
         return paneBureau;
     }
 
+    /**
+     * Méthode qui retourne le stackPane
+     * @return
+     */
     public StackPane getStackPane() {
         return stackPane;
     }
 
+    /**
+     * Méthode qui retourne la tâche courante
+     * @return
+     */
     public Composant getCurrentTache() {
         return currentTache;
     }
 
+    /**
+     * Méthode qui modifie la tâche courante
+     * @param currentTache
+     */
     public void setCurrentTache(Composant currentTache) {
         this.currentTache = currentTache;
     }

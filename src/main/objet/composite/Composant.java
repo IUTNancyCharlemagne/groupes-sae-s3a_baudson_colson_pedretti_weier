@@ -380,22 +380,45 @@ public abstract class Composant implements Serializable {
         return liste;
     }
 
+    /**
+     * Méthode toString() de la classe Composant
+     */
     public String toString() {
         return nom;
     }
 
+    /**
+     * Méthode qui d'afficher le composant dans le treeview
+     *
+     * @throws ParseException
+     */
     public abstract TreeItem<Composant> afficher(Modele modele);
 
+    /**
+     * Méthode qui permet d'ajouter une dépendance à la tâche'
+     *
+     * @param composant
+     */
     public void addDependance(Composant composant) throws ParseException {
         this.dependances.add(composant);
         this.calcDateDebutDependance();
     }
 
+    /**
+     * Méthode qui permet de supprimer une dépendance à la tâche
+     *
+     * @param composant
+     */
     public void removeDependance(Composant composant) throws ParseException {
         this.dependances.remove(composant);
         this.calcDateDebutDependance();
     }
 
+    /**
+     * Méthode qui permet de calculer la date de début de la tâche en fonction de ses dépendances
+     *
+     * @throws ParseException
+     */
     public void calcDateDebutDependance() throws ParseException {
         if (!this.dependances.isEmpty()) {
             this.dateDebut = this.dependances.get(0).getDateFin();

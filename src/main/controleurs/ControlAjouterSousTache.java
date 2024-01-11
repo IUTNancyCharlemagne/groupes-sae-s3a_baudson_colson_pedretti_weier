@@ -22,14 +22,31 @@ import java.io.File;
 
 public class ControlAjouterSousTache implements EventHandler<ActionEvent> {
 
+    /**
+     * modele
+     */
     private Modele modele;
+    /**
+     * composant concerné
+     */
     private Composant composant;
 
+    /**
+     * Constructeur de ControlAjouterSousTache
+     *
+     * @param modele    modele
+     * @param composant composant
+     */
     public ControlAjouterSousTache(Modele modele, Composant composant) {
         this.modele = modele;
         this.composant = composant;
     }
 
+    /**
+     * Methode qui permet d'ajouter une sous-tache
+     *
+     * @param actionEvent
+     */
     @Override
     public void handle(ActionEvent actionEvent) {
         Stage stage = new Stage();
