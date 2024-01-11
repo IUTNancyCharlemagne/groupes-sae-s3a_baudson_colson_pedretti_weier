@@ -64,7 +64,6 @@ public class VueGantt implements Observateur {
 
         GridPane grid = new GridPane();
 
-
         ScrollPane scrollPane = new ScrollPane(grid);
         scrollPane.getStyleClass().add("scroll-pane");
         ganttHbox.getChildren().addAll(ganttInfoVbox, scrollPane);
@@ -90,7 +89,7 @@ public class VueGantt implements Observateur {
         Label hauteurLabel = new Label("Hauteur des cases");
         Slider hauteurCase = new Slider();
 
-        longueurCase.setMin(75);
+        longueurCase.setMin(20);
         longueurCase.setMax(500);
         longueurCase.setValue(periodeSizeW);
         longueurCase.setOrientation(Orientation.HORIZONTAL);
@@ -100,7 +99,7 @@ public class VueGantt implements Observateur {
         longueurCase.setPrefSize(20, 500);
         longueurCase.setSnapToTicks(true);
 
-        hauteurCase.setMin(75);
+        hauteurCase.setMin(20);
         hauteurCase.setMax(500);
         hauteurCase.setValue(periodeSizeH);
         hauteurCase.setOrientation(Orientation.HORIZONTAL);
