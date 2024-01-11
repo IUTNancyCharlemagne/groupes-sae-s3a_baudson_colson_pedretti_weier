@@ -11,7 +11,7 @@ Projet réalisé par :
 
 # GUIDE D'UTILISATION
 
-* Modules nécessaires au fonctionnent de l'application (Importer avec Maven):
+<strong>Modules nécessaires au fonctionnent de l'application (Importer avec Maven):</strong>
 - junit\:junit:4.13
 - org.openjfx:javafx-base:17.0.1
 - org.openjfx:javafx-controls:17.0.1
