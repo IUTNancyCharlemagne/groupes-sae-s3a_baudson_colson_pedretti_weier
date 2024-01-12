@@ -175,9 +175,11 @@ public class Tache extends Composant {
             for(Tag tag : this.getTags()){
                 Label tagLabel = new Label(tag.getNom());
                 tagLabel.setFont(new Font("Arial", (0.15 * VueGantt.periodeSizeH)));
-                tagLabel.setPadding(new Insets(0, 5, 0, 5));
+                tagLabel.setPadding(new Insets(5, 5, 5, 5));
+                tagLabel.setTextFill(Color.WHITE);
                 tagLabel.setBackground(new Background(new BackgroundFill(
                         tag.getCouleur(), new CornerRadii(10), Insets.EMPTY)));
+                tagLabel.setStyle("-fx-border-color: BLACK; -fx-border-width: 1px; -fx-border-radius: 10px;");
                 tags.getChildren().add(tagLabel);
             }
             textePane.getChildren().add(tags);
